@@ -2,21 +2,33 @@ import React from 'react';
 import ToDoScreen from './src/Screens/ToDoScreen'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
+import update from 'immutability-helper';
+import { act } from 'react-test-renderer';
 
 //create the initial state of the app
 const initialState = {
   todos: ["Todo 1", "Todo 2", "Todo 3", "Todo 4", "Todo 5"],
-  showAddTodoForm: false,
+  user: {
+    id: 1,
+    username: 'Test'
+  }
 }
 
 //reducer handles the actions sent by dispatchers to modify and return the state
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TODO':
-      return { 
-        ...state, 
-        todos: [...state.todos, action.payload] 
+      return {
+        ...state,
+        todos: [...state.todos, action.payload]
       }
+    case 'DELETE_TODO':
+      const newTodos = update(state, { todos: { $splice: [[action.payload, 1]] } })
+      return {
+        ...state,
+        ...newTodos
+      }
+      
   }
   return state;
 }

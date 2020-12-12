@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { Button, StyleSheet, Text, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
 import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList"
