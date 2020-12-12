@@ -1,21 +1,71 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Input, useState } from 'react';
+import { Text, View, StyleSheet, Button, ScrollView, TextInput } from 'react-native';
+import Constants from 'expo-constants';
+import AddTodoForm from './Components/AddToDoForm';
+import Todo from './Components/Todo';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends React.Component {
+  state = {
+    todos: ['Todo 1', 'Todo 2', 'Todo 3', 'Todo 4', 'Todo 5'],
+    toggleAddTodoForm: false,
+  };
+
+  toggleAddTodoForm = () => {
+    this.setState({
+      toggleAddTodoForm: !this.state.toggleAddTodoForm,
+    });
+  };
+
+  submitTodo = (value) => {
+    this.setState({
+      todos: [...this.state.todos, value],
+    });
+  };
+
+  deleteTodo = (key) => {
+    const removeTodo = this.state.todos.splice(key, 1)
+
+    this.setState({
+      todos: [...this.state.todos]
+    })
+  }
+
+  showTodos = () => {
+    return this.state.todos.map((todo, index) => {
+      return <Todo todo={todo} key={index} index={index} deleteTodo={this.deleteTodo} />
+    })
+  };
+
+  render() {
+    return (
+      <ScrollView style={styles.container}>
+        <Text style={styles.paragraph}>My First Todo Mobile App</Text>
+        <Button
+          title="Add Todo"
+          onPress={() => {
+            this.toggleAddTodoForm();
+          }}
+        />
+        {this.state.toggleAddTodoForm && (
+          <AddTodoForm submitTodo={this.submitTodo} />
+        )}
+        {this.showTodos()}
+      </ScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
+    padding: 8,
   },
+  paragraph: {
+    margin: 24,
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  }
 });
