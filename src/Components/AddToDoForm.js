@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
+import { useDispatch } from "react-redux";
 
 export default function AddTodoForm(props) {
   const [newTodo, setNewTodo] = useState("");
+
+  //use dispatch allows functional components to access the dispatch method 
+  const dispatch = useDispatch();
+
+  //to use the dispatch method, simply dispatch the type and payload
+  const addTodo = (todo) => dispatch({ type: "ADD_TODO", payload: todo })
 
   return (
     <View style={styles.todoForm}>
@@ -16,7 +23,7 @@ export default function AddTodoForm(props) {
       <Button
         title="Add"
         onPress={() => {
-          props.submitTodo(newTodo);
+          addTodo(newTodo);
         }}
       />
     </View>

@@ -1,66 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
+
 import { Button, StyleSheet, Text } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Constants from "expo-constants";
 import AddTodoForm from "../Components/AddToDoForm";
-import Todo from "../Components/Todo";
+import ToDoList from "../Components/TodoList"
+import { useDispatch, useSelector } from "react-redux";
 
-export default class ToDoScreen extends React.Component {
-  state = {
-    todos: ["Todo 1", "Todo 2", "Todo 3", "Todo 4", "Todo 5"],
-    toggleAddTodoForm: false,
-  };
 
-  toggleAddTodoForm = () => {
-    this.setState({
-      toggleAddTodoForm: !this.state.toggleAddTodoForm,
-    });
-  };
+export default function ToDoScreen () {
 
-  submitTodo = (value) => {
-    this.setState({
-      todos: [...this.state.todos, value],
-    });
-  };
+ const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 
-  deleteTodo = (key) => {
-    const removeTodo = this.state.todos.splice(key, 1);
-
-    this.setState({
-      todos: [...this.state.todos],
-    });
-  };
-
-  showTodos = () => {
-    return this.state.todos.map((todo, index) => {
-      return (
-        <Todo
-          todo={todo}
-          key={index}
-          index={index}
-          deleteTodo={this.deleteTodo}
-        />
-      );
-    });
-  };
-
-  render() {
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.paragraph}>My First Todo Mobile App</Text>
+        <Text style={styles.paragraph}>
+          My First Todo Mobile App
+          </Text>
         <Button
           title="Add Todo"
           onPress={() => {
-            this.toggleAddTodoForm();
+            toggleAddTodoForm(!showAddTodoForm);
           }}
         />
-        {this.state.toggleAddTodoForm && (
-          <AddTodoForm submitTodo={this.submitTodo} />
+        {showAddTodoForm && (
+          <AddTodoForm />
         )}
-        {this.showTodos()}
+        <ToDoList />
       </ScrollView>
     );
-  }
 }
 
 const styles = StyleSheet.create({

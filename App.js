@@ -1,71 +1,36 @@
-import React, { Input, useState } from 'react';
-import { Text, View, StyleSheet, Button, ScrollView, TextInput } from 'react-native';
-import Constants from 'expo-constants';
-import AddTodoForm from './Components/AddToDoForm';
-import Todo from './Components/Todo';
+import React from 'react';
+import ToDoScreen from './src/Screens/ToDoScreen'
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+//create the initial state of the app
+const initialState = {
+  todos: ["Todo 1", "Todo 2", "Todo 3", "Todo 4", "Todo 5"],
+  showAddTodoForm: false,
+}
+
+//reducer handles the actions sent by dispatchers to modify and return the state
+const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return { 
+        ...state, 
+        todos: [...state.todos, action.payload] 
+      }
+  }
+  return state;
+}
+
+//create the store: the applications state
+const store = createStore(reducer);
 
 export default class App extends React.Component {
-  state = {
-    todos: ['Todo 1', 'Todo 2', 'Todo 3', 'Todo 4', 'Todo 5'],
-    toggleAddTodoForm: false,
-  };
-
-  toggleAddTodoForm = () => {
-    this.setState({
-      toggleAddTodoForm: !this.state.toggleAddTodoForm,
-    });
-  };
-
-  submitTodo = (value) => {
-    this.setState({
-      todos: [...this.state.todos, value],
-    });
-  };
-
-  deleteTodo = (key) => {
-    const removeTodo = this.state.todos.splice(key, 1)
-
-    this.setState({
-      todos: [...this.state.todos]
-    })
-  }
-
-  showTodos = () => {
-    return this.state.todos.map((todo, index) => {
-      return <Todo todo={todo} key={index} index={index} deleteTodo={this.deleteTodo} />
-    })
-  };
-
   render() {
     return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.paragraph}>My First Todo Mobile App</Text>
-        <Button
-          title="Add Todo"
-          onPress={() => {
-            this.toggleAddTodoForm();
-          }}
-        />
-        {this.state.toggleAddTodoForm && (
-          <AddTodoForm submitTodo={this.submitTodo} />
-        )}
-        {this.showTodos()}
-      </ScrollView>
-    );
+      //Provider passes allow the state known as store to pass through all our components
+      <Provider store={store}>
+        <ToDoScreen />
+      </Provider>)
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-    padding: 8,
-  },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  }
-});
