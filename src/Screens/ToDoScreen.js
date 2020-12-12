@@ -1,34 +1,22 @@
 import React, { useState } from "react";
 
-import { Button, StyleSheet, Text } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Constants from "expo-constants";
 import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList"
-import { useDispatch, useSelector } from "react-redux";
 
+export default function ToDoScreen() {
 
-export default function ToDoScreen () {
-
- const [showAddTodoForm, toggleAddTodoForm] = useState(false);
-
-    return (
-      <ScrollView style={styles.container}>
-        <Text style={styles.paragraph}>
-          My First Todo Mobile App
+  return (
+    <View style={styles.container}>
+      <Text style={styles.paragraph}>
+        My First Todo Mobile App
           </Text>
-        <Button
-          title="Add Todo"
-          onPress={() => {
-            toggleAddTodoForm(!showAddTodoForm);
-          }}
-        />
-        {showAddTodoForm && (
-          <AddTodoForm />
-        )}
-        <ToDoList />
-      </ScrollView>
-    );
+      <AddTodoForm />
+      <ToDoList />
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
