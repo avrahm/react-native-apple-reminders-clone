@@ -1,0 +1,12 @@
+{
+  "name": "to-do-app",
+  "displayName": "to-do-app",
+  "expo": {
+    "name": "to-do-app",
+    "slug": "to-do-app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
