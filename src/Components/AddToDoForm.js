@@ -3,7 +3,7 @@ import { Button, StyleSheet, View } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 
-export default function AddTodoForm(props) {
+export default function AddTodoForm() {
 
   const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 

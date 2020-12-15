@@ -7,7 +7,8 @@ import { act } from 'react-test-renderer';
 
 //create the initial state of the app
 const initialState = {
-  todos: ["Todo 1", "Todo 2", "Todo 3", "Todo 4", "Todo 5"],
+  todoId: 6,
+  todos: [{ id: 1, title: "Todo 1" }, { id: 2, title: "Todo 2" }, { id: 3, title: "Todo 3" }, { id: 4, title: "Todo 4" }, { id: 5, title: "Todo 5" }],
   user: {
     id: 1,
     username: 'Test'
@@ -18,17 +19,22 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case 'ADD_TODO':
+      let newTodo = {
+        id: state.todoId++,
+        title: action.payload,
+      }
+
+      // console.log(state);
       return {
         ...state,
-        todos: [...state.todos, action.payload]
+        todos: [...state.todos, newTodo]
       }
     case 'DELETE_TODO':
-      const newTodos = update(state, { todos: { $splice: [[action.payload, 1]] } })
+      const newTodos = update(state, { todos: { $splice: [[action.payload - 1, 1]] } })
       return {
         ...state,
         ...newTodos
       }
-      
   }
   return state;
 }
@@ -44,5 +50,4 @@ export default class App extends React.Component {
         <ToDoScreen />
       </Provider>)
   }
-}
-
+};

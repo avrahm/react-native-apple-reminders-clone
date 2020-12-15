@@ -7,14 +7,15 @@ export default function Todo(props) {
   const dispatch = useDispatch();
 
   const deleteTodo = (index) => {
+    console.log(props.todo)
     dispatch({ type: 'DELETE_TODO', payload: index })
   }
 
   return (
     <View style={styles.todo}>
-      <Button title="Delete" onPress={() => deleteTodo(props.index)} />
+      <Button title="Delete" onPress={() => deleteTodo(props.todo.id)} />
       <Text style={styles.todo}>
-        {props.todo}
+        {props.todo.title}
       </Text>
     </View>
   );

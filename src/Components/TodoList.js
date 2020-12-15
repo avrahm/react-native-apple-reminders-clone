@@ -1,14 +1,19 @@
 import React from "react";
-import { connect } from 'react-redux';
+import { connect, useSelector } from 'react-redux';
 
-import { Button, StyleSheet, Text } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import { Button, View, StyleSheet, Text, FlatList, SafeAreaView, ScrollView } from "react-native";
 import Constants from "expo-constants";
 import AddTodoForm from "../Components/AddToDoForm";
 import Todo from "../Components/Todo";
 
+// function Item ( title ) {
+//     return(
+//     <View style={styles.item}>
+//       <Text style={styles.title}>{title}</Text>
+//     </View>)
+//   };
 
-class ToDoList extends React.Component {
+// class ToDoList extends React.Component {
     //with the state being stored with redux setting state is not necessary
 
     // state = {
@@ -36,27 +41,55 @@ class ToDoList extends React.Component {
     //     });
     //   };
 
-    showTodos = () => {
-        return this.props.todos.map((todo, index) => {
-            return (
-                <Todo
-                    todo={todo}
-                    key={index}
-                    index={index}
-                //   deleteTodo={this.deleteTodo}
-                />
-            );
-        });
-    };
+     
 
-    render() {
-        return (
-            <ScrollView style={styles.container}>
-                {this.showTodos()}
-            </ScrollView>
+    //  renderItem = ({ item }) => (
+    //     <Item title={item.title} />
+    //   );
+
+    // renderItem = ({ item }) => {
+    //     console.log(item);
+    //     // <Todo todo={item}
+    //     // key={keyExtractor} index={index} 
+    //     // />
+    // };
+
+    // showTodos = () => {
+    //     return this.props.todos.map((todo, index) => {
+    //         return (
+    //             <Todo
+    //                 todo={todo}
+    //                 key={index}
+    //                 index={index}
+    //             />
+    //         );
+    //     });
+    // };
+
+   
+    // render() {
+   export default function ToDoList() {
+    const todos = useSelector(state => state.todos);
+    const renderItem = ({ item }) => (
+        <Todo todo={item} />
+      );
+
+    console.log(todos);
+        return ( 
+            // <ScrollView style={styles.container}>
+            //     {this.showTodos()}
+            // </ScrollView>
+            <SafeAreaView style={styles.container}>
+                <FlatList
+                    data={todos}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
+            </SafeAreaView>
         );
     }
-}
+// }
+
 
 //gets the necessary state from the store and allows the component to use the state as props
 function mapStateToProps(state) {
@@ -65,7 +98,7 @@ function mapStateToProps(state) {
     }
 }
 
-
+//connects dispatch actions with store to 
 function mapDispatchToProps(dispatch) {
     return {
         addTodo: todo =>
@@ -73,7 +106,7 @@ function mapDispatchToProps(dispatch) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
+// export default connect(mapStateToProps, mapDispatchToProps)(ToDoList);
 
 const styles = StyleSheet.create({
     container: {
