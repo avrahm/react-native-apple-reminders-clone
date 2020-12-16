@@ -30,7 +30,10 @@ const reducer = (state = initialState, action) => {
         todos: [...state.todos, newTodo]
       }
     case 'DELETE_TODO':
-      const newTodos = update(state, { todos: { $splice: [[action.payload - 1, 1]] } })
+
+      // const findIndex = (todo) => todo.id == action.payload;
+      const index = state.todos.findIndex((todo) => todo.id == action.payload);
+      const newTodos = update(state, { todos: { $splice: [[index, 1]] } })
       return {
         ...state,
         ...newTodos
