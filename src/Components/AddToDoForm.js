@@ -5,11 +5,15 @@ import { useDispatch } from "react-redux";
 
 export default function AddTodoForm() {
 
+  //useState allows to hook into React State  
+  //returns a stateful value and a function to update it
+  //const [state, setState] = useState(initialState);
+  
   const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 
   const [newTodo, setNewTodo] = useState("");
 
-  //use dispatch allows functional components to access the dispatch method 
+  //useDispatch allows functional components to access the dispatch method 
   const dispatch = useDispatch();
 
   //to use the dispatch method, simply dispatch the action  type and payload
