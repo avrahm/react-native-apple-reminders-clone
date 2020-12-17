@@ -2,8 +2,7 @@ import React from 'react';
 import ToDoScreen from './src/Screens/ToDoScreen'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import update from 'immutability-helper';
-import { act } from 'react-test-renderer';
+import update from 'immutability-helper'; //https://reactjs.org/docs/update.html
 
 //create the initial state of the app
 const initialState = {
@@ -31,8 +30,13 @@ const reducer = (state = initialState, action) => {
       }
     case 'DELETE_TODO':
 
-      // const findIndex = (todo) => todo.id == action.payload;
+      // findIndex takes a callback function to execute on each array until the function returns true
+      //returns The index of the first element in the array that passes the test. Otherwise, -1.
+      //for my use case I'm iterating over all the todos and if the todo.id equals the payload return the index
       const index = state.todos.findIndex((todo) => todo.id == action.payload);
+
+      //immutability helper allows to create copies of the state and mutate the data with the update() method
+      //The $-prefixed keys are called commands. The data structure they are “mutating” is called the target.
       const newTodos = update(state, { todos: { $splice: [[index, 1]] } })
       return {
         ...state,
@@ -48,7 +52,7 @@ const store = createStore(reducer);
 export default class App extends React.Component {
   render() {
     return (
-      //Provider passes allow the state known as store to pass through all our components
+      //Provider allows the state known as a store to pass through all components
       <Provider store={store}>
         <ToDoScreen />
       </Provider>)

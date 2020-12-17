@@ -4,10 +4,12 @@ import { useDispatch } from "react-redux";
 
 export default function Todo(props) {
 
+  //useDispatch is a hook method to create access to the dispatches available within a functional component instead of using mapDispatchToProps and a class component
   const dispatch = useDispatch();
 
   const deleteTodo = (index) => {
-    console.log(props.todo)
+    // console.log(props.todo)
+
     dispatch({ type: 'DELETE_TODO', payload: index })
   }
 

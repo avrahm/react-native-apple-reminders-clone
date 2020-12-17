@@ -12,7 +12,7 @@ export default function AddTodoForm() {
   //use dispatch allows functional components to access the dispatch method 
   const dispatch = useDispatch();
 
-  //to use the dispatch method, simply dispatch the type and payload
+  //to use the dispatch method, simply dispatch the action  type and payload
   const addTodo = (todo) => {
     toggleAddTodoForm(false);
     setNewTodo(" ");
