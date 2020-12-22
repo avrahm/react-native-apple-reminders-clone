@@ -1,14 +1,11 @@
 import React from "react";
-import { useSelector } from 'react-redux';
 import { StyleSheet, Text, FlatList, SafeAreaView } from "react-native";
 import Constants from "expo-constants";
 import Todo from "../Components/Todo";
 
 
-export default function ToDoList() {
-    //useSelector is a hooks method instead of mapStateToProps
-    //Allows a functional component to hook into the state
-    const todos = useSelector(state => state.todos);
+export default function ToDoList(props) {
+    
     const renderItem = ({ item }) => (
         <Todo todo={item} />
     );
@@ -16,7 +13,7 @@ export default function ToDoList() {
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={todos}
+                data={props.todos}
                 renderItem={renderItem}
                 keyExtractor={item => item.id.toString()}
             />

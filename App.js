@@ -1,14 +1,15 @@
 import React from 'react';
-import ToDoScreen from './src/Screens/ToDoScreen'
+// import ToDoScreen from './src/Screens/ToDoScreen'
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import update from 'immutability-helper'; //https://reactjs.org/docs/update.html
+import ToDoApp from './src/ToDoApp';
 
 //create the initial state of the app
 const initialState = {
   todoId: 6,
   todos: [{ id: 1, title: "Todo 1" }, { id: 2, title: "Todo 2" }, { id: 3, title: "Todo 3" }, { id: 4, title: "Todo 4" }, { id: 5, title: "Todo 5" }],
-  completedTodos: [],
+  completedTodos: [{ id: 100, title: "Completed" }],
   user: {
     id: 1,
     username: 'Test'
@@ -70,7 +71,7 @@ export default class App extends React.Component {
     return (
       //Provider allows the state known as a store to pass through all components
       <Provider store={store}>
-        <ToDoScreen />
+        <ToDoApp />
       </Provider>)
   }
 };

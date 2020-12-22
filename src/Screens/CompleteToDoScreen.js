@@ -2,21 +2,21 @@ import React from "react";
 
 import { StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
-import AddTodoForm from "../Components/AddToDoForm";
+// import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList"
 import { useSelector } from "react-redux";
 
-export default function ToDoScreen() {
+export default function CompleteToDoScreen() {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
-  const pendingTodos = useSelector(state => state.todos);
+  const completeTodos = useSelector(state => state.completedTodos);
+
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>
-        Pending Todos
+        Completed Todos
           </Text>
-      <AddTodoForm />
-      <ToDoList todos={pendingTodos} />
+      <ToDoList todos={completeTodos} />
     </View>
   );
 }
