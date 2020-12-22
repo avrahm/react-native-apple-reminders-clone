@@ -36,7 +36,7 @@ const reducer = (state = initialState, action) => {
       // findIndex takes a callback function to execute on each array until the function returns true
       //returns The index of the first element in the array that passes the test. Otherwise, -1.
       //for my use case I'm iterating over all the todos and if the todo.id equals the payload return the index
-      let index = state.todos.findIndex((todo) => todo.id == action.payload);
+      let index = state.todos.findIndex((todo) => todo.id == action.payload.id);
 
       //immutability helper allows to create copies of the state and mutate the data with the update() method
       //The $-prefixed keys are called commands. The data structure they are “mutating” is called the target.
@@ -53,7 +53,6 @@ const reducer = (state = initialState, action) => {
         completedTodos: { $push: [action.payload] },
         todos: { $splice: [[index, 1]] }
       });
-      // newState = update(state, { todos: { $splice: [[index, 1]] } });
 
       console.log(newState);
       return {

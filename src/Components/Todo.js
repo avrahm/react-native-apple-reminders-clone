@@ -7,9 +7,9 @@ export default function Todo(props) {
   //useDispatch is a hook method to create access to the dispatches available within a functional component instead of using mapDispatchToProps and a class component
   const dispatch = useDispatch();
 
-  const deleteTodo = (index) => {
+  const deleteTodo = (todo) => {
     // console.log(props.todo)
-    dispatch({ type: 'DELETE_TODO', payload: index })
+    dispatch({ type: 'DELETE_TODO', payload: todo })
   }
 
   const completeTodo = (todo) => {
@@ -18,7 +18,7 @@ export default function Todo(props) {
 
   return (
     <View style={styles.todo}>
-      <Button title="Delete" onPress={() => deleteTodo(props.todo.id)} />
+      <Button title="Delete" onPress={() => deleteTodo(props.todo)} />
       <Text style={styles.todo}>
         {props.todo.title}
       </Text>
