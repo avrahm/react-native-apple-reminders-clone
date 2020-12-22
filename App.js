@@ -8,6 +8,7 @@ import update from 'immutability-helper'; //https://reactjs.org/docs/update.html
 const initialState = {
   todoId: 6,
   todos: [{ id: 1, title: "Todo 1" }, { id: 2, title: "Todo 2" }, { id: 3, title: "Todo 3" }, { id: 4, title: "Todo 4" }, { id: 5, title: "Todo 5" }],
+  completedTodos: [],
   user: {
     id: 1,
     username: 'Test'
@@ -16,6 +17,8 @@ const initialState = {
 
 //reducer handles the actions sent by dispatchers to modify and return the state
 const reducer = (state = initialState, action) => {
+
+  // console.log(state);
   switch (action.type) {
     case 'ADD_TODO':
       let newTodo = {
@@ -33,14 +36,28 @@ const reducer = (state = initialState, action) => {
       // findIndex takes a callback function to execute on each array until the function returns true
       //returns The index of the first element in the array that passes the test. Otherwise, -1.
       //for my use case I'm iterating over all the todos and if the todo.id equals the payload return the index
-      const index = state.todos.findIndex((todo) => todo.id == action.payload);
+      let index = state.todos.findIndex((todo) => todo.id == action.payload);
 
       //immutability helper allows to create copies of the state and mutate the data with the update() method
       //The $-prefixed keys are called commands. The data structure they are “mutating” is called the target.
       const newTodos = update(state, { todos: { $splice: [[index, 1]] } })
+
       return {
         ...state,
         ...newTodos
+      }
+
+    case 'COMPLETE_TODO':
+      index = state.todos.findIndex((todo) => todo.id == action.payload.id);
+      let newState = update(state, {
+        completedTodos: { $push: [action.payload] },
+        todos: { $splice: [[index, 1]] }
+      });
+      // newState = update(state, { todos: { $splice: [[index, 1]] } });
+
+      console.log(newState);
+      return {
+        ...newState,
       }
   }
   return state;

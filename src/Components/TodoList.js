@@ -12,14 +12,13 @@ export default function ToDoList() {
     const renderItem = ({ item }) => (
         <Todo todo={item} />
     );
-
-    console.log(todos);
+    // console.log(todos);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
                 data={todos}
                 renderItem={renderItem}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.id.toString()}
             />
         </SafeAreaView>
     );

@@ -54,5 +54,6 @@ const styles = StyleSheet.create({
   todoForm: {
     flexDirection: "row",
     marginLeft: 30,
+    justifyContent: "center"
   }
 });

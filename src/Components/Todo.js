@@ -9,8 +9,11 @@ export default function Todo(props) {
 
   const deleteTodo = (index) => {
     // console.log(props.todo)
-
     dispatch({ type: 'DELETE_TODO', payload: index })
+  }
+
+  const completeTodo = (todo) => {
+    dispatch({ type: 'COMPLETE_TODO', payload: todo });
   }
 
   return (
@@ -19,6 +22,7 @@ export default function Todo(props) {
       <Text style={styles.todo}>
         {props.todo.title}
       </Text>
+      <Button title="Complete" onPress={() => completeTodo(props.todo)} />
     </View>
   );
 }
@@ -28,5 +32,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     fontSize: 20,
+    justifyContent: "space-around",
   },
 });
