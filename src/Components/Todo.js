@@ -8,7 +8,6 @@ export default function Todo(props) {
   const dispatch = useDispatch();
 
   const deleteTodo = (todo) => {
-    // console.log(props.todo)
     dispatch({ type: 'DELETE_TODO', payload: todo })
   }
 
@@ -16,13 +15,24 @@ export default function Todo(props) {
     dispatch({ type: 'COMPLETE_TODO', payload: todo });
   }
 
+  const markPendingTodo = (todo) => {
+    dispatch({ type: 'MARK_PENDING_TODO', payload: todo });
+  }
+
   return (
     <View style={styles.todo}>
       <Button title="Delete" onPress={() => deleteTodo(props.todo)} />
-      <Text style={styles.todo}>
+      <Text>
         {props.todo.title}
       </Text>
-      <Button title="Complete" onPress={() => completeTodo(props.todo)} />
+      {!props.todo.complete ?
+        (
+          <Button title="Complete" onPress={() => completeTodo(props.todo)} />
+        ) :
+        (
+          <Button title="Mark Pending" onPress={() => markPendingTodo(props.todo)} />
+        )
+      }
     </View>
   );
 }
@@ -31,7 +41,11 @@ const styles = StyleSheet.create({
   todo: {
     alignItems: "center",
     flexDirection: "row",
-    fontSize: 20,
+    fontSize: 25,
     justifyContent: "space-around",
+    borderColor: "black",
+    borderWidth: 1,
+    marginBottom: 10
   },
+
 });

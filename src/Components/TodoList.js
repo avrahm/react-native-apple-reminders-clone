@@ -9,7 +9,6 @@ export default function ToDoList(props) {
     const renderItem = ({ item }) => (
         <Todo todo={item} />
     );
-    // console.log(todos);
     return (
         <SafeAreaView style={styles.container}>
             <FlatList

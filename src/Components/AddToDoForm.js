@@ -8,7 +8,7 @@ export default function AddTodoForm() {
   //useState allows to hook into React State  
   //returns a stateful value and a function to update it
   //const [state, setState] = useState(initialState);
-  
+
   const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 
   const [newTodo, setNewTodo] = useState("");
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
   todoForm: {
     flexDirection: "row",
     marginLeft: 30,
-    justifyContent: "center"
+    justifyContent: "center",
+    marginBottom: 10
   }
 });

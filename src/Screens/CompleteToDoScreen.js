@@ -9,7 +9,8 @@ import { useSelector } from "react-redux";
 export default function CompleteToDoScreen() {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
-  const completeTodos = useSelector(state => state.completedTodos);
+  const todos = useSelector(state => state.todos);
+  const completeTodos = todos.filter(todos => todos.complete === true);
 
   return (
     <View style={styles.container}>

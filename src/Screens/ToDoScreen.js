@@ -9,7 +9,9 @@ import { useSelector } from "react-redux";
 export default function ToDoScreen() {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
-  const pendingTodos = useSelector(state => state.todos);
+  const todos = useSelector(state => state.todos);
+  const pendingTodos = todos.filter(todos => todos.complete === false);
+
   return (
     <View style={styles.container}>
       <Text style={styles.paragraph}>
