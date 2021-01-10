@@ -1,6 +1,7 @@
 import React from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useDispatch } from "react-redux";
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
 export default function Todo(props) {
 
