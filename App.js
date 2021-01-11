@@ -25,7 +25,7 @@ const initialState = {
 //reducer handles the actions sent by dispatchers to modify and return the state
 const reducer = (state = initialState, action) => {
 
-  // console.log(state);
+  console.log(state);
   let index;
   let newState;
   

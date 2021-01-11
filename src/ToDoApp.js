@@ -18,7 +18,9 @@ export default function ToDoApp() {
     return (
         <NavigationContainer>
             <Tab.Navigator
+            //screenOptions allow to customize the appearance of the tab navigator
                 screenOptions={({ route }) => ({
+                    //tabBarIcon 
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
 

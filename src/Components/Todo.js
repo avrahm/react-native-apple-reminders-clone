@@ -1,52 +1,50 @@
 import React from "react";
-import { Button, StyleSheet, Text, View } from "react-native";
-import { useDispatch } from "react-redux";
-import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default function Todo(props) {
-
-  //useDispatch is a hook method to create access to the dispatches available within a functional component instead of using mapDispatchToProps and a class component
-  const dispatch = useDispatch();
-
-  const deleteTodo = (todo) => {
-    dispatch({ type: 'DELETE_TODO', payload: todo })
-  }
-
-  const completeTodo = (todo) => {
-    dispatch({ type: 'COMPLETE_TODO', payload: todo });
-  }
-
-  const markPendingTodo = (todo) => {
-    dispatch({ type: 'MARK_PENDING_TODO', payload: todo });
-  }
-
   return (
-    <View style={styles.todo}>
-      <Button title="Delete" onPress={() => deleteTodo(props.todo)} />
-      <Text>
-        {props.todo.title}
+    <View style={styles.rectButton}>
+      <Text style={styles.fromText}> {props.todo.title}</Text>
+      <Text numberOfLines={2} style={styles.messageText}>
+        Description
+    </Text>
+      <Text style={styles.dateText}>
+        Due: Jan 1, 2021
       </Text>
-      {!props.todo.complete ?
-        (
-          <Button title="Complete" onPress={() => completeTodo(props.todo)} />
-        ) :
-        (
-          <Button title="Mark Pending" onPress={() => markPendingTodo(props.todo)} />
-        )
-      }
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  todo: {
-    alignItems: "center",
-    flexDirection: "row",
-    fontSize: 25,
-    justifyContent: "space-around",
-    borderColor: "black",
-    borderWidth: 1,
-    marginBottom: 10
+  actionText: {
+    color: 'white',
+    fontSize: 16,
+    backgroundColor: 'transparent',
+    padding: 10,
   },
-
+  rectButton: {
+    flex: 1,
+    height: 80,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    backgroundColor: 'white',
+  },
+  fromText: {
+    fontWeight: 'bold',
+    backgroundColor: 'transparent',
+  },
+  messageText: {
+    color: '#999',
+    backgroundColor: 'transparent',
+  },
+  dateText: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    right: 20,
+    top: 10,
+    color: '#999',
+    fontWeight: 'bold',
+  },
 });
