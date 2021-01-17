@@ -1,22 +1,31 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import PropTypes from 'prop-types';
 
-export default function Todo(props) {
+export default function Todo({ todo }) {
   const navigation = useNavigation();
+
   return (
     /* 1. Navigate to the route with params */
     <TouchableOpacity style={styles.rectButton}
-      onPress={() => navigation.navigate('Todo', { todo: props.todo })}>
-      <Text style={styles.fromText}> {props.todo.title}</Text>
+      onPress={() => navigation.navigate('Todo', { todo: todo })}>
+
+      <Text style={styles.fromText}> {todo.title}</Text>
       <Text numberOfLines={2} style={styles.messageText}>
-        {props.todo.description}
-    </Text>
+        {todo.description}
+      </Text>
       <Text style={styles.dateText}>
-        Due: {props.todo.dueDate}
+        Due: {todo.dueDate}
       </Text>
     </TouchableOpacity>
   );
+}
+
+Todo.PropTypes = {
+  title: PropTypes.string.isRequired,
+  dueDate: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 }
 
 const styles = StyleSheet.create({
