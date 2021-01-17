@@ -14,9 +14,9 @@ export default function ToDoScreen() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.paragraph}>
+      {/* <Text style={styles.paragraph}>
         Pending Todos
-          </Text>
+          </Text> */}
       <AddTodoForm />
       <ToDoList todos={pendingTodos} />
     </View>

@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 import Constants from "expo-constants";
-import Todo from "../Components/Todo";
+import Todo from "./TodoRow";
 
 import Swipeout from 'react-native-swipeout';
 import { useDispatch } from "react-redux";
@@ -39,7 +39,7 @@ export default function ToDoList(props) {
 
         if (item.complete) {
             swipeoutBtns.splice(0, 1, {
-                text: 'Set Pending',
+                text: 'Pending',
                 onPress: () => markPendingTodo(item),
                 backgroundColor: 'blue'
             })

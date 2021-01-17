@@ -1,17 +1,21 @@
 import React from "react";
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Todo(props) {
+  const navigation = useNavigation();
   return (
-    <View style={styles.rectButton}>
+    /* 1. Navigate to the route with params */
+    <TouchableOpacity style={styles.rectButton}
+      onPress={() => navigation.navigate('Todo', { todo: props.todo })}>
       <Text style={styles.fromText}> {props.todo.title}</Text>
       <Text numberOfLines={2} style={styles.messageText}>
-        Description
+        {props.todo.description}
     </Text>
       <Text style={styles.dateText}>
-        Due: Jan 1, 2021
+        Due: {props.todo.dueDate}
       </Text>
-    </View>
+    </TouchableOpacity>
   );
 }
 
