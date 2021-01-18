@@ -3,13 +3,13 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
 
-export default function Todo({ todo }) {
+export default function TodoRow({ todo }) {
   const navigation = useNavigation();
 
   return (
     /* 1. Navigate to the route with params */
     <TouchableOpacity style={styles.rectButton}
-      onPress={() => navigation.navigate('Todo', { todo: todo })}>
+      onPress={() => navigation.navigate('TodoScreen', { todo: todo, name: todo.title })}>
 
       <Text style={styles.fromText}> {todo.title}</Text>
       <Text numberOfLines={2} style={styles.messageText}>
@@ -22,7 +22,7 @@ export default function Todo({ todo }) {
   );
 }
 
-Todo.PropTypes = {
+TodoRow.propTypes = {
   title: PropTypes.string.isRequired,
   dueDate: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired

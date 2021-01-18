@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
 import Constants from "expo-constants";
-import Todo from "./TodoRow";
+import TodoRow from "./TodoRow";
 
 import Swipeout from 'react-native-swipeout';
 import { useDispatch } from "react-redux";
@@ -47,7 +47,7 @@ export default function ToDoList(props) {
         return (
 
             <Swipeout right={swipeoutBtns}>
-                <Todo todo={item} />
+                <TodoRow todo={item} />
             </Swipeout>
         )
     };

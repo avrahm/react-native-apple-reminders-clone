@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
 import { useSelector } from 'react-redux';
 
 /*SCREENS*/
@@ -19,14 +19,14 @@ const Stack = createStackNavigator();
 
 export default function ToDoApp() {
 
-    const todos = useSelector(state => state.todos);
+    const todos = useSelector(state => state.todos.todos);
     const pendingTodos = todos.filter(todos => todos.complete === false);
 
     return (
         <NavigationContainer>
             <Tab.Navigator
                 //screenOptions allow to customize the appearance of the tab navigator
-                //deconstuct the screenOptions routes to 
+                //deconstuct the screenOptions routes to change the tabBarIcon dynamically by the route.name 
                 screenOptions={({ route }) => ({
                     //tabBarIcon 
                     tabBarIcon: ({ focused, color, size }) => {
@@ -50,7 +50,8 @@ export default function ToDoApp() {
                 }}
             >
                 <Tab.Screen
-                    options={{ tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length }}
+                    options={{ tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length 
+                    }}
                     name="PendingTodos"
                     component={PendingStack} />
                 <Tab.Screen
@@ -62,11 +63,32 @@ export default function ToDoApp() {
     )
 }
 
-function PendingStack() {
+function PendingStack({ navigation }) {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Pending" component={PendingToDoScreen} />
-            <Stack.Screen name="Todo" component={TodoScreen} />
+            <Stack.Screen
+                name="PendingTodoScreen"
+                component={PendingToDoScreen}
+                options={{
+                    title: 'Pending'
+                }}
+            />
+            <Stack.Screen
+                name="TodoScreen"
+                component={TodoScreen}
+                options={({ route }) => ({
+                    title: 'Details',
+                    label: 'Back',
+                    // headerLeft: (props) => (
+                    //     <HeaderBackButton
+                    //         {...props}
+                    //         onPress={() => {
+                    //             navigation.goBack()
+                    //         }}
+                    //     />
+                    // ),
+                })}
+            />
         </Stack.Navigator>
     )
 }

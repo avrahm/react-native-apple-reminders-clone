@@ -9,14 +9,11 @@ import { useSelector } from "react-redux";
 export default function ToDoScreen() {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
-  const todos = useSelector(state => state.todos);
+  const todos = useSelector(state => state.todos.todos);
   const pendingTodos = todos.filter(todos => todos.complete === false);
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.paragraph}>
-        Pending Todos
-          </Text> */}
       <AddTodoForm />
       <ToDoList todos={pendingTodos} />
     </View>
@@ -26,12 +23,12 @@ export default function ToDoScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Constants.statusBarHeight,
+    // paddingTop: Constants.statusBarHeight,
     backgroundColor: "#ecf0f1",
     padding: 8,
   },
   paragraph: {
-    margin: 24,
+    // margin: 24,
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",

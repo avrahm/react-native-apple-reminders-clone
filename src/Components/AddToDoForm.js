@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View } from "react-native";
+
 import { TextInput } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
+import ButtonComponent from "./ButtonComponent";
 
 export default function AddTodoForm() {
 
@@ -25,36 +27,48 @@ export default function AddTodoForm() {
 
   return (
     <View>
-      <Button
-        title="Add Todo"
-        onPress={() => {
-          toggleAddTodoForm(!showAddTodoForm);
-        }}
-      />
-      { showAddTodoForm && (
-        <View style={styles.todoForm}>
+      {!showAddTodoForm && (
+        <ButtonComponent
+          text="Add Todo"
+          color='white'
+          onPress={() => toggleAddTodoForm(!showAddTodoForm)}
+        />
+      )}
+      {showAddTodoForm && (
+        <View style={styles.horizontalRow}>
+          <ButtonComponent
+            icon='close'
+            color='red'
+            onPress={() => toggleAddTodoForm(!showAddTodoForm)} />
           <TextInput
             type="text"
-            style={{ width: 200, borderWidth: 1 }}
+            style={styles.input}
             onChangeText={(e) => setNewTodo(e)}
             value={newTodo}
+            onSubmitEditing={Keyboard.dismiss}
           />
-          <Button
-            title="Add"
-            onPress={() => {
-              addTodo(newTodo);
-            }}
+          <ButtonComponent
+            text="Add"
+            color='white'
+            onPress={() => addTodo(newTodo)}
           />
-        </View>)}
+        </View>
+      )}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  todoForm: {
+  horizontalRow: {
     flexDirection: "row",
-    marginLeft: 30,
     justifyContent: "center",
-    marginBottom: 10
+  },
+  input: {
+    flex: 1,
+    padding: 10,
+    borderWidth: 0.5,
+    borderRadius: 4,
+    backgroundColor: "#fff",
+    margin: 5,
   }
 });
