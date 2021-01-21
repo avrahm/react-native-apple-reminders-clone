@@ -1,10 +1,10 @@
 import React from "react";
-
 import { StyleSheet, Text, View } from "react-native";
-import Constants from "expo-constants";
-import AddTodoForm from "../Components/AddToDoForm";
-import ToDoList from "../Components/TodoList"
 import { useSelector } from "react-redux";
+// import Constants from "expo-constants";
+
+import AddTodoForm from "../Components/AddToDoForm";
+import ToDoList from "../Components/TodoList";
 
 export default function ToDoScreen() {
   //useSelector is a hooks method instead of mapStateToProps
@@ -12,10 +12,12 @@ export default function ToDoScreen() {
   const todos = useSelector(state => state.todos.todos);
   const pendingTodos = todos.filter(todos => todos.complete === false);
 
+  const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos)
+
   return (
     <View style={styles.container}>
       <AddTodoForm />
-      <ToDoList todos={pendingTodos} />
+      <ToDoList todos={!toggleShowAllTodos ? pendingTodos : todos} />
     </View>
   );
 }
