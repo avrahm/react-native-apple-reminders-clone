@@ -4,12 +4,13 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 
 import { Ionicons } from '@expo/vector-icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 /*SCREENS*/
 import PendingToDoScreen from './Screens/PendingToDoScreen';
 import CompleteToDoScreen from './Screens/CompleteToDoScreen';
 import TodoScreen from './Screens/TodoScreen';
+import { Button } from 'react-native';
 
 //Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -49,44 +50,50 @@ export default function ToDoApp() {
                     inactiveTintColor: 'gray',
                 }}
             >
+
                 <Tab.Screen
-                    options={{ tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length 
+                    options={{
+                        tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length
                     }}
                     name="PendingTodos"
                     component={PendingStack} />
-                <Tab.Screen
+                {/* <Tab.Screen
                     options={{ tabBarLabel: "Completed Todos" }}
                     name="CompletedTodos"
-                    component={CompleteToDoScreen} />
+                    component={CompleteToDoScreen} /> */}
             </Tab.Navigator>
         </NavigationContainer>
     )
 }
 
 function PendingStack({ navigation }) {
+    const toggleShowAllFlag = useSelector(state => state.todos.toggleShowAllTodos);
+    const dispatch = useDispatch()
+    const toggleShowAllTodos = () => {
+        dispatch({ type: 'TOGGLE_SHOWALL_TODOS' });
+    }
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+        >
             <Stack.Screen
                 name="PendingTodoScreen"
                 component={PendingToDoScreen}
                 options={{
-                    title: 'Pending'
+                    title: 'Pending',
+                    headerRight: () => (
+                        <Button
+                            title={!toggleShowAllFlag ? 'Show All' : 'Hide'}
+                            onPress={() => toggleShowAllTodos()}
+                        />
+                    )
                 }}
             />
             <Stack.Screen
                 name="TodoScreen"
                 component={TodoScreen}
-                options={({ route }) => ({
+                options={() => ({
                     title: 'Details',
                     label: 'Back',
-                    // headerLeft: (props) => (
-                    //     <HeaderBackButton
-                    //         {...props}
-                    //         onPress={() => {
-                    //             navigation.goBack()
-                    //         }}
-                    //     />
-                    // ),
                 })}
             />
         </Stack.Navigator>

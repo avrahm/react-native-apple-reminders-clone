@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { Keyboard, StyleSheet, View } from "react-native";
+import { Keyboard, StyleSheet, View, TextInput } from "react-native";
 
-import { TextInput } from "react-native-gesture-handler";
 import { useDispatch } from "react-redux";
 import ButtonComponent from "./ButtonComponent";
 
