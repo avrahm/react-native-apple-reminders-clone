@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, TextInput, Button, Switch } from 'react-native';
+import {
+    View,
+    StyleSheet, TextInput, Button, Switch, ScrollView, Text, TouchableOpacity
+} from 'react-native';
+import CalendarPicker from 'react-native-calendar-picker';
+import { format } from 'date-fns';
 import { useDispatch } from 'react-redux';
 import ButtonComponent from '../Components/ButtonComponent';
 
@@ -10,7 +15,9 @@ export default function TodoScreen({ route, navigation }) {
     //use state to edit the todo object received from params
     const [editableTodo, updateEditableTodo] = useState(todo);
 
-    const [dueDateEnabled, toggleDueDateEnabled] = useState(todo.dueDate && true)
+    const [dueDateEnabled, toggleDueDateEnabled] = useState(todo.dueDate && true || null)
+
+    const [viewCalendar, toggleViewCalendar] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -42,8 +49,21 @@ export default function TodoScreen({ route, navigation }) {
         });
     }, [editableTodo])
 
+    const formatDate = (date) => {
+        return format(new Date(date), "ccc LLL d yyyy").toString()
+    }
+
+    const onDateChange = (date) => {
+        // const formatDate = format(new Date(date), "ccc LLL d yyyy")
+        const newDate = formatDate(date)
+        updateEditableTodo({
+            ...editableTodo,
+            dueDate: newDate
+        })
+    }
+
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <View style={styles.cardView}>
                 <TextInput style={styles.paragraph}
                     value={editableTodo.title}
@@ -69,16 +89,36 @@ export default function TodoScreen({ route, navigation }) {
             </View>
             <View style={[styles.cardView,
             { justifyContent: 'space-between', alignItems: 'center' }]}>
-                <ButtonComponent icon='calendar' disable={true} />
-                <TextInput style={[styles.paragraph]}
-                    value={editableTodo.dueDate}
-                    onChangeText={(e) => updateEditableTodo({
-                        ...editableTodo,
-                        dueDate: e
-                    })}
-                />
-                <Switch onValueChange={() => { toggleDueDateEnabled(!dueDateEnabled) }} value={dueDateEnabled} />
+                <TouchableOpacity onPress={() => toggleViewCalendar(!viewCalendar)}
+                    disabled={!dueDateEnabled && true}
+                >
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <ButtonComponent icon='calendar' disable={true} />
+                        <View>
+                            <Text>Date</Text>
+                            {dueDateEnabled && (
+                                <Text style={[styles.paragraph]}>
+                                    {editableTodo.dueDate ? formatDate(editableTodo.dueDate) : formatDate(new Date())}
+                                </Text>)}
+                        </View>
+                    </View>
+                </TouchableOpacity>
+                <Switch onValueChange={() => {
+                    toggleDueDateEnabled(!dueDateEnabled);
+                    toggleViewCalendar(!viewCalendar && false)
+                }}
+                    value={dueDateEnabled} />
             </View>
+            {viewCalendar && (
+                <CalendarPicker
+                    onDateChange={onDateChange}
+                    initialDate={editableTodo.dueDate.toString() || new Date()}
+                    selectedStartDate={editableTodo.dueDate.toString() || new Date()}
+                    restrictMonthNavigation={true}
+                    minDate={new Date()}
+                    dayShape={'square'}
+                />
+            )}
             <View style={styles.cardView}>
                 <ButtonComponent
                     icon='trash'
@@ -98,9 +138,8 @@ export default function TodoScreen({ route, navigation }) {
                             onPress={() => markPendingTodo(editableTodo)}
                         />
                     )}
-
             </View>
-        </View>
+        </ScrollView>
     );
 }
 
