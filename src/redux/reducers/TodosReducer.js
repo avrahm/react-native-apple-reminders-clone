@@ -39,7 +39,7 @@ const todos = (state = initialState, action) => {
 
             return {
                 ...state,
-                todos: [...state.todos, newTodo]
+                todos: [newTodo, ...state.todos]
             }
         case 'DELETE_TODO':
 
