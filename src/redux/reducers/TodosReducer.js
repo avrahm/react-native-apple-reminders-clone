@@ -1,10 +1,11 @@
-import update from 'immutability-helper'; 
+import update from 'immutability-helper';
 //immutability-helper
 //https://reactjs.org/docs/update.html
 
 //create the initial state of the app
 const initialState = {
     todoId: 7,
+    toggleShowAllTodos: false,
     todos: [
         { id: 1, title: "Todo 1", description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et', dueDate: 'Jul 19, 2021', complete: false },
         { id: 2, title: "Todo 2", description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab', dueDate: 'Jan 1, 2021', complete: false },
@@ -31,6 +32,8 @@ const todos = (state = initialState, action) => {
             let newTodo = {
                 id: state.todoId++,
                 title: action.payload,
+                description: '',
+                dueDate: '',
                 complete: false
             }
 
@@ -81,6 +84,23 @@ const todos = (state = initialState, action) => {
             return {
                 ...newState,
             }
+        case 'TOGGLE_SHOWALL_TODOS':
+            newState = update(state, {
+                toggleShowAllTodos: { $set: !state.toggleShowAllTodos }
+            })
+            return {
+                ...newState
+            }
+        case 'UPDATE_TODO':
+            index = state.todos.findIndex((todo) => todo.id == action.payload.id);
+
+            newState = update(state, {
+                todos: { [index]: { $merge: action.payload } }
+            })
+            return {
+                ...newState
+            }
+
     }
     return state;
 }

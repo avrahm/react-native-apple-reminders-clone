@@ -8,9 +8,8 @@ export default function TodoRow({ todo }) {
 
   return (
     /* 1. Navigate to the route with params */
-    <TouchableOpacity style={styles.rectButton}
+    <TouchableOpacity style={!todo.complete ? styles.rectButton : styles.completeText}
       onPress={() => navigation.navigate('TodoScreen', { todo: todo, name: todo.title })}>
-
       <Text style={styles.fromText}> {todo.title}</Text>
       <Text numberOfLines={2} style={styles.messageText}>
         {todo.description}
@@ -22,11 +21,11 @@ export default function TodoRow({ todo }) {
   );
 }
 
-TodoRow.propTypes = {
-  title: PropTypes.string.isRequired,
-  dueDate: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired
-}
+// TodoRow.propTypes = {
+//   title: PropTypes.string.isRequired,
+//   dueDate: PropTypes.string.isRequired,
+//   description: PropTypes.string.isRequired
+// }
 
 const styles = StyleSheet.create({
   actionText: {
@@ -42,7 +41,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
+  },
+  completeText: {
+    height: 80,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    justifyContent: 'space-between',
+    flexDirection: 'column',
+    color: '#fff',
+    // backgroundColor: 'green',
   },
   fromText: {
     fontWeight: 'bold',
