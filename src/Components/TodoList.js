@@ -1,60 +1,31 @@
 import React from "react";
 import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
+import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import TodoRow from "./TodoRow";
+import SwipeableRow from "./SwipeableRow";
 
-import Swipeout from 'react-native-swipeout';
-import { useDispatch } from "react-redux";
+export default function ToDoList() {
+    //useSelector is a hooks method instead of mapStateToProps
+    //Allows a functional component to hook into the state
+    const todos = useSelector(state => state.todos.todos);
+    const pendingTodos = todos.filter(todos => todos.complete === false);
 
-export default function ToDoList(props) {
+    const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos)
 
-    //useDispatch is a hook method to create access to the dispatches available within a functional component instead of using mapDispatchToProps and a class component
-    const dispatch = useDispatch();
-
-    const deleteTodo = (todo) => {
-        dispatch({ type: 'DELETE_TODO', payload: todo })
-    }
-
-    const completeTodo = (todo) => {
-        dispatch({ type: 'COMPLETE_TODO', payload: todo });
-    }
-
-    const markPendingTodo = (todo) => {
-        dispatch({ type: 'MARK_PENDING_TODO', payload: todo });
-    }
+    const todoData = !toggleShowAllTodos ? pendingTodos : todos
 
     const renderItem = ({ item }) => {
-        let swipeoutBtns = [
-            {
-                text: 'Complete',
-                onPress: () => completeTodo(item),
-                backgroundColor: 'green',
-            },
-            {
-                text: 'Delete',
-                onPress: () => deleteTodo(item),
-                backgroundColor: 'red',
-            }
-        ]
-
-        if (item.complete) {
-            swipeoutBtns.splice(0, 1, {
-                text: 'Pending',
-                onPress: () => markPendingTodo(item),
-                backgroundColor: 'blue'
-            })
-        }
         return (
-
-            <Swipeout right={swipeoutBtns}>
+            <SwipeableRow>
                 <TodoRow todo={item} />
-            </Swipeout>
+            </SwipeableRow>
         )
     };
     return (
         <SafeAreaView style={styles.container}>
             <FlatList
-                data={props.todos}
+                data={todoData}
                 renderItem={renderItem}
                 ItemSeparatorComponent={() => <View style={styles.separator} />}
                 keyExtractor={item => item.id.toString()}

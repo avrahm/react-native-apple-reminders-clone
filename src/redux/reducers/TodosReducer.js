@@ -23,7 +23,6 @@ const initialState = {
 //reducer handles the actions sent by dispatchers to modify and return the state
 const todos = (state = initialState, action) => {
 
-    // console.log(state);
     let index;
     let newState;
 
