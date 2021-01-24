@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 /*SCREENS*/
 import PendingToDoScreen from './Screens/PendingToDoScreen';
-import CompleteToDoScreen from './Screens/CompleteToDoScreen';
+import ListScreen from './Screens/ListScreen';
 import TodoScreen from './Screens/TodoScreen';
 import { Button } from 'react-native';
 
@@ -37,7 +37,7 @@ export default function ToDoApp() {
                             iconName = focused
                                 ? 'ios-information-circle'
                                 : 'ios-information-circle-outline';
-                        } else if (route.name === 'CompletedTodos') {
+                        } else if (route.name === 'ListScreen') {
                             iconName = focused ? 'ios-list' : 'ios-list';
                         }
 
@@ -50,17 +50,16 @@ export default function ToDoApp() {
                     inactiveTintColor: 'gray',
                 }}
             >
-
+                <Tab.Screen
+                    options={{ tabBarLabel: "Lists" }}
+                    name="ListScreen"
+                    component={ListScreen} />
                 <Tab.Screen
                     options={{
                         tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length
                     }}
                     name="PendingTodos"
                     component={PendingStack} />
-                {/* <Tab.Screen
-                    options={{ tabBarLabel: "Completed Todos" }}
-                    name="CompletedTodos"
-                    component={CompleteToDoScreen} /> */}
             </Tab.Navigator>
         </NavigationContainer>
     )
