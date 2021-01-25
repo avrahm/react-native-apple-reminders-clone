@@ -11,6 +11,7 @@ import PendingToDoScreen from './Screens/PendingToDoScreen';
 import ListScreen from './Screens/ListScreen';
 import TodoScreen from './Screens/TodoScreen';
 import { Button } from 'react-native';
+import AddListScreen from './Screens/AddListScreen';
 
 //Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -37,7 +38,7 @@ export default function ToDoApp() {
                             iconName = focused
                                 ? 'ios-information-circle'
                                 : 'ios-information-circle-outline';
-                        } else if (route.name === 'ListScreen') {
+                        } else if (route.name === 'ListStack') {
                             iconName = focused ? 'ios-list' : 'ios-list';
                         }
 
@@ -52,28 +53,44 @@ export default function ToDoApp() {
             >
                 <Tab.Screen
                     options={{ tabBarLabel: "Lists" }}
-                    name="ListScreen"
-                    component={ListScreen} />
-                <Tab.Screen
+                    name="ListStack"
+                    component={ListStack} />
+                {/* <Tab.Screen
                     options={{
                         tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length
                     }}
                     name="PendingTodos"
-                    component={PendingStack} />
+                    component={PendingStack} /> */}
             </Tab.Navigator>
         </NavigationContainer>
     )
 }
 
-function PendingStack({ navigation }) {
+function ListStack() {
     const toggleShowAllFlag = useSelector(state => state.todos.toggleShowAllTodos);
     const dispatch = useDispatch()
     const toggleShowAllTodos = () => {
         dispatch({ type: 'TOGGLE_SHOWALL_TODOS' });
     }
     return (
-        <Stack.Navigator
-        >
+        <Stack.Navigator>
+            <Stack.Screen
+                name="ListScreen"
+                component={ListScreen}
+                options={{
+                    headerShown: false
+                }}
+            />
+
+            <Stack.Screen
+                name="AddListScreen"
+                component={AddListScreen}
+                options={() => ({
+                    title: 'Create New List',
+                    label: 'Back'
+                })}
+            />
+
             <Stack.Screen
                 name="PendingTodoScreen"
                 component={PendingToDoScreen}
