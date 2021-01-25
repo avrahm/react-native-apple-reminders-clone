@@ -64,8 +64,8 @@ export default function TodoScreen({ route, navigation }) {
         })
     }
 
-    const dueDateGetTime = new Date(editableTodo.dueDate).getTime()
-    const nowGetTime = new Date().getTime()
+    const dueDateGetTime = new Date(editableTodo.dueDate).getDate()
+    const nowGetTime = new Date().getDate()
 
     const setDueDate = (dueDateEnabled) => {
         dueDateEnabled ? onDateChange(new Date()) : updateEditableTodo({ ...editableTodo, dueDate: '' })
@@ -77,7 +77,7 @@ export default function TodoScreen({ route, navigation }) {
                 <CheckBox
                     center
                     checkedIcon='check-circle'
-                    uncheckedIcon={editableTodo.dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
+                    uncheckedIcon={editableTodo.dueDate ? (dueDateGetTime >= nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
                     checked={editableTodo.complete}
                     onPress={() => dispatchAction(editableTodo.complete ? 'pending' : 'complete', editableTodo)}
                 />

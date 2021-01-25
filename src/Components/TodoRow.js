@@ -21,8 +21,8 @@ export default function TodoRow({ todo }) {
   };
 
   let dueDate = todo.dueDate;
-  const dueDateGetTime = new Date(dueDate).getTime()
-  const nowGetTime = new Date().getTime()
+  const dueDateGetTime = new Date(dueDate).getDate()
+  const nowGetTime = new Date().getDate()
 
   return (
     /* 1. Navigate to the route with params */
@@ -32,7 +32,7 @@ export default function TodoRow({ todo }) {
         <CheckBox
           center
           checkedIcon='check-circle'
-          uncheckedIcon={dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
+          uncheckedIcon={dueDate ? (dueDateGetTime >= nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
           checked={todo.complete}
           onPress={() => dispatchAction(todo.complete ? 'pending' : 'complete')}
         />
