@@ -5,12 +5,17 @@ import {
 } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { format } from 'date-fns';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ButtonComponent from '../Components/ButtonComponent';
+import { CheckBox } from 'react-native-elements';
 
 export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
-    const { todo } = route.params;
+    const todoId = route.params.todo.id;
+
+    // const index = state.todos.findIndex((todo) => todo.id == todoId);
+    // console.log(route.params.todo.id)
+    let todo = useSelector(state => state.todos.todos[todoId - 1]);
 
     //use state to edit the todo object received from params
     const [editableTodo, updateEditableTodo] = useState(todo);
@@ -21,31 +26,29 @@ export default function TodoScreen({ route, navigation }) {
 
     const dispatch = useDispatch();
 
-    const deleteTodo = (todo) => {
-        dispatch({ type: "DELETE_TODO", payload: todo });
+    const dispatchAction = (action, payload) => {
         navigation.goBack();
-    }
-
-    const completeTodo = (todo) => {
-        dispatch({ type: "COMPLETE_TODO", payload: todo });
-        navigation.goBack();
-    }
-
-    const markPendingTodo = (todo) => {
-        dispatch({ type: "MARK_PENDING_TODO", payload: todo });
-        navigation.goBack();
-    }
-
-    const updateTodo = (todo) => {
-        dispatch({ type: "UPDATE_TODO", payload: todo });
-        navigation.goBack();
-    }
+        switch (action) {
+            case 'delete':
+                dispatch({ type: 'DELETE_TODO', payload: payload });
+                break;
+            case 'complete':
+                dispatch({ type: 'COMPLETE_TODO', payload: payload });
+                break;
+            case 'pending':
+                dispatch({ type: 'MARK_PENDING_TODO', payload: payload });
+                break;
+            case 'update':
+                dispatch({ type: 'UPDATE_TODO', payload: payload });
+                break;
+        }
+    };
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
                 <Button title='Done' onPress={() =>
-                    updateTodo(editableTodo)} />,
+                    dispatchAction('update', editableTodo)} />,
         });
     }, [editableTodo])
 
@@ -54,7 +57,6 @@ export default function TodoScreen({ route, navigation }) {
     }
 
     const onDateChange = (date) => {
-        // const formatDate = format(new Date(date), "ccc LLL d yyyy")
         const newDate = formatDate(date)
         updateEditableTodo({
             ...editableTodo,
@@ -62,9 +64,19 @@ export default function TodoScreen({ route, navigation }) {
         })
     }
 
+    const dueDateGetTime = new Date(editableTodo.dueDate).getTime()
+    const nowGetTime = new Date().getTime()
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.cardView}>
+                <CheckBox
+                    center
+                    checkedIcon='check-circle'
+                    uncheckedIcon={editableTodo.dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
+                    checked={editableTodo.complete}
+                    onPress={() => dispatchAction(editableTodo.complete ? 'pending' : 'complete', editableTodo)}
+                />
                 <TextInput style={styles.paragraph}
                     value={editableTodo.title}
                     onChangeText={(e) => updateEditableTodo({
@@ -83,8 +95,8 @@ export default function TodoScreen({ route, navigation }) {
                         ...editableTodo,
                         description: e
                     })}
-                    placeholder={'Description'}
-                    onFocus={() => { }}
+                    placeholder={'Notes'}
+                // onFocus={() => { }}
                 />
             </View>
             <View style={[styles.cardView,
@@ -122,20 +134,20 @@ export default function TodoScreen({ route, navigation }) {
             <View style={styles.cardView}>
                 <ButtonComponent
                     icon='trash'
-                    onPress={() => deleteTodo(editableTodo)}
+                    onPress={() => dispatchAction('delete', editableTodo)}
                     color='red'
                 />
                 {!todo.complete ? (
                     <ButtonComponent
                         icon='checkmark'
                         color='black'
-                        onPress={() => completeTodo(editableTodo)}
+                        onPress={() => dispatchAction('complete', editableTodo)}
                     />
                 ) : (
                         <ButtonComponent
                             icon='checkmark'
                             color='green'
-                            onPress={() => markPendingTodo(editableTodo)}
+                            onPress={() => dispatchAction('pending', editableTodo)}
                         />
                     )}
             </View>

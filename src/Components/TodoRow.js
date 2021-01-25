@@ -1,22 +1,54 @@
-import React from "react";
+import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import PropTypes from 'prop-types';
+import { CheckBox } from 'react-native-elements'
+import { useDispatch } from 'react-redux';
 
 export default function TodoRow({ todo }) {
   const navigation = useNavigation();
+  const dispatch = useDispatch()
+  const dispatchAction = (action) => {
+    switch (action) {
+      case 'complete':
+        dueDate = '';
+        dispatch({ type: 'COMPLETE_TODO', payload: todo });
+        break;
+      case 'pending':
+        dispatch({ type: 'MARK_PENDING_TODO', payload: todo });
+        break;
+    }
+  };
+
+  let dueDate = todo.dueDate;
+  const dueDateGetTime = new Date(dueDate).getTime()
+  const nowGetTime = new Date().getTime()
 
   return (
     /* 1. Navigate to the route with params */
-    <TouchableOpacity style={!todo.complete ? styles.rectButton : styles.completeText}
+    <TouchableOpacity style={[styles.rectButton]}
       onPress={() => navigation.navigate('TodoScreen', { todo: todo, name: todo.title })}>
-      <Text style={styles.fromText}> {todo.title}</Text>
-      <Text numberOfLines={2} style={styles.messageText}>
+      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+        <CheckBox
+          center
+          checkedIcon='check-circle'
+          uncheckedIcon={dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
+          checked={todo.complete}
+          onPress={() => dispatchAction(todo.complete ? 'pending' : 'complete')}
+        />
+        <View>
+          <Text style={styles.fromText}> {todo.title}</Text>
+        </View>
+      </View>
+
+      {/* <Text numberOfLines={2} style={styles.messageText}>
         {todo.description}
-      </Text>
-      <Text style={styles.dateText}>
+      </Text> */}
+      {!todo.dueDate || (
+        <Text style={styles.dateText}>
         Due: {todo.dueDate}
       </Text>
+      )}
     </TouchableOpacity>
   );
 }
@@ -28,29 +60,13 @@ export default function TodoRow({ todo }) {
 // }
 
 const styles = StyleSheet.create({
-  actionText: {
-    color: 'white',
-    fontSize: 16,
-    backgroundColor: 'transparent',
-    padding: 10,
-  },
   rectButton: {
     flex: 1,
-    height: 80,
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: 'space-between',
     flexDirection: 'column',
     backgroundColor: '#fff',
-  },
-  completeText: {
-    height: 80,
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-between',
-    flexDirection: 'column',
-    color: '#fff',
-    // backgroundColor: 'green',
   },
   fromText: {
     fontWeight: 'bold',
