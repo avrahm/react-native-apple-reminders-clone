@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    View,
-    StyleSheet, TextInput, Button, Switch, ScrollView, Text, TouchableOpacity
-} from 'react-native';
+import { View, StyleSheet, TextInput, Button, Switch, ScrollView, Text, TouchableOpacity } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import { format } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,11 +8,11 @@ import { CheckBox } from 'react-native-elements';
 
 export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
-    const todoId = route.params.todo.id;
+    const { todo } = route.params;
 
     // const index = state.todos.findIndex((todo) => todo.id == todoId);
     // console.log(route.params.todo.id)
-    let todo = useSelector(state => state.todos.todos[todoId - 1]);
+    // let todo = useSelector(state => state.todos.todos[todoId]);
 
     //use state to edit the todo object received from params
     const [editableTodo, updateEditableTodo] = useState(todo);
@@ -44,12 +41,15 @@ export default function TodoScreen({ route, navigation }) {
         }
     };
 
+    //useEffect should be used in place of componentWillMount and componentDidUpdate lifecycle methods
+    //update the button with when editableTodo changes
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                <Button title='Done' onPress={() =>
-                    dispatchAction('update', editableTodo)} />,
+                <Button title='Done' onPress={() => dispatchAction('update', editableTodo)} />,
         });
+
+        if (!dueDateEnabled) { }
     }, [editableTodo])
 
     const formatDate = (date) => {
@@ -66,6 +66,10 @@ export default function TodoScreen({ route, navigation }) {
 
     const dueDateGetTime = new Date(editableTodo.dueDate).getTime()
     const nowGetTime = new Date().getTime()
+
+    const setDueDate = (dueDateEnabled) => {
+        dueDateEnabled ? onDateChange(new Date()) : updateEditableTodo({ ...editableTodo, dueDate: '' })
+    }
 
     return (
         <ScrollView style={styles.container}>
@@ -99,8 +103,7 @@ export default function TodoScreen({ route, navigation }) {
                 // onFocus={() => { }}
                 />
             </View>
-            <View style={[styles.cardView,
-            { justifyContent: 'space-between', alignItems: 'center' }]}>
+            <View style={[styles.cardView, { justifyContent: 'space-between', alignItems: 'center' }]}>
                 <TouchableOpacity onPress={() => toggleViewCalendar(!viewCalendar)}
                     disabled={!dueDateEnabled && true}
                 >
@@ -117,20 +120,23 @@ export default function TodoScreen({ route, navigation }) {
                 </TouchableOpacity>
                 <Switch onValueChange={() => {
                     toggleDueDateEnabled(!dueDateEnabled);
-                    toggleViewCalendar(!viewCalendar && false)
+                    toggleViewCalendar(!viewCalendar && false);
+                    setDueDate(!dueDateEnabled)
                 }}
                     value={dueDateEnabled} />
             </View>
-            {viewCalendar && (
-                <CalendarPicker
-                    onDateChange={onDateChange}
-                    initialDate={editableTodo.dueDate.toString() || new Date()}
-                    selectedStartDate={editableTodo.dueDate.toString() || new Date()}
-                    restrictMonthNavigation={true}
-                    minDate={new Date()}
-                    dayShape={'square'}
-                />
-            )}
+            <View>
+                {viewCalendar && (
+                    <CalendarPicker
+                        onDateChange={onDateChange}
+                        initialDate={editableTodo.dueDate.toString() || new Date()}
+                        selectedStartDate={editableTodo.dueDate.toString() || new Date()}
+                        restrictMonthNavigation={true}
+                        minDate={new Date()}
+                        dayShape={'square'}
+                    />
+                )}
+            </View>
             <View style={styles.cardView}>
                 <ButtonComponent
                     icon='trash'

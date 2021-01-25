@@ -11,7 +11,7 @@ const initialState = {
         { id: 2, title: "Todo 2", description: 'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab', dueDate: '', complete: false },
         { id: 3, title: "Todo 3", description: 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born', dueDate: 'Dec 21, 2021', complete: false },
         { id: 4, title: "Todo 4", description: 'Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot', dueDate: 'Feb 3, 2020', complete: false },
-        { id: 5, title: "Todo 5", description: 'The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, et', dueDate: 'Mar 7, 2020', complete: true },
+        { id: 5, title: "Todo 5", description: 'The European languages are members of the same family. Their separate existence is a myth. For science, music, sport, et', dueDate: 'Mar 7, 2020', complete: false },
         { id: 6, title: "Todo 6", description: 'Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated', dueDate: '', complete: true },
     ],
     user: {
