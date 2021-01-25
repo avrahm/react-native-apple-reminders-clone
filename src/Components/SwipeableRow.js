@@ -11,10 +11,6 @@ export default function SwipeableRow({ children }) {
 
     //useDispatch is a hook method to create access to the dispatches available within a functional component instead of using mapDispatchToProps and a class component
     const dispatch = useDispatch();
-    let swipeBtnToggle = todo.complete;
-    useEffect(() => {
-        swipeBtnToggle = todo.complete
-    }, [todo.complete])
 
     const renderRightAction = (text, color, x, progress) => {
         const trans = progress.interpolate({
@@ -22,17 +18,10 @@ export default function SwipeableRow({ children }) {
             outputRange: [x, 0],
         });
         const dispatchAction = (action) => {
-
             close();
             switch (action) {
                 case 'Delete':
                     dispatch({ type: 'DELETE_TODO', payload: todo });
-                    break;
-                case 'Complete':
-                    dispatch({ type: 'COMPLETE_TODO', payload: todo });
-                    break;
-                case 'Pending':
-                    dispatch({ type: 'MARK_PENDING_TODO', payload: todo });
                     break;
             }
         };
@@ -53,12 +42,10 @@ export default function SwipeableRow({ children }) {
         return (
             <View
                 style={{
-                    width: 128,
-                    flexDirection: I18nManager.isRTL ? 'row-reverse' : 'row',
+                    width: 68,
+                    flexDirection: 'row',
                 }}>
-                {renderRightAction('Pending', '#C8C7CD', 128, progress)}
-                {renderRightAction('Complete', '#ffab00', 128, progress)}
-                {renderRightAction('Delete', '#dd2c00', 64, progress)}
+                {renderRightAction('Delete', '#dd2c00', 68, progress)}
             </View>
         );
     };
