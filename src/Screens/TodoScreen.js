@@ -10,10 +10,6 @@ export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
     const { todo } = route.params;
 
-    // const index = state.todos.findIndex((todo) => todo.id == todoId);
-    // console.log(route.params.todo.id)
-    // let todo = useSelector(state => state.todos.todos[todoId]);
-
     //use state to edit the todo object received from params
     const [editableTodo, updateEditableTodo] = useState(todo);
 
@@ -48,8 +44,6 @@ export default function TodoScreen({ route, navigation }) {
             headerRight: () =>
                 <Button title='Done' onPress={() => dispatchAction('update', editableTodo)} />,
         });
-
-        if (!dueDateEnabled) { }
     }, [editableTodo])
 
     const formatDate = (date) => {
