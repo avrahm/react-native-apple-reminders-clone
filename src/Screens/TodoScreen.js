@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TextInput, Button, Switch, ScrollView, Text, TouchableOpacity } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { format } from 'date-fns';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonComponent from '../Components/ButtonComponent';
 import { CheckBox } from 'react-native-elements';
+import { formatDate } from '../assets/utils/formatDate';
 
 export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
@@ -45,10 +45,6 @@ export default function TodoScreen({ route, navigation }) {
                 <Button title='Done' onPress={() => dispatchAction('update', editableTodo)} />,
         });
     }, [editableTodo])
-
-    const formatDate = (date) => {
-        return format(new Date(date), "ccc LLL d yyyy").toString()
-    }
 
     const onDateChange = (date) => {
         const newDate = formatDate(date)
