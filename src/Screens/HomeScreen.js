@@ -8,13 +8,14 @@ import { ListItem, Icon, SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import ButtonComponent from '../Components/ButtonComponent';
+import { dueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
 
 
 export default function ListScreen({ navigation }) {
 
-  const todos = useSelector(state => state.todos.todos).filter(todo => !todo.complete);
-  const dueTodayTodos = todos.filter(todo => new Date(todo.dueDate).getDate() == new Date().getDate());
-  const inboxTodos = todos.filter(todo => todo.listId === 0);
+  const todos = useSelector(state => state.todos.todos);
+  const dueTodayTodosTotal = dueTodayTodos(todos).length;
+  const inboxTodosTotal = inboxTodos(todos).length;
 
   const list = useSelector(state => state.lists.lists)
 
@@ -24,22 +25,30 @@ export default function ListScreen({ navigation }) {
       <ScrollView>
         <View style={{ flexDirection: 'column' }}>
           <View style={{ flexDirection: 'row' }}>
-            <TouchableOpacity style={styles.cardView}>
+            <TouchableOpacity style={styles.cardView}
+              onPress={() => navigation.navigate('TodoListScreen', { listId: 0, title: 'Inbox' })}
+            >
               <View style={{ alignItems: 'center' }}>
                 <ButtonComponent icon='mail-outline' />
                 <Text>Inbox</Text>
               </View>
-              <Text style={{ fontSize: 34 }}>{inboxTodos.length}</Text>
+              <Text style={{ fontSize: 34 }}>{inboxTodosTotal}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.cardView}>
+            <TouchableOpacity
+              style={styles.cardView}
+              onPress={() => navigation.navigate('TodoListScreen', { listType: 'today', title: 'Due Today' })}
+            >
               <View style={{ alignItems: 'center' }}>
                 <ButtonComponent icon='calendar' />
                 <Text>Today</Text>
               </View>
-              <Text style={{ fontSize: 34 }}>{dueTodayTodos.length}</Text>
+              <Text style={{ fontSize: 34 }}>{dueTodayTodosTotal}</Text>
             </TouchableOpacity>
           </View>
-          <TouchableOpacity style={styles.cardView} onPress={() => navigation.navigate('PendingTodoScreen')}>
+          <TouchableOpacity
+            style={styles.cardView}
+            onPress={() => navigation.navigate('TodoListScreen', { listType: 'all', title: 'All' })}
+          >
             <View style={{ alignItems: 'center' }}>
               <ButtonComponent icon='archive-outline' />
               <Text>All</Text>
@@ -61,8 +70,14 @@ export default function ListScreen({ navigation }) {
         <View>
           {
             list.map((item, i) => (
-              <ListItem key={i} bottomDivider>
-                <Ionicons name={item.icon} size={24} color={'white'} style={{ backgroundColor: item.color, borderRadius: 50 }} />
+              <ListItem key={i} bottomDivider
+                onPress={() => navigation.navigate('TodoListScreen', {
+                  listId: item.id,
+                  title: item.title
+                })}
+              >
+                <Ionicons name={item.icon} size={24} color={'white'}
+                  style={{ backgroundColor: item.color, borderRadius: 50 }} />
                 <ListItem.Content>
                   <ListItem.Title>{item.title}</ListItem.Title>
                 </ListItem.Content>

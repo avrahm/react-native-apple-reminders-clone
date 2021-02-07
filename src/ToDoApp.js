@@ -3,14 +3,14 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
 
+import { Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 
 /*SCREENS*/
-import PendingToDoScreen from './Screens/PendingToDoScreen';
-import ListScreen from './Screens/ListScreen';
+import TodoListScreen from './Screens/TodoListScreen';
+import HomeScreen from './Screens/HomeScreen';
 import TodoScreen from './Screens/TodoScreen';
-import { Button } from 'react-native';
 import AddListScreen from './Screens/AddListScreen';
 
 //Create Bottom Tab Navigator
@@ -38,7 +38,7 @@ export default function ToDoApp() {
                             iconName = focused
                                 ? 'ios-information-circle'
                                 : 'ios-information-circle-outline';
-                        } else if (route.name === 'ListStack') {
+                        } else if (route.name === 'HomeStack') {
                             iconName = focused ? 'ios-list' : 'ios-list';
                         }
 
@@ -53,8 +53,8 @@ export default function ToDoApp() {
             >
                 <Tab.Screen
                     options={{ tabBarLabel: "Lists" }}
-                    name="ListStack"
-                    component={ListStack} />
+                    name="HomeStack"
+                    component={HomeStack} />
                 {/* <Tab.Screen
                     options={{
                         tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length
@@ -66,7 +66,7 @@ export default function ToDoApp() {
     )
 }
 
-function ListStack() {
+function HomeStack() {
     const toggleShowAllFlag = useSelector(state => state.todos.toggleShowAllTodos);
     const dispatch = useDispatch()
     const toggleShowAllTodos = () => {
@@ -75,8 +75,8 @@ function ListStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="ListScreen"
-                component={ListScreen}
+                name="HomeScreen"
+                component={HomeScreen}
                 options={{
                     headerShown: false
                 }}
@@ -92,17 +92,17 @@ function ListStack() {
             />
 
             <Stack.Screen
-                name="PendingTodoScreen"
-                component={PendingToDoScreen}
-                options={{
-                    title: 'Pending',
+                name="TodoListScreen"
+                component={TodoListScreen}
+                options={({ route }) => ({
+                    title: route.params.title,
                     headerRight: () => (
                         <Button
                             title={!toggleShowAllFlag ? 'Show All' : 'Hide'}
                             onPress={() => toggleShowAllTodos()}
                         />
                     )
-                }}
+                })}
             />
             <Stack.Screen
                 name="TodoScreen"

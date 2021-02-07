@@ -5,12 +5,15 @@ import { StyleSheet, View } from "react-native";
 import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList";
 
-export default function ToDoScreen() {
-
+export default function ToDoScreen({ route }) {
+  
+  const listId = route.params.listId;
+  const listType = route.params.listType;
+// console.log(listType);
   return (
     <View style={styles.container}>
-      <AddTodoForm />
-      <ToDoList />
+      <AddTodoForm listId={listId} listType={listType} />
+      <ToDoList listId={listId} listType={listType} />
     </View>
   );
 }
