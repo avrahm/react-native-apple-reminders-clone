@@ -3,27 +3,31 @@ import { Button, TextInput } from 'react-native'
 import { View, Text } from 'react-native'
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 
 export default function AddListScreen({ navigation }) {
 
-    const dispatch = useDispatch();
-
-    const dispatchAction = (action, payload) => {
-        navigation.navigate('ListScreen')
-        switch (action) {
-            case 'add':
-                dispatch({ type: 'ADD_LIST', payload: payload })
-        }
-    }
+    let currentListId = useSelector(state => state.lists.listId)
 
     //use state to edit the todo object received from params
     const [editableList, updateEditableList] = useState({
         title: '',
         icon: '',
-        color: ''
+        color: '',
+        id: ++currentListId
     });
+
+    const dispatch = useDispatch();
+
+    const dispatchAction = (action, payload) => {
+        switch (action) {
+            case 'add':
+                dispatch({ type: 'ADD_LIST', payload: payload })
+        }
+        navigation.navigate('HomeScreen')
+    }
+
 
     useEffect(() => {
         navigation.setOptions({
@@ -39,9 +43,9 @@ export default function AddListScreen({ navigation }) {
     return (
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25 }}>
             <View style={{ height: 100, width: 100, backgroundColor: editableList.color || 'gray', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                <View>
+                <Text>
                     {editableList.icon && <Ionicons name={editableList.icon} size={60} />}
-                </View>
+                </Text>
             </View>
             <View style={{ padding: 20, width: '80%' }}>
                 <Input

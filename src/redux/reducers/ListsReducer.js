@@ -19,8 +19,9 @@ const lists = (state = initialState, action) => {
 
     switch (action.type) {
         case 'ADD_LIST':
+            ++state.listId
             let newList = {
-                id: state.todoId++,
+                id: action.payload.id,
                 title: action.payload.title,
                 icon: action.payload.icon,
                 color: action.payload.color
