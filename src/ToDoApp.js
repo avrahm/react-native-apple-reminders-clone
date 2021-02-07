@@ -21,9 +21,6 @@ const Stack = createStackNavigator();
 
 export default function ToDoApp() {
 
-    const todos = useSelector(state => state.todos.todos);
-    const pendingTodos = todos.filter(todos => todos.complete === false);
-
     return (
         <NavigationContainer>
             <Tab.Navigator

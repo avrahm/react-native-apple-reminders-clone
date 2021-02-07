@@ -4,21 +4,23 @@ import { useSelector } from "react-redux";
 import Constants from "expo-constants";
 import TodoRow from "./TodoRow";
 import SwipeableRow from "./SwipeableRow";
-import { dueTodayTodos, selectTodosByList } from '../redux/selectors/TodoSelectors'
+import { completeTodos, dueTodayTodos, selectTodosByList } from '../redux/selectors/TodoSelectors';
 
 export default function ToDoList(props) {
     //useSelector is a hooks method instead of mapStateToProps
     //Allows a functional component to hook into the state
+    const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
+
     let todos = useSelector(state => state.todos.todos);
+
     let todoData = selectTodosByList(todos, props.listId);
     if (props.listType === 'today') {
         todoData = dueTodayTodos(todos)
     }
-    // const completeTodos = todos.filter(todo => !todo.complete);
+    if (!toggleShowAllTodos) {
+        todoData = completeTodos(todoData);
+    }
 
-    // const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
-
-    // const todoData = todosbyList
 
     const renderItem = ({ item }) => {
         return (

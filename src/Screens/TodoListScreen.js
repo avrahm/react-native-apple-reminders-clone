@@ -9,7 +9,7 @@ export default function ToDoScreen({ route }) {
   
   const listId = route.params.listId;
   const listType = route.params.listType;
-// console.log(listType);
+
   return (
     <View style={styles.container}>
       <AddTodoForm listId={listId} listType={listType} />

@@ -46,7 +46,6 @@ export const inboxTodos = (state) => {
 }
 
 
-// const getTodos = useSelector(state => state.getTodos)
 
 // export const selectNumOfDoneTodos = () => createSelector(
 //     (state) => state.todos,
