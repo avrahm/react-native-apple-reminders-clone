@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Keyboard, StyleSheet, View, TextInput } from "react-native";
 
 import { useDispatch } from "react-redux";
+import { formatDate } from "../assets/utils/formatDate";
 import ButtonComponent from "./ButtonComponent";
 
-export default function AddTodoForm() {
+export default function AddTodoForm(props) {
 
   //useState allows to hook into React State  
   //returns a stateful value and a function to update it
@@ -12,7 +13,28 @@ export default function AddTodoForm() {
 
   const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 
-  const [newTodo, setNewTodo] = useState("");
+
+  let setDueDate;
+
+  if (showAddTodoForm) {
+    setDueDate = formatDate(new Date())
+    setDueDate = props.listType === "today" ? setDueDate : "";
+    // console.log(setDueDate);
+  }
+
+  useEffect(() => {
+    setNewTodo({
+      ...newTodo,
+      dueDate: setDueDate
+    })
+  }, [showAddTodoForm])
+
+  const [newTodo, setNewTodo] = useState({
+    title: '',
+    listId: props.listId || 0,
+    dueDate: setDueDate || ''
+  });
+
 
   //useDispatch allows functional components to access the dispatch method 
   const dispatch = useDispatch();
@@ -20,7 +42,7 @@ export default function AddTodoForm() {
   //to use the dispatch method, simply dispatch the action  type and payload
   const addTodo = (todo) => {
     toggleAddTodoForm(false);
-    setNewTodo(" ");
+    setNewTodo({ title: '', listId: props.listId || 0 });
     dispatch({ type: "ADD_TODO", payload: todo });
   }
 
@@ -42,8 +64,11 @@ export default function AddTodoForm() {
           <TextInput
             type="text"
             style={styles.input}
-            onChangeText={(e) => setNewTodo(e)}
-            value={newTodo}
+            onChangeText={(e) => setNewTodo({
+              ...newTodo,
+              title: e
+            })}
+            value={props.listId}
             onSubmitEditing={Keyboard.dismiss}
           />
           <ButtonComponent
