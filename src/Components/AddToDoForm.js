@@ -13,7 +13,6 @@ export default function AddTodoForm(props) {
 
   const [showAddTodoForm, toggleAddTodoForm] = useState(false);
 
-
   let setDueDate;
 
   if (showAddTodoForm) {
@@ -36,14 +35,20 @@ export default function AddTodoForm(props) {
   });
 
 
+
   //useDispatch allows functional components to access the dispatch method 
   const dispatch = useDispatch();
 
   //to use the dispatch method, simply dispatch the action  type and payload
   const addTodo = (todo) => {
-    toggleAddTodoForm(false);
-    setNewTodo({ title: '', listId: props.listId || 0 });
-    dispatch({ type: "ADD_TODO", payload: todo });
+    if (newTodo.title != '') {
+      toggleAddTodoForm(false);
+      setNewTodo({ title: '', listId: props.listId || 0 });
+      dispatch({ type: "ADD_TODO", payload: todo });
+      Keyboard.dismiss
+    } else {
+      Keyboard.dismiss
+    }
   }
 
   return (
@@ -68,13 +73,15 @@ export default function AddTodoForm(props) {
               ...newTodo,
               title: e
             })}
+            autoFocus={true}
             value={props.listId}
-            onSubmitEditing={Keyboard.dismiss}
+            onSubmitEditing={() => addTodo(newTodo)}
           />
           <ButtonComponent
             text="Add"
             color='white'
             onPress={() => addTodo(newTodo)}
+            disable={newTodo.title === '' && true}
           />
         </View>
       )}
