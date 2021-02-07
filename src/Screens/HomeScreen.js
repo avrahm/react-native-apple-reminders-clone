@@ -8,12 +8,11 @@ import { ListItem, Icon, SearchBar } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 import ButtonComponent from '../Components/ButtonComponent';
-import { dueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
-
+import { completeTodos, dueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
 
 export default function ListScreen({ navigation }) {
 
-  const todos = useSelector(state => state.todos.todos);
+  const todos = completeTodos(useSelector(state => state.todos.todos));
   const dueTodayTodosTotal = dueTodayTodos(todos).length;
   const inboxTodosTotal = inboxTodos(todos).length;
 
@@ -21,7 +20,7 @@ export default function ListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {/* <SearchBar lightTheme={true} placeholder='Search' /> */}
+      <SearchBar lightTheme={true} placeholder='Search' />
       <ScrollView>
         <View style={{ flexDirection: 'column' }}>
           <View style={{ flexDirection: 'row' }}>
