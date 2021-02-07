@@ -16,7 +16,7 @@ export default function ListScreen({ navigation }) {
   const dueTodayTodosTotal = dueTodayTodos(todos).length;
   const inboxTodosTotal = inboxTodos(todos).length;
 
-  const list = useSelector(state => state.lists.lists)
+  const list = useSelector(state => state.lists.lists).filter(list => !list.hidden)
 
   return (
     <View style={styles.container}>

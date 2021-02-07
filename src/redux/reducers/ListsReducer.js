@@ -6,8 +6,9 @@ import update from 'immutability-helper';
 const initialState = {
     listId: 3,
     lists: [
-        { id: 1, title: 'Groceries', icon: 'basket-outline', color: 'green' },
-        { id: 2, title: 'Travel', icon: 'airplane', color: 'blue' }
+        { id: 0, title: 'Inbox', icon: 'mail-outline', color: 'gray', hidden: true },
+        { id: 1, title: 'Groceries', icon: 'basket-outline', color: 'green', hidden: false },
+        { id: 2, title: 'Travel', icon: 'airplane', color: 'blue', hidden: false }
     ]
 }
 
