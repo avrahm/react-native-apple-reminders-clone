@@ -33,8 +33,6 @@ export default function AddTodoForm(props) {
     dueDate: setDueDate || ''
   });
 
-
-
   //useDispatch allows functional components to access the dispatch method 
   const dispatch = useDispatch();
 
@@ -73,7 +71,7 @@ export default function AddTodoForm(props) {
               title: e
             })}
             autoFocus={true}
-            value={props.listId}
+            defaultValue={newTodo.title}
             onSubmitEditing={() => addTodo(newTodo)}
           />
           <ButtonComponent
