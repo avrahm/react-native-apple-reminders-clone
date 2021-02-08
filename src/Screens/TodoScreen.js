@@ -139,7 +139,11 @@ export default function TodoScreen({ route, navigation }) {
                     listId: getList.id, handleOnPress: handleChangeList
                 })} >
                 <View style={[styles.cardView, { alignItems: 'center', flexDirection: 'row' }]}>
-                    <ButtonComponent icon={getList.icon} color={getList.color} />
+                    {getList.icon ? (<ButtonComponent icon={getList.icon} color={getList.color} />) : (
+                        <View style={styles.listIconBorder}>
+                            <View style={[styles.listIcon, { backgroundColor: getList.color }]}></View>
+                        </View>
+                    )}
                     <Text style={styles.paragraph}>{getList.title}</Text>
                 </View>
             </TouchableOpacity>
@@ -185,5 +189,24 @@ const styles = StyleSheet.create({
         padding: 18,
         borderRadius: 15,
         margin: 3,
+    },
+    listIcon: {
+        height: 20,
+        width: 20,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    listIconBorder: {
+        borderWidth: 0.5,
+        borderColor: 'black',
+        borderStyle: 'solid',
+        padding: 5,
+        borderRadius: 5,
+        margin: 5,
+        width: 40,
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
