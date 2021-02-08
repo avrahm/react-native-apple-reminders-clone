@@ -12,6 +12,7 @@ import TodoListScreen from './Screens/TodoListScreen';
 import HomeScreen from './Screens/HomeScreen';
 import TodoScreen from './Screens/TodoScreen';
 import AddListScreen from './Screens/AddListScreen';
+import ModalListScreen from './Screens/ModalListScreen';
 
 //Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -101,6 +102,7 @@ function HomeStack() {
                     )
                 })}
             />
+
             <Stack.Screen
                 name="TodoScreen"
                 component={TodoScreen}
@@ -109,6 +111,13 @@ function HomeStack() {
                     label: 'Back',
                 })}
             />
+
+            <Stack.Screen name="ModalListScreen"
+                component={ModalListScreen}
+                options={() => ({
+                    title: 'Change List',
+                    label: 'Back',
+                })} />
         </Stack.Navigator>
     )
 }

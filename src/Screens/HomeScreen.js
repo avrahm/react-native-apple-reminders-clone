@@ -3,20 +3,17 @@ import React from "react";
 import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
 import Constants from "expo-constants";
 import { useSelector } from "react-redux";
-import { ListItem, Icon, SearchBar } from 'react-native-elements';
-
-import { Ionicons } from '@expo/vector-icons';
+import { SearchBar } from 'react-native-elements';
 
 import ButtonComponent from '../Components/ButtonComponent';
 import { completeTodos, dueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
+import ListOfLists from "../Components/ListOfLists";
 
 export default function ListScreen({ navigation }) {
 
   const todos = completeTodos(useSelector(state => state.todos.todos));
   const dueTodayTodosTotal = dueTodayTodos(todos).length;
   const inboxTodosTotal = inboxTodos(todos).length;
-
-  const list = useSelector(state => state.lists.lists).filter(list => !list.hidden)
 
   return (
     <View style={styles.container}>
@@ -67,23 +64,9 @@ export default function ListScreen({ navigation }) {
           <Button title='Add new list' onPress={() => navigation.navigate('AddListScreen')} />
         </View>
         <View>
-          {
-            list.map((item, i) => (
-              <ListItem key={i} bottomDivider
-                onPress={() => navigation.navigate('TodoListScreen', {
-                  listId: item.id,
-                  title: item.title
-                })}
-              >
-                <Ionicons name={item.icon} size={24} color={'white'}
-                  style={{ backgroundColor: item.color, borderRadius: 50 }} />
-                <ListItem.Content>
-                  <ListItem.Title>{item.title}</ListItem.Title>
-                </ListItem.Content>
-                <ListItem.Chevron />
-              </ListItem>
-            ))
-          }
+          <ListOfLists
+            showHiddenLists={false}
+            handleOnPress={(list) => navigation.navigate('TodoListScreen', list)} />
         </View>
       </ScrollView>
     </View>

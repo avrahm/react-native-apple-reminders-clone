@@ -37,8 +37,10 @@ export default function TodoScreen({ route, navigation }) {
         }
     };
 
+    const getList = useSelector(state => state.lists.lists).filter(list => list.id === editableTodo.listId)[0]
+
     //useEffect should be used in place of componentWillMount and componentDidUpdate lifecycle methods
-    //update the button with when editableTodo changes
+    //update the button when editableTodo changes
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
@@ -60,6 +62,12 @@ export default function TodoScreen({ route, navigation }) {
     const setDueDate = (dueDateEnabled) => {
         dueDateEnabled ? onDateChange(new Date()) : updateEditableTodo({ ...editableTodo, dueDate: '' })
     }
+
+    const handleChangeList = ({listId}) => {
+        updateEditableTodo({ ...editableTodo, listId: listId })
+        navigation.navigate('TodoScreen', { todo: todo, name: todo.title })
+    }
+
 
     return (
         <ScrollView style={styles.container}>
@@ -127,6 +135,15 @@ export default function TodoScreen({ route, navigation }) {
                     />
                 )}
             </View>
+            <TouchableOpacity
+                onPress={() => navigation.navigate('ModalListScreen', {
+                    listId: getList.id, handleOnPress: handleChangeList
+                })} >
+                <View style={[styles.cardView, { alignItems: 'center', flexDirection: 'row' }]}>
+                    <ButtonComponent icon={getList.icon} color={getList.color} />
+                    <Text style={styles.paragraph}>{getList.title}</Text>
+                </View>
+            </TouchableOpacity>
             <View style={styles.cardView}>
                 <ButtonComponent
                     icon='trash'
@@ -151,18 +168,6 @@ export default function TodoScreen({ route, navigation }) {
     );
 }
 
-// TodoScreen.propTypes = {
-//     title: PropTypes.string.isRequired,
-//     dueDate: PropTypes.string.isRequired,
-//     description: PropTypes.string.isRequired
-// }
-
-// TodoScreen.defaultProp = {
-//     title: 'Title',
-//     description: 'Update description',
-//     dueDate: 'Set a date'
-// }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -183,4 +188,3 @@ const styles = StyleSheet.create({
         margin: 3,
     }
 });
-

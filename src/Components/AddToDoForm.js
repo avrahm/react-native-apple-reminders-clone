@@ -18,7 +18,6 @@ export default function AddTodoForm(props) {
   if (showAddTodoForm) {
     setDueDate = formatDate(new Date())
     setDueDate = props.listType === "today" ? setDueDate : "";
-    // console.log(setDueDate);
   }
 
   useEffect(() => {

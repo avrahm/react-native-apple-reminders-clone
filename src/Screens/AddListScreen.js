@@ -50,7 +50,7 @@ export default function AddListScreen({ navigation }) {
             <View style={{ padding: 20, width: '80%' }}>
                 <Input
                     placeholder='Title'
-                    value={editableList.title}
+                    defaultValue={editableList.title}
                     onChangeText={(e) => updateEditableList({ ...editableList, title: e })}
                     style={{ textAlign: 'center', padding: 10 }}
                 />
