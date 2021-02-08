@@ -21,7 +21,6 @@ export default function ToDoList(props) {
         todoData = completeTodos(todoData);
     }
 
-
     const renderItem = ({ item }) => {
         return (
             <SwipeableRow>
