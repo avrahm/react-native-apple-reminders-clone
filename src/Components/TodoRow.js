@@ -11,7 +11,7 @@ export default function TodoRow({ todo }) {
   const dispatchAction = (action) => {
     switch (action) {
       case 'complete':
-        dueDate = '';
+        todo.dueDate = '';
         dispatch({ type: 'COMPLETE_TODO', payload: todo });
         break;
       case 'pending':
@@ -20,9 +20,8 @@ export default function TodoRow({ todo }) {
     }
   };
 
-  let dueDate = todo.dueDate;
-  const dueDateGetTime = new Date(dueDate).getDate()
-  const nowGetTime = new Date().getDate()
+  const dueDateGetTime = todo.dueDate && new Date(todo.dueDate);
+  const nowGetTime = new Date();
 
   return (
     /* 1. Navigate to the route with params */
@@ -32,7 +31,7 @@ export default function TodoRow({ todo }) {
         <CheckBox
           center
           checkedIcon='check-circle'
-          uncheckedIcon={dueDate ? (dueDateGetTime >= nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
+          uncheckedIcon={todo.dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
           checked={todo.complete}
           onPress={() => dispatchAction(todo.complete ? 'pending' : 'complete')}
         />
@@ -41,23 +40,14 @@ export default function TodoRow({ todo }) {
         </View>
       </View>
 
-      {/* <Text numberOfLines={2} style={styles.messageText}>
-        {todo.description}
-      </Text> */}
       {!todo.dueDate || (
         <Text style={styles.dateText}>
-        Due: {todo.dueDate}
-      </Text>
+          Due: {todo.dueDate}
+        </Text>
       )}
     </TouchableOpacity>
   );
 }
-
-// TodoRow.propTypes = {
-//   title: PropTypes.string.isRequired,
-//   dueDate: PropTypes.string.isRequired,
-//   description: PropTypes.string.isRequired
-// }
 
 const styles = StyleSheet.create({
   rectButton: {
