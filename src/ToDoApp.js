@@ -76,7 +76,8 @@ function HomeStack() {
                 name="HomeScreen"
                 component={HomeScreen}
                 options={{
-                    headerShown: false
+                    headerShown: false,
+                    title: 'Home'
                 }}
             />
 
