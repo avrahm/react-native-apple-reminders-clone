@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 
 export default function ListOfLists(props) {
 
@@ -23,10 +24,17 @@ export default function ListOfLists(props) {
                             title: item.title
                         })}
                     >
-                        <Ionicons name={item.icon} size={24} color={'white'}
-                            style={{ backgroundColor: item.color, borderRadius: 50 }} />
+                        <View style={[styles.listIcon, { backgroundColor: item.color }]}>
+                            <Text>
+                                {item.icon &&
+                                    <Ionicons name={item.icon} size={20} color={'white'} />
+                                }
+                            </Text>
+                        </View>
                         <ListItem.Content>
-                            <ListItem.Title><Text>{item.title}</Text></ListItem.Title>
+                            <ListItem.Title>
+                                <Text>{item.title}</Text>
+                            </ListItem.Title>
                         </ListItem.Content>
                         <ListItem.Chevron />
                     </ListItem>
@@ -35,3 +43,13 @@ export default function ListOfLists(props) {
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    listIcon: {
+        height: 30,
+        width: 30,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
+})

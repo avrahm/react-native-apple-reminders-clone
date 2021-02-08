@@ -14,7 +14,7 @@ export default function AddListScreen({ navigation }) {
     const [editableList, updateEditableList] = useState({
         title: '',
         icon: '',
-        color: '',
+        color: 'gray',
         id: ++currentListId
     });
 
@@ -25,14 +25,17 @@ export default function AddListScreen({ navigation }) {
             case 'add':
                 dispatch({ type: 'ADD_LIST', payload: payload })
         }
-        navigation.navigate('HomeScreen')
+        navigation.navigate('HomeScreen');
     }
 
+    const addList = () => {
+        dispatchAction('add', editableList)
+    }
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                <Button title='Done' disabled={editableList.title == '' && true} onPress={() => dispatchAction('add', editableList)} />,
+                <Button title='Done' disabled={editableList.title == '' && true} onPress={addList} />,
         });
     }, [editableList])
 
@@ -53,6 +56,8 @@ export default function AddListScreen({ navigation }) {
                     defaultValue={editableList.title}
                     onChangeText={(e) => updateEditableList({ ...editableList, title: e })}
                     style={{ textAlign: 'center', padding: 10 }}
+                    autoFocus={true}
+                    onSubmitEditing={addList}
                 />
             </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 15 }}>
