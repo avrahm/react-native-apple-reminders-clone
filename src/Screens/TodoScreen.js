@@ -6,6 +6,9 @@ import ButtonComponent from '../Components/ButtonComponent';
 import { CheckBox } from 'react-native-elements';
 import { formatDate } from '../assets/utils/formatDate';
 
+
+import { useIsMount } from '../assets/utils/useIsMount';
+
 export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
     const { todo } = route.params;
@@ -37,15 +40,27 @@ export default function TodoScreen({ route, navigation }) {
         }
     };
 
+    const disableSaveButton = (disable = true) => {
+        navigation.setOptions({
+            headerRight: () =>
+                <Button title='Save' disabled={disable} onPress={() => dispatchAction('update', editableTodo)} />,
+        });
+    }
+
     const getList = useSelector(state => state.lists.lists).filter(list => list.id === editableTodo.listId)[0]
+
+    const isMount = useIsMount();
 
     //useEffect should be used in place of componentWillMount and componentDidUpdate lifecycle methods
     //update the button when editableTodo changes
     useEffect(() => {
-        navigation.setOptions({
-            headerRight: () =>
-                <Button title='Done' onPress={() => dispatchAction('update', editableTodo)} />,
-        });
+        //Do something on first render
+        //return will render on second however useRef would be better suited to skip first render
+        // return () => disableSaveButton(false)
+
+        if (!isMount) {
+            disableSaveButton(false)
+        }
     }, [editableTodo])
 
     const onDateChange = (date) => {
