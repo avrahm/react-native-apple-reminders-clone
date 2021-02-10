@@ -8,44 +8,53 @@ import { TouchableOpacity } from 'react-native';
 
 export default function AddListScreen({ navigation, route }) {
 
-    let currentListId = useSelector(state => state.lists.listId)
-    let getCurrentLists = useSelector(state => state.lists.lists)
-    let list = getCurrentLists.filter(lists => {
-        return lists.id === route.params.listId
-    })[0]
+    let currentListId = useSelector(state => state.lists.listId);
+    let listToUpdate = {
+        title: '',
+        icon: '',
+        color: 'gray',
+        id: ++currentListId
+    };
+    let listAction = 'add';
+    if (route.params) {
+        let getCurrentLists = useSelector(state => state.lists.lists)
+        listToUpdate = getCurrentLists.filter(lists => {
+            return lists.id === route.params.listId
+        })[0];
+        if (route.params.editList) listAction = 'update';
+    }
 
     //use state to edit the todo object received from params
     const [editableList, updateEditableList] = useState({
-        title: list.title || '',
-        icon: list.icon || '',
-        color: list.color || 'gray',
-        id: list.id || ++currentListId
+        title: listToUpdate.title ?? '',
+        icon: listToUpdate.icon ?? '',
+        color: listToUpdate.color ?? 'gray',
+        id: listToUpdate.id ?? ++currentListId
     });
 
     const dispatch = useDispatch();
 
+    console.log(listAction);
+
     const dispatchAction = (action, payload) => {
-        switch (action) {
-            case 'add':
-                dispatch({ type: 'ADD_LIST', payload: payload })
-            case 'update':
-                dispatch({ type: 'UPDATE_LIST', payload: payload })
+        if (editableList.title != '') {
+            switch (action) {
+                case 'add':
+                    dispatch({ type: 'ADD_LIST', payload: payload })
+                case 'update':
+                    dispatch({ type: 'UPDATE_LIST', payload: payload })
+            }
+            navigation.navigate('HomeScreen');
         }
-        navigation.navigate('HomeScreen');
-    }
-
-    const addList = () => {
-        dispatchAction('add', editableList)
-    }
-
-    const updateList = () => {
-        dispatchAction('update', editableList)
     }
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                <Button title='Done' disabled={editableList.title == '' && true} onPress={route.params.editList ? updateList : addList} />,
+                <Button
+                    title='Done'
+                    disabled={editableList.title == '' && true}
+                    onPress={() => dispatchAction(listAction, editableList)} />,
         });
     }, [editableList])
 
@@ -67,7 +76,7 @@ export default function AddListScreen({ navigation, route }) {
                     onChangeText={(e) => updateEditableList({ ...editableList, title: e })}
                     style={{ textAlign: 'center', padding: 10 }}
                     autoFocus={true}
-                    onSubmitEditing={route.params.editList ? updateList : addList}
+                    onSubmitEditing={() => dispatchAction(listAction, editableList)}
                 />
             </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 15 }}>
