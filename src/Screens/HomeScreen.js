@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
 import Constants from "expo-constants";
@@ -10,8 +10,8 @@ import { completeTodos, dueTodayTodos, inboxTodos } from "../redux/selectors/Tod
 import ListOfLists from "../Components/ListOfLists";
 
 export default function ListScreen({ navigation }) {
-
-  const todos = completeTodos(useSelector(state => state.todos.todos));
+  const getTodos = useSelector(state => state.todos.todos)
+  const todos = completeTodos(getTodos);
   const dueTodayTodosTotal = dueTodayTodos(todos).length;
   const inboxTodosTotal = inboxTodos(todos).length;
 

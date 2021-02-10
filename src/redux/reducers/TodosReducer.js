@@ -94,9 +94,13 @@ const todos = (state = initialState, action) => {
             }
         case 'UPDATE_TODO':
             index = state.todos.findIndex((todo) => todo.id == action.payload.id);
-
+            console.log(action.payload);
             newState = update(state, {
-                todos: { [index]: { $merge: action.payload } }
+                todos: {
+                    [index]: {
+                        $set: action.payload
+                    }
+                }
             })
             return {
                 ...newState

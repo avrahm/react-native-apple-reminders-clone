@@ -23,7 +23,7 @@ export default function ToDoList(props) {
 
     const renderItem = ({ item }) => {
         return (
-            <SwipeableRow>
+            <SwipeableRow action='deleteTodo' id={item.id}>
                 <TodoRow todo={item} />
             </SwipeableRow>
         )

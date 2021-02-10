@@ -34,6 +34,12 @@ const lists = (state = initialState, action) => {
             }
 
         case 'DELETE_LIST':
+            index = state.lists.findIndex(list => list.id === action.payload.id)
+            const newLists = update(state, { lists: { $splice: [[index, 1]] } })
+            return {
+                ...state,
+                ...newLists
+            }
 
         case 'COMPLETE_LIST':
 
