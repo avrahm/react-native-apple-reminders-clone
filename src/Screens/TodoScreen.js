@@ -151,7 +151,8 @@ export default function TodoScreen({ route, navigation }) {
             </View>
             <TouchableOpacity
                 onPress={() => navigation.navigate('ModalListScreen', {
-                    showLists: true, handleOnPress: handleChangeList
+                    showLists: true, handleOnPress: handleChangeList,
+                    title: 'Move Task'
                 })} >
                 <View style={[styles.cardView, { alignItems: 'center', flexDirection: 'row' }]}>
                     {getList.icon ? (<ButtonComponent icon={getList.icon} color={getList.color} />) : (

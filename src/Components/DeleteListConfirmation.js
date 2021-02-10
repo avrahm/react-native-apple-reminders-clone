@@ -2,7 +2,6 @@ import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 
 export default function DeleteListConfirmation(props) {
-// console.log(props);
     return (
         <View style={{
             flexDirection: 'row',
