@@ -6,16 +6,20 @@ import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
 
-export default function AddListScreen({ navigation }) {
+export default function AddListScreen({ navigation, route }) {
 
     let currentListId = useSelector(state => state.lists.listId)
+    let getCurrentLists = useSelector(state => state.lists.lists)
+    let list = getCurrentLists.filter(lists => {
+        return lists.id === route.params.listId
+    })[0]
 
     //use state to edit the todo object received from params
     const [editableList, updateEditableList] = useState({
-        title: '',
-        icon: '',
-        color: 'gray',
-        id: ++currentListId
+        title: list.title || '',
+        icon: list.icon || '',
+        color: list.color || 'gray',
+        id: list.id || ++currentListId
     });
 
     const dispatch = useDispatch();
@@ -24,6 +28,8 @@ export default function AddListScreen({ navigation }) {
         switch (action) {
             case 'add':
                 dispatch({ type: 'ADD_LIST', payload: payload })
+            case 'update':
+                dispatch({ type: 'UPDATE_LIST', payload: payload })
         }
         navigation.navigate('HomeScreen');
     }
@@ -32,10 +38,14 @@ export default function AddListScreen({ navigation }) {
         dispatchAction('add', editableList)
     }
 
+    const updateList = () => {
+        dispatchAction('update', editableList)
+    }
+
     useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
-                <Button title='Done' disabled={editableList.title == '' && true} onPress={addList} />,
+                <Button title='Done' disabled={editableList.title == '' && true} onPress={route.params.editList ? updateList : addList} />,
         });
     }, [editableList])
 
@@ -45,7 +55,7 @@ export default function AddListScreen({ navigation }) {
 
     return (
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25 }}>
-            <View style={{ height: 100, width: 100, backgroundColor: editableList.color || 'gray', borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ height: 100, width: 100, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>
                     {editableList.icon && <Ionicons name={editableList.icon} size={60} />}
                 </Text>
@@ -57,7 +67,7 @@ export default function AddListScreen({ navigation }) {
                     onChangeText={(e) => updateEditableList({ ...editableList, title: e })}
                     style={{ textAlign: 'center', padding: 10 }}
                     autoFocus={true}
-                    onSubmitEditing={addList}
+                    onSubmitEditing={route.params.editList ? updateList : addList}
                 />
             </View>
             <View style={{ flexDirection: 'row', flexWrap: 'wrap', padding: 15 }}>

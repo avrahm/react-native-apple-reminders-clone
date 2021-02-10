@@ -64,12 +64,8 @@ export default function ToDoApp() {
     )
 }
 
-function HomeStack() {
-    const toggleShowAllFlag = useSelector(state => state.todos.toggleShowAllTodos);
-    const dispatch = useDispatch()
-    const toggleShowAllTodos = () => {
-        dispatch({ type: 'TOGGLE_SHOWALL_TODOS' });
-    }
+function HomeStack({ navigation }) {
+
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -97,8 +93,14 @@ function HomeStack() {
                     title: route.params.title,
                     headerRight: () => (
                         <Button
-                            title={!toggleShowAllFlag ? 'Show All' : 'Hide'}
-                            onPress={() => toggleShowAllTodos()}
+                            title='Menu'
+                            onPress={() => navigation.navigate('ModalListScreen',
+                                {
+                                    showEditOptionsMenu: true,
+                                    list: route.params.listId,
+                                    title: 'List Menu'
+                                }
+                            )}
                         />
                     )
                 })}
@@ -115,8 +117,8 @@ function HomeStack() {
 
             <Stack.Screen name="ModalListScreen"
                 component={ModalListScreen}
-                options={() => ({
-                    title: 'Change List',
+                options={({ route }) => ({
+                    title: route.params.title,
                     label: 'Back',
                 })} />
         </Stack.Navigator>
