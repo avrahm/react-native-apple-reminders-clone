@@ -3,11 +3,11 @@ import React, { useEffect } from "react";
 import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
 import Constants from "expo-constants";
 import { useSelector } from "react-redux";
-import { SearchBar } from 'react-native-elements';
 
 import ButtonComponent from '../Components/ButtonComponent';
 import { completeTodos, dueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
 import ListOfLists from "../Components/ListOfLists";
+import SearchBar from "../Components/SearchBarComponent";
 
 export default function ListScreen({ navigation }) {
   const getTodos = useSelector(state => state.todos.todos)
@@ -17,7 +17,7 @@ export default function ListScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <SearchBar lightTheme={true} placeholder='Search' />
+    <SearchBar />
       <ScrollView>
         <View style={{ flexDirection: 'column' }}>
           <View style={{ flexDirection: 'row' }}>
