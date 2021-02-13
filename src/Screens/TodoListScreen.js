@@ -1,18 +1,34 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
+import { useSelector } from "react-redux";
 
 import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList";
 
-export default function ToDoScreen({ route }) {
+import { completeTodos, dueTodayTodos, searchTodos, selectTodosByList } from '../redux/selectors/TodoSelectors';
+
+export default function ToDoScreen({ route }, props) {
 
   const listId = route.params.listId;
   const listType = route.params.listType;
+  //useSelector is a hooks method instead of mapStateToProps
+  //Allows a functional component to hook into the state
+  const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
+  const toggleShowSearchResults = useSelector(state => state.todos.toggleShowSearchResults)
+  let getTodos = useSelector(state => state.todos.todos);
 
+  let todoData = selectTodosByList(getTodos, listId);
+  if (listType === 'today') {
+    todoData = dueTodayTodos(getTodos)
+    console.log('todo', todoData);
+  }
+  if (!toggleShowAllTodos) {
+    todoData = completeTodos(todoData);
+  }
   return (
     <View style={styles.container}>
       <AddTodoForm listId={listId} listType={listType} />
-      <ToDoList listId={listId} listType={listType} />
+      <ToDoList todoData={todoData} />
     </View>
   );
 }

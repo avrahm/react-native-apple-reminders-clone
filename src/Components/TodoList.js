@@ -1,25 +1,10 @@
 import React from "react";
-import { StyleSheet, View, FlatList, SafeAreaView } from "react-native";
-import { useSelector } from "react-redux";
+import { StyleSheet, View, FlatList } from "react-native";
 import Constants from "expo-constants";
 import TodoRow from "./TodoRow";
 import SwipeableRow from "./SwipeableRow";
-import { completeTodos, dueTodayTodos, selectTodosByList } from '../redux/selectors/TodoSelectors';
 
 export default function ToDoList(props) {
-    //useSelector is a hooks method instead of mapStateToProps
-    //Allows a functional component to hook into the state
-    const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
-
-    let todos = useSelector(state => state.todos.todos);
-
-    let todoData = selectTodosByList(todos, props.listId);
-    if (props.listType === 'today') {
-        todoData = dueTodayTodos(todos)
-    }
-    if (!toggleShowAllTodos) {
-        todoData = completeTodos(todoData);
-    }
 
     const renderItem = ({ item }) => {
         return (
@@ -29,14 +14,12 @@ export default function ToDoList(props) {
         )
     };
     return (
-        <SafeAreaView style={styles.container}>
-            <FlatList
-                data={todoData}
-                renderItem={renderItem}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                keyExtractor={item => item.id.toString()}
-            />
-        </SafeAreaView>
+        <FlatList
+            data={props.todoData}
+            renderItem={renderItem}
+            ItemSeparatorComponent={() => <View style={styles.separator} />}
+            keyExtractor={item => item.id.toString()}
+        />
     );
 }
 

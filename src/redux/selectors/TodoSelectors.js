@@ -45,35 +45,10 @@ export const inboxTodos = (state) => {
     return state.filter(todo => todo.listId === 0);
 }
 
-
-
-// export const selectNumOfDoneTodos = () => createSelector(
-//     (state) => state.todos,
-//     (todos) => todos.filter((todo) => todo.complete)
-// )
-
-
-// export const getTodosByListId = (state, props) => state.filter(todo => todo.listId === props.listId);
-
-// export const makeGetTodosFromListCompleted = () => {
-//     return createSelector(
-//         getTodosByListId,
-//         (todos) => todos.filter(todo => todo.complete)
-//     )
-// }
-
-// export const filterCompleted = () => createSelector(
-//     (state) => state.todos,
-//     (todos) => todos.filter(todo => !todo.complete)
-// )
-
-// export const todosDueToday = createSelector(
-//     (state) => state.todos,
-//     (todos) => todos.filter(todo => new Date(todo.dueDate).getDate() == new Date().getDate())
-// )
-
-
-// export const selectNumOfCompleteTodos = createSelector(
-//     (state) => state.todos,
-//     (todos) => todos.filter((todo) => todo.complete).length
-// )
+export const searchTodos = (state, searchText) => {
+    return state.filter(eachTodo => {
+        return (
+            eachTodo.title.toLowerCase().includes(searchText.toLowerCase())
+        );
+    })
+}
