@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Keyboard, StyleSheet, View, TextInput } from "react-native";
+import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
 
 import { useDispatch } from "react-redux";
 import { formatDate } from "../assets/utils/formatDate";
@@ -41,7 +41,7 @@ export default function AddTodoForm(props) {
     if (newTodo.title != '') {
       toggleAddTodoForm(false);
       setNewTodo({ title: '', listId: props.listId || 0 });
-      dispatch({ type: "ADD_TODO", payload: todo });
+      dispatch({ type: "LIST_ADD_TODO", payload: todo });
       Keyboard.dismiss
     } else {
       Keyboard.dismiss
@@ -49,7 +49,10 @@ export default function AddTodoForm(props) {
   }
 
   return (
-    <View>
+    <KeyboardAvoidingView
+    keyboardVerticalOffset={Platform.OS == "ios" ? 1 : 0}
+    behavior={Platform.OS == "ios" ? "padding" : "height"} 
+    >
       {!showAddTodoForm && (
         <ButtonComponent
           text="Add Todo"
@@ -82,7 +85,7 @@ export default function AddTodoForm(props) {
           />
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
