@@ -52,3 +52,17 @@ export const searchTodos = (state, searchText) => {
         );
     })
 }
+
+export const todosByListId = (state) => {
+    return state.reduce((acc, value) => {
+        // Group initialization
+        if (!acc[value.listId]) {
+            acc[value.listId] = [];
+        }
+
+        // Grouping
+        acc[value.listId].push(value);
+
+        return acc;
+    }, {});
+}

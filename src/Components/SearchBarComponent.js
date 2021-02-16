@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { completeTodos, searchTodos } from '../redux/selectors/TodoSelectors';
+import { completeTodos, searchTodos, todosByListId } from '../redux/selectors/TodoSelectors';
 import ToDoList from './TodoList';
 
 export default function SearchBarComponent() {
