@@ -64,8 +64,8 @@ const todoLists = (state = initialState, action) => {
                         }
                     }
                 }
-            });s
-            console.log(newState);
+            });
+            // console.log(newState);
             return {
                 ...newState
             }

@@ -4,7 +4,7 @@ import CalendarPicker from 'react-native-calendar-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import ButtonComponent from '../Components/ButtonComponent';
 import { CheckBox } from 'react-native-elements';
-import { formatDate } from '../assets/utils/formatDate';
+import { formatDateWithDay } from '../assets/utils/formatDate';
 
 
 import { useIsMount } from '../assets/utils/useIsMount';
@@ -64,7 +64,7 @@ export default function TodoScreen({ route, navigation }) {
     }, [editableTodo])
 
     const onDateChange = (date) => {
-        const newDate = formatDate(date)
+        const newDate = formatDateWithDay(date)
         updateEditableTodo({
             ...editableTodo,
             dueDate: newDate
@@ -125,7 +125,7 @@ export default function TodoScreen({ route, navigation }) {
                             <Text>Date</Text>
                             {dueDateEnabled && (
                                 <Text style={[styles.paragraph]}>
-                                    {editableTodo.dueDate ? formatDate(editableTodo.dueDate) : formatDate(new Date())}
+                                    {editableTodo.dueDate ? formatDateWithDay(editableTodo.dueDate) : formatDateWithDay(new Date())}
                                 </Text>)}
                         </View>
                     </View>

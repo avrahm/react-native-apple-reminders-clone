@@ -3,7 +3,7 @@ import { Header } from '@react-navigation/stack';
 import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 
 import { useDispatch } from "react-redux";
-import { formatDate } from "../assets/utils/formatDate";
+import { formatDateWithDay } from "../assets/utils/formatDate";
 import ButtonComponent from "./ButtonComponent";
 import { Constants } from "react-native-unimodules";
 
@@ -18,7 +18,7 @@ export default function AddTodoForm(props) {
   let setDueDate;
 
   if (showAddTodoForm) {
-    setDueDate = formatDate(new Date())
+    setDueDate = formatDateWithDay(new Date())
     setDueDate = props.listType === "today" ? setDueDate : "";
   }
 
