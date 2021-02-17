@@ -9,36 +9,60 @@
 // https://www.youtube.com/watch?v=frT3to2ACCw&feature=share
 //understanding reselect
 
-import { createSelector } from 'reselect';
+import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/formatDate"
 
-const getVisibilityFilter = state => state.visibilityFilter
-const getTodos = state => state.todos
+// import { createSelector } from 'reselect';
 
-export const getVisibleTodos = createSelector(
-    [getVisibilityFilter, getTodos],
-    (visibilityFilter, todos) => {
-        switch (visibilityFilter) {
-            case 'SHOW_ALL':
-                return todos
-            case 'SHOW_COMPLETED':
-                return todos.filter(t => t.complete)
-            case 'SHOW_ACTIVE':
-                return todos.filter(t => !t.complete)
-        }
-    }
-)
+// const getVisibilityFilter = state => state.visibilityFilter
+// const getTodos = state => state.todos
 
-export const selectTodosByList = (state, listId) => {
+// export const getVisibleTodos = createSelector(
+//     [getVisibilityFilter, getTodos],
+//     (visibilityFilter, todos) => {
+//         switch (visibilityFilter) {
+//             case 'SHOW_ALL':
+//                 return todos
+//             case 'SHOW_COMPLETED':
+//                 return todos.filter(t => t.complete)
+//             case 'SHOW_ACTIVE':
+//                 return todos.filter(t => !t.complete)
+//         }
+//     }
+// )
+
+const getListIndex = (state, listId) => {
+    return state.map(eaList => eaList.list).findIndex(eaListId => eaListId.id === listId)
+}
+
+export const getTodosByList = (state, listId) => {
+    let listIndex = getListIndex(state, listId)
+
     if (listId === undefined) return state
-    return state.filter(todo => todo.listId === listId)
+    return state[listIndex].data;
+}
+
+export const getAllTodosWithoutList = (state) => {
+    let allData = []
+    state.map(eaList => {
+        if (eaList.data) {
+            eaList.data.map(eaTodo => {
+                allData.push(eaTodo)
+            })
+        }
+    })
+    return allData;
 }
 
 export const completeTodos = (state) => {
     return state.filter(todo => !todo.complete);
 }
 
-export const dueTodayTodos = (state) => {
-    return state.filter(todo => new Date(todo.dueDate).getDate() == new Date().getDate());
+export const getDueTodayTodos = (state) => {
+    const data = getAllTodosWithoutList(state);
+
+    const todosDueTodayData = data.filter(eaTodo => eaTodo.dueDate == formatDateWithDay(new Date()));
+
+    return todosDueTodayData;
 }
 
 export const inboxTodos = (state) => {

@@ -7,7 +7,7 @@ import SwipeableRow from "../Components/SwipeableRow";
 import ToDoList from "../Components/TodoList";
 import TodoRow from "../Components/TodoRow";
 
-import { completeTodos, dueTodayTodos, searchTodos, selectTodosByList } from '../redux/selectors/TodoSelectors';
+import { completeTodos, dueTodayTodos, getAllTodosWithoutList, getDueTodayTodos, getTodosByList, searchTodos, selectTodosByList } from '../redux/selectors/TodoSelectors';
 
 export default function ToDoScreen({ route }, props) {
 
@@ -23,14 +23,14 @@ export default function ToDoScreen({ route }, props) {
 
   switch (listType) {
     case 'today':
-      todoData = dueTodayTodos(getTodos)
+      todoData = getDueTodayTodos(getAllTodos)
       break;
     case 'all':
       todoData = getAllTodos
       // console.log(getAllTodos)
       break;
     default:
-      todoData = selectTodosByList(getTodos, listId)
+      todoData = getTodosByList(getAllTodos, listId)
       break;
   }
   // if (!toggleShowAllTodos) {
