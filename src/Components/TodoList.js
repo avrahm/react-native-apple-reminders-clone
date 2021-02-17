@@ -1,6 +1,5 @@
 import React from "react";
-import { StyleSheet, View, FlatList, Text, SectionList, SafeAreaView } from "react-native";
-import Constants from "expo-constants";
+import { StyleSheet, View, FlatList, Text, SectionList } from "react-native";
 import TodoRow from "./TodoRow";
 import SwipeableRow from "./SwipeableRow";
 

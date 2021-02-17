@@ -27,7 +27,7 @@ export default function ToDoScreen({ route }, props) {
       break;
     case 'all':
       todoData = getAllTodos
-      console.log(getAllTodos)
+      // console.log(getAllTodos)
       break;
     default:
       todoData = selectTodosByList(getTodos, listId)
