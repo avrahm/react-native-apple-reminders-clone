@@ -1,5 +1,5 @@
 import React from "react";
-import { SectionList, StyleSheet, Text, View, KeyboardAvoidingView, } from "react-native";
+import { SectionList, StyleSheet, Text, View, ScrollView, Platform, } from "react-native";
 import { useSelector } from "react-redux";
 
 import AddTodoForm from "../Components/AddToDoForm";
@@ -38,13 +38,10 @@ export default function ToDoScreen({ route }, props) {
   // }
 
   return (
-    <KeyboardAvoidingView
-      keyboardVerticalOffset={Platform.OS == "ios" ? 1 : 0}
-      behavior={Platform.OS == "ios" ? "padding" : "height"} 
-      style={styles.container}>
+    <View style={styles.container}>
       <ToDoList todoData={todoData} listType={listType} />
       <AddTodoForm listId={listId} listType={listType} />
-    </KeyboardAvoidingView>
+    </View>
   );
 }
 

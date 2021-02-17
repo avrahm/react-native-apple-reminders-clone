@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView } from "react-native";
+import { Header } from '@react-navigation/stack';
+import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 
 import { useDispatch } from "react-redux";
 import { formatDate } from "../assets/utils/formatDate";
 import ButtonComponent from "./ButtonComponent";
+import { Constants } from "react-native-unimodules";
 
 export default function AddTodoForm(props) {
 
@@ -50,8 +52,9 @@ export default function AddTodoForm(props) {
 
   return (
     <KeyboardAvoidingView
-    keyboardVerticalOffset={Platform.OS == "ios" ? 1 : 0}
-    behavior={Platform.OS == "ios" ? "padding" : "height"} 
+      behavior={(Platform.OS == 'ios') ? "padding" : null}
+      keyboardVerticalOffset={100}
+      style={styles.container}
     >
       {!showAddTodoForm && (
         <ButtonComponent
@@ -90,6 +93,9 @@ export default function AddTodoForm(props) {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#ecf0f1",
+  },
   horizontalRow: {
     flexDirection: "row",
     justifyContent: "center",
