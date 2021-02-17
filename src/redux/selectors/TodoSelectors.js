@@ -53,7 +53,8 @@ export const getAllTodosWithoutList = (state) => {
     return allData;
 }
 
-export const completeTodos = (state) => {
+export const getCompleteTodos = (state) => {
+
     return state.filter(todo => !todo.complete);
 }
 

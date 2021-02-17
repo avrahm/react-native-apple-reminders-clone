@@ -5,16 +5,16 @@ import Constants from "expo-constants";
 import { useSelector } from "react-redux";
 
 import ButtonComponent from '../Components/ButtonComponent';
-import { completeTodos, dueTodayTodos, getAllTodosWithoutList, getDueTodayTodos, inboxTodos } from "../redux/selectors/TodoSelectors";
+import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList, inboxTodos } from "../redux/selectors/TodoSelectors";
 import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
 
 export default function HomeScreen({ navigation }) {
   const getTodos = useSelector(state => state.todos.todos);
   const getAllTodos = useSelector(state => state.todoLists.todoLists);
-  const todos = completeTodos(getTodos);
+  const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
   const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;
-  const inboxTodosTotal = inboxTodos(todos).length;
+  const inboxTodosTotal = getCompleteTodos(getTodosByList(getAllTodos, 0)).length;
 
   const toggleShowSearchResults = useSelector(state => state.todos.toggleShowSearchResults)
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { completeTodos, searchTodos, todosByListId } from '../redux/selectors/TodoSelectors';
+import { getCompleteTodos, searchTodos, todosByListId } from '../redux/selectors/TodoSelectors';
 import ToDoList from './TodoList';
 
 export default function SearchBarComponent() {
@@ -21,7 +21,7 @@ export default function SearchBarComponent() {
 
     const toggleShowSearchResults = useSelector(state => state.todos.toggleShowSearchResults)
 
-    let getTodos = completeTodos(useSelector(state => state.todos.todos));
+    let getTodos = getCompleteTodos(useSelector(state => state.todos.todos));
     let todoData = searchTodos(getTodos, searchBarText);
     return (
         <View>
