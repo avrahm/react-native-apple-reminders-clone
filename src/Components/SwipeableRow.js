@@ -55,7 +55,7 @@ export default function SwipeableRow({ children, ...props }) {
             close();
             switch (action) {
                 case 'deleteTodo':
-                    dispatch({ type: 'DELETE_TODO', payload: todo });
+                    dispatch({ type: 'LIST_DELETE_TODO', payload: todo });
                     break;
                 case 'deleteList':
                     navigateToConfirmDeleteModal()
