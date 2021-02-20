@@ -30,7 +30,11 @@ import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/form
 //     }
 // )
 
-const getListIndex = (state, listId) => {
+export const getList = (state, listId) => {
+    return state.map(eaList => eaList.list).filter(eaList => eaList.id === listId)[0]
+}
+
+export const getListIndex = (state, listId) => {
     return state.map(eaList => eaList.list).findIndex(eaListId => eaListId.id === listId)
 }
 

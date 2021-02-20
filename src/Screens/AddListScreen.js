@@ -34,8 +34,6 @@ export default function AddListScreen({ navigation, route }) {
 
     const dispatch = useDispatch();
 
-    console.log(listAction);
-
     const dispatchAction = (action, payload) => {
         if (editableList.title != '') {
             switch (action) {
