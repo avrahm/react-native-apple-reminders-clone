@@ -65,9 +65,9 @@ export default function AddListScreen({ navigation, route }) {
 
     return (
         <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25 }}>
-            <View style={{ height: 100, width: 100, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>
-                    {editableList.icon && <Ionicons name={editableList.icon} size={60} />}
+            <View style={{ height: 110, width: 110, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
+                <Text style={{ marginLeft: 5 }}>
+                    {editableList.icon && <Ionicons name={editableList.icon} size={60} color='white' />}
                 </Text>
             </View>
             <View style={{ padding: 20, width: '80%' }}>
@@ -96,7 +96,7 @@ export default function AddListScreen({ navigation, route }) {
                         key={index}
                         style={{ width: 40, height: 40, backgroundColor: 'gray', borderRadius: 50, margin: 5, justifyContent: 'center', alignItems: 'center' }}
                     >
-                        <Ionicons name={eachIcon} size={24} color='white' />
+                        <Ionicons name={eachIcon} size={24} color='white' style={{ marginLeft: 2 }} />
                     </TouchableOpacity>
                 ))}
             </View>

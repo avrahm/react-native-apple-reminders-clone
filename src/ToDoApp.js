@@ -81,7 +81,7 @@ function HomeStack({ navigation }) {
                 name="AddListScreen"
                 component={AddListScreen}
                 options={() => ({
-                    title: 'Create New List',
+                    title: 'Name & Appearance',
                     label: 'Back'
                 })}
             />
