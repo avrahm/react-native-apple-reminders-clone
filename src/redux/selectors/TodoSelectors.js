@@ -62,6 +62,11 @@ export const getAllTodosWithoutList = (state) => {
     return allData;
 }
 
+export const getShowCompletedTasksStatus = (state, listId) => {
+    if (listId == undefined) return state
+    return state[getListIndex(state,listId)].showCompletedTasks
+}
+
 export const getCompleteTodos = (state) => {
     return state.filter(todo => !todo.complete);
 }

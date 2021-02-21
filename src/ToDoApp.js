@@ -97,7 +97,7 @@ function HomeStack({ navigation }) {
                             onPress={() => navigation.navigate('ModalListScreen',
                                 {
                                     showEditOptionsMenu: true,
-                                    list: route.params.listId,
+                                    listId: route.params.listId,
                                     title: 'List Menu'
                                 }
                             )}

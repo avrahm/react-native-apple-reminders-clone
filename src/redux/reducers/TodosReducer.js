@@ -28,13 +28,6 @@ const todos = (state = initialState, action) => {
     let newState;
 
     switch (action.type) {
-        case 'TOGGLE_SHOWALL_TODOS':
-            newState = update(state, {
-                toggleShowAllTodos: { $set: !state.toggleShowAllTodos }
-            })
-            return {
-                ...newState
-            }
         case 'TOGGLE_SHOW_SEARCH_RESULTS':
             newState = update(state, {
                 toggleShowSearchResults: { $set: action.payload }

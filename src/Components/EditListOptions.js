@@ -1,18 +1,20 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { TouchableOpacity, Text, View } from 'react-native';
+import { TouchableOpacity, Text, View, Prompt } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+import { getShowCompletedTasksStatus } from '../redux/selectors/TodoSelectors';
 import ButtonComponent from './ButtonComponent';
 
 export default function EditListOptions(props) {
 
     const navigation = useNavigation()
-    const toggleShowAllFlag = useSelector(state => state.todos.toggleShowAllTodos);
+    const getState = useSelector(state => state.todoLists.todoLists);
     const dispatch = useDispatch()
     const toggleShowAllTodos = () => {
-        dispatch({ type: 'TOGGLE_SHOWALL_TODOS' });
+        dispatch({ type: 'TOGGLE_SHOWALL_TODOS', payload: props.listId });
         navigation.goBack();
     }
+    let toggleShowAllFlag = getShowCompletedTasksStatus(getState, props.listId)
     // const navigateToConfirmDeleteModal = () => {
     //     navigation.navigate('ModalListScreen', {
     //         showConfirmDeleteListOptions: true,
@@ -33,11 +35,11 @@ export default function EditListOptions(props) {
                 paddingBottom: 10
             }}>
                 <TouchableOpacity onPress={() => navigation.navigate('AddListScreen',
-                    { listId: props.list, editList: true }
+                    { listId: props.listId, editList: true }
                 )}>
                     <ButtonComponent text='Edit List' icon='create' />
                 </TouchableOpacity>
-                <Text>Edit List</Text>
+                <Text>Name & Appearace</Text>
             </View>
             <View style={{
                 justifyContent: 'center',
@@ -45,16 +47,16 @@ export default function EditListOptions(props) {
                 paddingBottom: 10
             }}>
                 <TouchableOpacity onPress={() => toggleShowAllTodos()}>
-                    <ButtonComponent text={!toggleShowAllFlag ? 'Show All' : 'Hide'} icon={!toggleShowAllFlag ? 'eye' : 'eye-off'} />
+                    <ButtonComponent text={!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'} icon={!toggleShowAllFlag ? 'eye' : 'eye-off'} />
                 </TouchableOpacity>
-                <Text>{!toggleShowAllFlag ? 'Show All' : 'Hide'}</Text>
+                <Text>{!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'}</Text>
             </View>
             <View style={{
                 justifyContent: 'center',
                 alignItems: 'center',
                 paddingBottom: 10
             }}>
-                <TouchableOpacity onPress={()=>alert('handle delete')} >
+                <TouchableOpacity onPress={() => alert('handle delete')} >
                     <ButtonComponent text='Delete List' icon='trash' />
                 </TouchableOpacity>
                 <Text>Delete List</Text>

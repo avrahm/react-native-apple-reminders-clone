@@ -18,13 +18,13 @@ export default function ModalListScreen({ route }) {
             )}
             {route.params.showConfirmDeleteListOptions && (
                 <DeleteListConfirmation
-                    list={route.params.list}
+                    listId={route.params.listId}
                     deleteTasksAssignedToList={route.params.deleteTasksAssignedToList}
                 />
             )}
             {route.params.showEditOptionsMenu && (
                 <EditListOptions
-                    list={route.params.list}
+                    listId={route.params.listId}
                 />
             )}
             <Button onPress={() => navigation.goBack()} title="Dismiss" />
