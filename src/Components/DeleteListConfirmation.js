@@ -1,20 +1,34 @@
 import React from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
+import ButtonComponent from './ButtonComponent';
 
 export default function DeleteListConfirmation(props) {
     return (
         <View style={{
-            flexDirection: 'row',
-            justifyContent: 'space-evenly',
-            margin: 20,
+            flexDirection: 'column',
+            alignItems: 'center',
+            margin: 50,
         }}>
-            <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(false, props.list.id)}>
-                <Text>Save Tasks</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(true, props.list.id)}>
-                <Text>Delete Tasks</Text>
-            </TouchableOpacity>
+            <View style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingBottom: 10
+            }}>
+                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(false, props.list.id)}>
+                    <ButtonComponent text='Save All' icon='save' />
+                </TouchableOpacity>
+                <Text>Save All Tasks</Text>
+            </View>
+            <View style={{
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingBottom: 10
+            }}>
+                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(true, props.list.id)}>
+                    <ButtonComponent text='Delete All' icon='trash' />
+                </TouchableOpacity>
+                <Text>Delete All Tasks</Text>
+            </View>
         </View>
     )
 }
