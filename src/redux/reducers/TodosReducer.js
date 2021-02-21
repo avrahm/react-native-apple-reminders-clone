@@ -28,64 +28,6 @@ const todos = (state = initialState, action) => {
     let newState;
 
     switch (action.type) {
-        case 'ADD_TODO':
-            let newTodo = {
-                id: state.todoId++,
-                title: action.payload.title,
-                description: '',
-                dueDate: action.payload.dueDate || '',
-                listId: action.payload.listId || 0,
-                complete: false
-            }
-
-            return {
-                ...state,
-                todos: [newTodo, ...state.todos]
-            }
-        case 'DELETE_TODO':
-
-            // findIndex takes a callback function to execute on each array until the function returns true
-            //returns The index of the first element in the array that passes the test. Otherwise, -1.
-            //for my use case I'm iterating over all the todos and if the todo.id equals the payload return the index
-            index = state.todos.findIndex((todo) => todo.id == action.payload.id);
-
-            //immutability helper allows to create copies of the state and mutate the data with the update() method
-            //The $-prefixed keys are called commands. The data structure they are “mutating” is called the target.
-            const newTodos = update(state, { todos: { $splice: [[index, 1]] } })
-
-            return {
-                ...state,
-                ...newTodos
-            }
-        case 'COMPLETE_TODO':
-            index = state.todos.findIndex((todo) => todo.id == action.payload.id);
-
-            newState = update(state, {
-                todos: {
-                    [index]: {
-                        complete: { $set: true },
-                        dueDate: { $set: '' }
-                    }
-                }
-            });
-
-            return {
-                ...newState,
-            }
-        case 'MARK_PENDING_TODO':
-            index = state.todos.findIndex((todo) => todo.id == action.payload.id);
-
-            newState = update(state, {
-                todos: {
-                    [index]: {
-                        complete: { $set: false }
-                    }
-                }
-            });
-
-            return {
-                ...newState,
-            }
         case 'TOGGLE_SHOWALL_TODOS':
             newState = update(state, {
                 toggleShowAllTodos: { $set: !state.toggleShowAllTodos }
@@ -96,19 +38,6 @@ const todos = (state = initialState, action) => {
         case 'TOGGLE_SHOW_SEARCH_RESULTS':
             newState = update(state, {
                 toggleShowSearchResults: { $set: action.payload }
-            })
-            return {
-                ...newState
-            }
-        case 'UPDATE_TODO':
-            index = state.todos.findIndex((todo) => todo.id == action.payload.id);
-            // console.log(action.payload);
-            newState = update(state, {
-                todos: {
-                    [index]: {
-                        $set: action.payload
-                    }
-                }
             })
             return {
                 ...newState

@@ -27,10 +27,10 @@ export default function TodoScreen({ route, navigation }) {
         goBack && navigation.goBack();
         switch (action) {
             case 'add':
-                dispatch({ type: 'LIST_ADD_TODO', payload: payload });
+                dispatch({ type: 'ADD_TODO', payload: payload });
                 break;
             case 'delete':
-                dispatch({ type: 'LIST_DELETE_TODO', payload: payload });
+                dispatch({ type: 'DELETE_TODO', payload: payload });
                 break;
             case 'complete':
                 dispatch({ type: 'COMPLETE_TODO', payload: payload });
@@ -39,7 +39,7 @@ export default function TodoScreen({ route, navigation }) {
                 dispatch({ type: 'MARK_PENDING_TODO', payload: payload });
                 break;
             case 'update':
-                dispatch({ type: 'LIST_UPDATE_TODO', payload: payload });
+                dispatch({ type: 'UPDATE_TODO', payload: payload });
                 break;
         }
     };

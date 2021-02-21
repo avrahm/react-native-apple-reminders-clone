@@ -43,7 +43,7 @@ export default function AddTodoForm(props) {
     if (newTodo.title != '') {
       toggleAddTodoForm(false);
       setNewTodo({ title: '', listId: props.listId || 0 });
-      dispatch({ type: "LIST_ADD_TODO", payload: todo });
+      dispatch({ type: "ADD_TODO", payload: todo });
       Keyboard.dismiss
     } else {
       Keyboard.dismiss

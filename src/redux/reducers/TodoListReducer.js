@@ -9,6 +9,7 @@ let testDueTodayDate = formatDateWithDay(new Date())
 //create the initial state of the app
 const initialState = {
     todoId: 15,
+    listId: 3,
     toggleShowAllTodos: false,
     toggleShowSearchResults: false,
     todoLists: [
@@ -52,15 +53,15 @@ const todoLists = (state = initialState, action) => {
     let todoData;
 
     switch (action.type) {
-        case 'LIST_ADD_TODO':
+        case 'ADD_TODO':
             listIndex = state.todoLists.map(eaList => eaList.list).findIndex(eaListc => eaListc.id === action.payload.listId)
             let newTodo = {
-                id: state.todoId++,
+                id: action.payload.id || state.todoId++,
                 title: action.payload.title,
-                description: '',
+                description: action.payload.description || '',
                 dueDate: action.payload.dueDate || '',
-                // listId: action.payload.listId || 0,
-                complete: false
+                listId: action.payload.listId || 0,
+                complete: action.payload.complete || false
             }
             newState = update(state, {
                 todoLists: {
@@ -75,16 +76,10 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-
-        case 'LIST_UPDATE_TODO':
-
-            console.log('payload listId', action);
+        case 'UPDATE_TODO':
             listIndex = getListIndex(state.todoLists, action.payload.listId)
-            console.log('listIndex', listIndex);
             todoData = getTodosByList(state.todoLists, action.payload.listId)
-            console.log('todoData', todoData);
             todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
-            console.log('todoIndex', todoIndex);
 
             newState = update(state, {
                 todoLists: {
@@ -98,12 +93,10 @@ const todoLists = (state = initialState, action) => {
                     }
                 }
             })
-
-            console.log({ ...newState });
             return {
                 ...newState
             }
-        case 'LIST_DELETE_TODO':
+        case 'DELETE_TODO':
 
             listIndex = getListIndex(state.todoLists, action.payload.listId)
             todoData = getTodosByList(state.todoLists, action.payload.listId)
@@ -122,6 +115,66 @@ const todoLists = (state = initialState, action) => {
 
 
 
+            return {
+                ...newState
+            }
+        case 'COMPLETE_TODO':
+            listIndex = getListIndex(state.todoLists, action.payload.listId)
+            todoData = getTodosByList(state.todoLists, action.payload.listId)
+            todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
+
+            newState = update(state, {
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            [todoIndex]: {
+                                complete: { $set: true },
+                                dueDate: { $set: '' }
+                            }
+                        }
+                    }
+                }
+            })
+
+            return {
+                ...newState,
+            }
+        case 'MARK_PENDING_TODO':
+            listIndex = getListIndex(state.todoLists, action.payload.listId)
+            todoData = getTodosByList(state.todoLists, action.payload.listId)
+            todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
+
+            newState = update(state, {
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            [todoIndex]: {
+                                complete: { $set: false },
+                            }
+                        }
+                    }
+                }
+            })
+
+            return {
+                ...newState,
+            }
+        case 'ADD_LIST':
+            ++state.listId
+            let newList = {
+                list: {
+                    id: action.payload.id,
+                    title: action.payload.title,
+                    icon: action.payload.icon,
+                    color: action.payload.color
+                },
+                data: []
+            }
+            newState = update(state, {
+                todoLists: {
+                    $push: [newList]
+                }
+            })
             return {
                 ...newState
             }
