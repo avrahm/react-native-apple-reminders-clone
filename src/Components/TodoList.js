@@ -16,7 +16,7 @@ export default function ToDoList(props) {
         <View style={styles.container}>
             {props.listType === "all" ? (
                 <SectionList
-                    sections={props.todoData}
+                    sections={props.todoData.filter(list => list.data.length > 0)}
                     renderItem={renderItem}
                     ItemSeparatorComponent={() => <View style={styles.separator} />}
                     keyExtractor={item => item.id.toString()}
