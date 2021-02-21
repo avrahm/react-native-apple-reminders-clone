@@ -8,12 +8,14 @@ import { TouchableOpacity } from 'react-native';
 
 export default function AddListScreen({ navigation, route }) {
 
-    let currentListId = useSelector(state => state.lists.listId);
+    let currentListId = useSelector(state => state.todoLists.listId);
     let listToUpdate = {
         title: '',
         icon: '',
         color: 'gray',
-        id: ++currentListId
+        id: ++currentListId,
+        listHidden: false,
+        showAllTodos: false,
     };
     let listAction = 'add';
     if (route.params) {
@@ -29,7 +31,9 @@ export default function AddListScreen({ navigation, route }) {
         title: listToUpdate.title ?? '',
         icon: listToUpdate.icon ?? '',
         color: listToUpdate.color ?? 'gray',
-        id: listToUpdate.id ?? ++currentListId
+        id: listToUpdate.id ?? ++currentListId,
+        listHidden: listToUpdate.listHidden ?? false,
+        showAllTodos: listToUpdate.showAllTodos ?? false,
     });
 
     const dispatch = useDispatch();

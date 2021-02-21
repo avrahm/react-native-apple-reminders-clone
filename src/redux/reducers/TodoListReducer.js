@@ -24,7 +24,7 @@ const initialState = {
         }, {
             list: { id: 1, title: 'Groceries', icon: 'basket-outline', color: 'green', listHidden: false, showAllTodos: false },
             data: [
-                { id: 3, title: "Haircut", description: 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born', dueDate: testDueTodayDate, complete: false, listId: 1 },
+                // { id: 3, title: "Haircut", description: 'But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born', dueDate: testDueTodayDate, complete: false, listId: 1 },
                 // { id: 4, title: "Call Place", description: 'Li Europan lingues es membres del sam familie. Lor separat existentie es un myth. Por scientie, musica, sport etc, litot', dueDate: '', complete: false, listId: 1 },
             ],
             showAllTodos: false
@@ -86,8 +86,7 @@ const todoLists = (state = initialState, action) => {
                     [listIndex]: {
                         data: {
                             [todoIndex]: {
-                                $set:
-                                    action.payload
+                                $set: action.payload
                             }
                         }
                     }
@@ -163,16 +162,30 @@ const todoLists = (state = initialState, action) => {
             ++state.listId
             let newList = {
                 list: {
-                    id: action.payload.id,
+                    id: action.payload.id || state.listId,
                     title: action.payload.title,
                     icon: action.payload.icon,
-                    color: action.payload.color
+                    color: action.payload.color,
+                    listHidden: false,
+                    showAllTodos: false
                 },
                 data: []
             }
             newState = update(state, {
                 todoLists: {
                     $push: [newList]
+                }
+            })
+            return {
+                ...newState
+            }
+        case 'UPDATE_LIST':
+            listIndex = getListIndex(state.todoLists, action.payload.id)
+            newState = update(state, {
+                todoLists: {
+                    [listIndex]: {
+                        list: { $set: action.payload }
+                    }
                 }
             })
             return {
