@@ -7,7 +7,7 @@ import SwipeableRow from "../Components/SwipeableRow";
 import ToDoList from "../Components/TodoList";
 import TodoRow from "../Components/TodoRow";
 
-import { getCompleteTodos, getDueTodayTodos, getTodosByList, searchTodos } from '../redux/selectors/TodoSelectors';
+import { getCompleteTodos, getDueTodayTodos, getShowCompletedTasksStatusByList, getTodosByList, searchTodos } from '../redux/selectors/TodoSelectors';
 
 export default function ToDoScreen({ route }, props) {
 
@@ -16,9 +16,9 @@ export default function ToDoScreen({ route }, props) {
 
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
-  // const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
   
   let getAllTodos = useSelector(state => state.todoLists.todoLists);
+  let showCompletedTasksStatus;
   let todoData;
 
   switch (listType) {
@@ -29,12 +29,14 @@ export default function ToDoScreen({ route }, props) {
       todoData = getAllTodos
       break;
     default:
+      showCompletedTasksStatus = getShowCompletedTasksStatusByList(getAllTodos,listId)
+      console.log(showCompletedTasksStatus);
       todoData = getTodosByList(getAllTodos, listId)
       break;
+  } 
+  if (!showCompletedTasksStatus && (listType != 'all' || listType != 'today' )) {
+    todoData = getCompleteTodos(todoData);
   }
-  // if (!toggleShowAllTodos) {
-    // todoData = getCompleteTodos(todoData);
-  // }
 
   return (
     <View style={styles.container}>

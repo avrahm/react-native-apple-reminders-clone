@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react'
 import { TouchableOpacity, Text, View, Prompt } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { getShowCompletedTasksStatus } from '../redux/selectors/TodoSelectors';
+import { getShowCompletedTasksStatusByList } from '../redux/selectors/TodoSelectors';
 import ButtonComponent from './ButtonComponent';
 
 export default function EditListOptions(props) {
@@ -14,7 +14,7 @@ export default function EditListOptions(props) {
         dispatch({ type: 'TOGGLE_SHOWALL_TODOS', payload: props.listId });
         navigation.goBack();
     }
-    let toggleShowAllFlag = getShowCompletedTasksStatus(getState, props.listId)
+    let toggleShowAllFlag = getShowCompletedTasksStatusByList(getState, props.listId)
     // const navigateToConfirmDeleteModal = () => {
     //     navigation.navigate('ModalListScreen', {
     //         showConfirmDeleteListOptions: true,
