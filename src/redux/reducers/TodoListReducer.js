@@ -191,6 +191,16 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
+        case 'DELETE_LIST':
+            listIndex = getListIndex(state.todoLists, action.payload.id);
+            newState = update(state, {
+                todoLists: {
+                    $splice: [[listIndex, 1]]
+                }
+            });
+            return {
+                ...newState
+            }
     }
     return state;
 }

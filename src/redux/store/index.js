@@ -1,7 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 
 import TodosReducer from '../reducers/TodosReducer';
-import ListsReducer from '../reducers/ListsReducer';
 import TodoListReducer from '../reducers/TodoListReducer';
 
 
@@ -9,7 +8,6 @@ import TodoListReducer from '../reducers/TodoListReducer';
 //combine Reducers 
 const store = createStore(combineReducers({
     todos: TodosReducer,
-    lists: ListsReducer,
     todoLists: TodoListReducer,
 }))
 

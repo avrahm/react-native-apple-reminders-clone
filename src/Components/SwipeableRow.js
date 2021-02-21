@@ -1,11 +1,10 @@
+import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import React, { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import { Animated, Text, View, I18nManager } from 'react-native';
+import { Animated, Text, View, StyleSheet } from 'react-native';
+import { useDispatch, useSelector } from "react-redux";
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { useDispatch, useSelector } from "react-redux";
-import { selectTodosByList } from '../redux/selectors/TodoSelectors';
+import { getTodosByList } from '../redux/selectors/TodoSelectors';
 
 export default function SwipeableRow({ children, ...props }) {
 
@@ -30,18 +29,20 @@ export default function SwipeableRow({ children, ...props }) {
         navigation.navigate('HomeScreen')
     }
 
-    const getTodos = useSelector(state => state.todos.todos);
+    const getAllTodos = useSelector(state => state.todoLists.todoLists);
 
-    const deleteTasksAssignedToList = (decisionToDelete, list) => {
-        const todosFromList = selectTodosByList(getTodos, list)
-        todosFromList.map(eachTodo => {
-            if (decisionToDelete) {
-                dispatch({ type: 'DELETE_TODO', payload: eachTodo })
-            } else if (!decisionToDelete) {
-                eachTodo.listId = 0
-                dispatch({ type: 'UPDATE_TODO', payload: eachTodo })
-            }
-        })
+    const deleteTasksAssignedToList = (decisionToDeleteTodos, listId) => {
+        const todosFromList = getTodosByList(getAllTodos, listId)
+        if (todosFromList.length != 0) {
+            todosFromList.map(eachTodo => {
+                if (decisionToDeleteTodos) {
+                    dispatch({ type: 'DELETE_TODO', payload: eachTodo })
+                } else if (!decisionToDeleteTodos) {
+                    eachTodo.listId = 0
+                    dispatch({ type: 'ADD_TODO', payload: eachTodo });
+                }
+            })
+        }
         confirmedDeleteList()
     }
 
