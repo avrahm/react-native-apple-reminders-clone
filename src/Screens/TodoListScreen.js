@@ -30,7 +30,6 @@ export default function ToDoScreen({ route }, props) {
       break;
     default:
       showCompletedTasksStatus = getShowCompletedTasksStatusByList(getAllTodos,listId)
-      console.log(showCompletedTasksStatus);
       todoData = getTodosByList(getAllTodos, listId)
       break;
   } 

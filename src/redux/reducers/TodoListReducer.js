@@ -213,7 +213,6 @@ const todoLists = (state = initialState, action) => {
                     }
                 }
             })
-            console.log(state.todoLists[listIndex].showCompletedTasks);
             return {
                 ...newState
             }
