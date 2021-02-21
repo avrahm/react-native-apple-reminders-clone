@@ -5,6 +5,7 @@ import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
 import { TouchableOpacity } from 'react-native';
+import { getList } from '../redux/selectors/TodoSelectors';
 
 export default function AddListScreen({ navigation, route }) {
 
@@ -19,10 +20,8 @@ export default function AddListScreen({ navigation, route }) {
     };
     let listAction = 'add';
     if (route.params) {
-        let getCurrentLists = useSelector(state => state.lists.lists)
-        listToUpdate = getCurrentLists.filter(lists => {
-            return lists.id === route.params.listId
-        })[0];
+        let getState = useSelector(state => state.todoLists.todoLists)
+        listToUpdate = getList(getState, route.params.listId)
         if (route.params.editList) listAction = 'update';
     }
 
