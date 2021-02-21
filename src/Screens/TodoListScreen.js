@@ -17,7 +17,7 @@ export default function ToDoScreen({ route }, props) {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
   // const toggleShowAllTodos = useSelector(state => state.todos.toggleShowAllTodos);
-  let getTodos = useSelector(state => state.todos.todos);
+  
   let getAllTodos = useSelector(state => state.todoLists.todoLists);
   let todoData;
 
@@ -27,7 +27,6 @@ export default function ToDoScreen({ route }, props) {
       break;
     case 'all':
       todoData = getAllTodos
-      // console.log(getAllTodos)
       break;
     default:
       todoData = getTodosByList(getAllTodos, listId)

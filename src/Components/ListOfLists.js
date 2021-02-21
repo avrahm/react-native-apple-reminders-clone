@@ -1,10 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+
 import SwipeableRow from './SwipeableRow';
+import { getAllLists } from '../redux/selectors/TodoSelectors';
 
 //in react navigation 5 passing a function through params results in the yellow box warning of non-serializable values. this is due to warning to prevent issues with deep linking or state persistence
 import { LogBox } from 'react-native';
@@ -15,10 +17,11 @@ LogBox.ignoreLogs([
 export default function ListOfLists(props) {
 
     const navigation = useNavigation();
-    let lists = useSelector(state => state.lists.lists);
+    const state = useSelector(state => state.todoLists.todoLists);
+    let lists = getAllLists(state);
 
     let showHiddenLists = !props.showHiddenLists ? false : true;
-    if (!showHiddenLists) lists = lists.filter(list => !list.hidden);
+    if (!showHiddenLists) lists = lists.filter(list => !list.listHidden);
 
     return (
         <View style={{ width: '100%' }}>

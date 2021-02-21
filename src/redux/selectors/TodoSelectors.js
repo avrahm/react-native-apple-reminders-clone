@@ -30,18 +30,23 @@ import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/form
 //     }
 // )
 
+export const getAllLists = (state) => {
+    return state.map(eaList => eaList.list)
+}
+
 export const getList = (state, listId) => {
+    if (listId == undefined) return state
     return state.map(eaList => eaList.list).filter(eaList => eaList.id === listId)[0]
 }
 
 export const getListIndex = (state, listId) => {
+    if (listId == undefined) return state
     return state.map(eaList => eaList.list).findIndex(eaListId => eaListId.id === listId)
 }
 
 export const getTodosByList = (state, listId) => {
+    if (listId == undefined) return state
     let listIndex = getListIndex(state, listId)
-
-    if (listId === undefined) return state
     return state[listIndex].data;
 }
 
@@ -58,16 +63,12 @@ export const getAllTodosWithoutList = (state) => {
 }
 
 export const getCompleteTodos = (state) => {
-
     return state.filter(todo => !todo.complete);
 }
 
 export const getDueTodayTodos = (state) => {
     const data = getAllTodosWithoutList(state);
-
-    const todosDueTodayData = data.filter(eaTodo => eaTodo.dueDate == formatDateWithDay(new Date()));
-
-    return todosDueTodayData;
+    return data.filter(eaTodo => eaTodo.dueDate == formatDateWithDay(new Date()));
 }
 
 export const inboxTodos = (state) => {
@@ -75,6 +76,7 @@ export const inboxTodos = (state) => {
 }
 
 export const searchTodos = (state, searchText) => {
+    if (searchText == undefined) return state
     return state.filter(eachTodo => {
         return (
             eachTodo.title.toLowerCase().includes(searchText.toLowerCase())
