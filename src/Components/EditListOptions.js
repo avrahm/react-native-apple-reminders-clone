@@ -34,33 +34,39 @@ export default function EditListOptions(props) {
                 alignItems: 'center',
                 paddingBottom: 10
             }}>
-                <TouchableOpacity onPress={() => navigation.navigate('AddListScreen',
-                    { listId: props.listId, editList: true }
-                )}>
-                    <ButtonComponent text='Edit List' icon='create' />
-                </TouchableOpacity>
-                <Text>Name & Appearace</Text>
-            </View>
-            <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingBottom: 10
-            }}>
                 <TouchableOpacity onPress={() => toggleShowAllTodos()}>
                     <ButtonComponent text={!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'} icon={!toggleShowAllFlag ? 'eye' : 'eye-off'} />
                 </TouchableOpacity>
                 <Text>{!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'}</Text>
             </View>
-            <View style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingBottom: 10
-            }}>
-                <TouchableOpacity onPress={() => alert('handle delete')} >
-                    <ButtonComponent text='Delete List' icon='trash' />
-                </TouchableOpacity>
-                <Text>Delete List</Text>
-            </View>
+            {props.allowToModifyList && (
+                <View>
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingBottom: 10
+                    }}>
+                        <TouchableOpacity onPress={() => navigation.navigate('AddListScreen',
+                            { listId: props.listId, editList: true }
+                        )}>
+                            <ButtonComponent text='Edit List' icon='create' />
+                        </TouchableOpacity>
+                        <Text>Name & Appearace</Text>
+                    </View>
+
+                    <View style={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        paddingBottom: 10
+                    }}>
+                        <TouchableOpacity onPress={() => alert('handle delete')} >
+                            <ButtonComponent text='Delete List' icon='trash' />
+                        </TouchableOpacity>
+                        <Text>Delete List</Text>
+                    </View>
+                </View>
+            )}
+
         </View>
     )
 }

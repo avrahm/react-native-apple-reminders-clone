@@ -91,18 +91,7 @@ function HomeStack({ navigation }) {
                 component={TodoListScreen}
                 options={({ route }) => ({
                     title: route.params.title,
-                    headerRight: () => (
-                        <Button
-                            title='Menu'
-                            onPress={() => navigation.navigate('ModalListScreen',
-                                {
-                                    showEditOptionsMenu: true,
-                                    listId: route.params.listId,
-                                    title: 'List Menu'
-                                }
-                            )}
-                        />
-                    )
+                    
                 })}
             />
 

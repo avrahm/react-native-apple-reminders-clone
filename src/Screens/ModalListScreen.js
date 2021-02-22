@@ -22,8 +22,9 @@ export default function ModalListScreen({ route }) {
                     deleteTasksAssignedToList={route.params.deleteTasksAssignedToList}
                 />
             )}
-            {route.params.showEditOptionsMenu && (
+            {route.params.showEditListOptionsMenu && (
                 <EditListOptions
+                    allowToModifyList={route.params.allowToModifyList}
                     listId={route.params.listId}
                 />
             )}
