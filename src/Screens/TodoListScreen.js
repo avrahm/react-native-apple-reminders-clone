@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { Button, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
-import { getCompleteTodos, getDueTodayTodos, getShowCompletedTasksStatusByList, getTodosByList, searchTodos } from '../redux/selectors/TodoSelectors';
+import { getCompletedTodosFromAllTodos, getCompleteTodos, getDueTodayTodos, getShowCompletedTasksStatusByList, getTodosByList, searchTodos } from '../redux/selectors/TodoSelectors';
 import AddTodoForm from "../Components/AddToDoForm";
 import ToDoList from "../Components/TodoList";
 
@@ -67,7 +67,7 @@ export default function ToDoScreen({ route, navigation }, props) {
       todoData = getDueTodayTodos(getAllTodos)
       break;
     case 'all':
-      todoData = getAllTodos
+      todoData = getCompletedTodosFromAllTodos(getAllTodos)
       break;
     default:
       showCompletedTasksStatus = getShowCompletedTasksStatusByList(getAllTodos, listId)

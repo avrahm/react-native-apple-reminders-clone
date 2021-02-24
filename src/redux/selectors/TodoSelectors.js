@@ -102,3 +102,18 @@ export const getSearchTodos = (state, searchTerm) => {
         return result;
     }, [])
 }
+
+export const getCompletedTodosFromAllTodos = (state) => {
+    return state.reduce((result, sectionData) => {
+        if (!result || !sectionData) return state
+        const { list, data } = sectionData;
+        const completeData = data.filter(element => !element.complete);
+        if (completeData.length !== 0) {
+            result.push({
+                list,
+                data: completeData
+            });
+        }
+        return result;
+    }, [])
+}
