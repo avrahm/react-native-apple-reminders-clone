@@ -1,7 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import PropTypes from 'prop-types';
 import { CheckBox } from 'react-native-elements'
 import { useDispatch } from 'react-redux';
 

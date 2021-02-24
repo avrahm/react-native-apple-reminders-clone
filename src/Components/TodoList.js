@@ -37,31 +37,19 @@ export default function ToDoList(props) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#ecf0f1",
-        // padding: 8,
-    },
-    paragraph: {
-        margin: 24,
-        fontSize: 18,
-        fontWeight: "bold",
-        textAlign: "center",
-    },
     separator: {
         backgroundColor: 'rgb(200, 199, 204)',
         height: StyleSheet.hairlineWidth,
     },
     item: {
-        backgroundColor: "#f9c2ff",
         padding: 20,
         marginVertical: 8
     },
     header: {
-        fontSize: 32,
+        fontSize: 24,
         backgroundColor: "#fff"
     },
     title: {
-        fontSize: 24
+        fontSize: 22
     }
 });

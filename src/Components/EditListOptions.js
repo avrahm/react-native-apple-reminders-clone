@@ -1,6 +1,6 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react'
-import { TouchableOpacity, Text, View, Prompt } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShowCompletedTasksStatusByList } from '../redux/selectors/TodoSelectors';
 import ButtonComponent from './ButtonComponent';

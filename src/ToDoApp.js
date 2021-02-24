@@ -1,11 +1,9 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator, HeaderBackButton } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import { Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
 
 /*SCREENS*/
 import TodoListScreen from './Screens/TodoListScreen';
@@ -91,7 +89,7 @@ function HomeStack({ navigation }) {
                 component={TodoListScreen}
                 options={({ route }) => ({
                     title: route.params.title,
-                    
+
                 })}
             />
 

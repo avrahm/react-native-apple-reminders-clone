@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { Button, TextInput } from 'react-native'
-import { View, Text } from 'react-native'
+import { useDispatch, useSelector } from 'react-redux';
+import { TouchableOpacity, Button, View, Text } from 'react-native'
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
-import { useDispatch, useSelector } from 'react-redux';
-import { TouchableOpacity } from 'react-native';
 import { getList } from '../redux/selectors/TodoSelectors';
 
 export default function AddListScreen({ navigation, route }) {

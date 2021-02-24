@@ -7,7 +7,7 @@
 //https://www.youtube.com/watch?v=frT3to2ACCw&feature=share
 //understanding reselect
 
-import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/formatDate"
+import { formatDateWithDay } from "../../assets/utils/formatDate"
 
 // import { createSelector } from 'reselect';
 
@@ -91,9 +91,8 @@ export const getSearchTodos = (state, searchTerm) => {
     return state.reduce((result, sectionData) => {
         if (!result || !sectionData) return state
         const { list, data } = sectionData;
-        const filteredData = data.filter(
-            element => { return element.title.toLowerCase().includes(searchTerm.toLowerCase()) }
-        );
+        const filteredData = data.filter(element => { return element.title.toLowerCase().includes(searchTerm.toLowerCase()) }
+        ).filter(element => !element.complete);
         if (filteredData.length !== 0) {
             result.push({
                 list,

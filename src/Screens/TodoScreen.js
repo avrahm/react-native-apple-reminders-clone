@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { View, StyleSheet, TextInput, Button, Switch, ScrollView, Text, TouchableOpacity } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import { useDispatch, useSelector } from 'react-redux';
-import ButtonComponent from '../Components/ButtonComponent';
 import { CheckBox } from 'react-native-elements';
+import ButtonComponent from '../Components/ButtonComponent';
 import { formatDateWithDay } from '../assets/utils/formatDate';
-import { getList, getListIndex } from '../redux/selectors/TodoSelectors'
+import { getList } from '../redux/selectors/TodoSelectors'
 
 import { useIsMount } from '../assets/utils/useIsMount';
 

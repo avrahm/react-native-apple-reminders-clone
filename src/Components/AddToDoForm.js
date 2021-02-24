@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Header } from '@react-navigation/stack';
 import { Keyboard, StyleSheet, View, TextInput, KeyboardAvoidingView, Platform } from "react-native";
 
 import { useDispatch } from "react-redux";
 import { formatDateWithDay } from "../assets/utils/formatDate";
 import ButtonComponent from "./ButtonComponent";
-import { Constants } from "react-native-unimodules";
 
 export default function AddTodoForm(props) {
 

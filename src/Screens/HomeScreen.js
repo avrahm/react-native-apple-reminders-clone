@@ -1,11 +1,10 @@
 import React from "react";
-
-import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
-import Constants from "expo-constants";
 import { useSelector } from "react-redux";
+import Constants from "expo-constants";
+import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
+import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList, inboxTodos } from "../redux/selectors/TodoSelectors";
 
 import ButtonComponent from '../Components/ButtonComponent';
-import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList, inboxTodos } from "../redux/selectors/TodoSelectors";
 import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
 

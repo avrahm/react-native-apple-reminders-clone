@@ -1,14 +1,11 @@
 import React, { useEffect } from "react";
-import { Button } from "react-native";
-import { SectionList, StyleSheet, Text, View, ScrollView, Platform, } from "react-native";
+import { Button, StyleSheet, View } from "react-native";
 import { useSelector } from "react-redux";
 
-import AddTodoForm from "../Components/AddToDoForm";
-import SwipeableRow from "../Components/SwipeableRow";
-import ToDoList from "../Components/TodoList";
-import TodoRow from "../Components/TodoRow";
-
 import { getCompleteTodos, getDueTodayTodos, getShowCompletedTasksStatusByList, getTodosByList, searchTodos } from '../redux/selectors/TodoSelectors';
+import AddTodoForm from "../Components/AddToDoForm";
+import ToDoList from "../Components/TodoList";
+
 
 export default function ToDoScreen({ route, navigation }, props) {
 
