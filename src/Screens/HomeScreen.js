@@ -10,13 +10,12 @@ import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
 
 export default function HomeScreen({ navigation }) {
-  const getTodos = useSelector(state => state.todos.todos);
   const getAllTodos = useSelector(state => state.todoLists.todoLists);
   const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
   const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;
   const inboxTodosTotal = getCompleteTodos(getTodosByList(getAllTodos, 0)).length;
 
-  const toggleShowSearchResults = useSelector(state => state.todos.toggleShowSearchResults)
+  const toggleShowSearchResults = useSelector(state => state.todoLists.toggleShowSearchResults)
 
   return (
     <View style={styles.container}>

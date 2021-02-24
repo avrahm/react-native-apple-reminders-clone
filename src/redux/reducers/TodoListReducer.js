@@ -216,6 +216,13 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
+        case 'TOGGLE_SHOW_SEARCH_RESULTS':
+            newState = update(state, {
+                toggleShowSearchResults: { $set: action.payload }
+            })
+            return {
+                ...newState
+            }
     }
     return state;
 }
