@@ -19,7 +19,7 @@ export default function SwipeableRow({ children, ...props }) {
         navigation.navigate('ModalListScreen', {
             showConfirmDeleteListOptions: true,
             deleteTasksAssignedToList: deleteTasksAssignedToList,
-            list: props,
+            listId: props.id,
             title: `Manage Tasks`
         })
     }

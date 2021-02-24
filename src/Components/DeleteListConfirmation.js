@@ -14,7 +14,7 @@ export default function DeleteListConfirmation(props) {
                 alignItems: 'center',
                 paddingBottom: 10
             }}>
-                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(false, props.list.id)}>
+                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(false, props.listId)}>
                     <ButtonComponent text='Save All' icon='save' />
                 </TouchableOpacity>
                 <Text>Save All Tasks</Text>
@@ -24,7 +24,7 @@ export default function DeleteListConfirmation(props) {
                 alignItems: 'center',
                 paddingBottom: 10
             }}>
-                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(true, props.list.id)}>
+                <TouchableOpacity onPress={() => props.deleteTasksAssignedToList(true, props.listId)}>
                     <ButtonComponent text='Delete All' icon='trash' />
                 </TouchableOpacity>
                 <Text>Delete All Tasks</Text>
