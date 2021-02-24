@@ -83,7 +83,9 @@ export default function ToDoScreen({ route, navigation }, props) {
 
   return (
     <View style={styles.container}>
-      <ToDoList todoData={todoData} listType={listType} />
+      <View style={styles.container}>
+        <ToDoList todoData={todoData} listType={listType} />
+      </View>
       <AddTodoForm listId={listId} listType={listType} />
     </View>
   );

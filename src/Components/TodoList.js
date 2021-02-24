@@ -13,8 +13,8 @@ export default function ToDoList(props) {
         )
     };
     return (
-        <View style={styles.container}>
-            {props.listType === "all" ? (
+        <View>
+            {(props.listType === "all" || props.listType == "searchResults") ? (
                 <SectionList
                     sections={props.todoData.filter(list => list.data.length > 0)}
                     renderItem={renderItem}
@@ -24,12 +24,14 @@ export default function ToDoList(props) {
                         <Text style={styles.header}>{list.title}</Text>
                     )}
                 />
-            ) : (<FlatList
-                data={props.todoData}
-                renderItem={renderItem}
-                ItemSeparatorComponent={() => <View style={styles.separator} />}
-                keyExtractor={item => item.id.toString()}
-            />)}
+            ) : (
+                    <FlatList
+                        data={props.todoData}
+                        renderItem={renderItem}
+                        ItemSeparatorComponent={() => <View style={styles.separator} />}
+                        keyExtractor={item => item.id.toString()}
+                    />
+                )}
         </View>
     );
 }

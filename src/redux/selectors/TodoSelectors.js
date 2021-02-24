@@ -1,12 +1,10 @@
-
-
 //https://www.digitalocean.com/community/tutorials/redux-reselect
 //https://medium.com/@parkerdan/react-reselect-and-redux-b34017f8194c
 //https://stackoverflow.com/questions/60187910/reselect-redux-with-react-hooks
 //https://react-redux.js.org/next/api/hooks#useselector-examples
 //https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 //https://github.com/toomuchdesign/re-reselect
-// https://www.youtube.com/watch?v=frT3to2ACCw&feature=share
+//https://www.youtube.com/watch?v=frT3to2ACCw&feature=share
 //understanding reselect
 
 import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/formatDate"
@@ -14,7 +12,6 @@ import { formatDateWithDay, formatDateWithoutDay } from "../../assets/utils/form
 // import { createSelector } from 'reselect';
 
 // const getVisibilityFilter = state => state.visibilityFilter
-// const getTodos = state => state.todos
 
 // export const getVisibleTodos = createSelector(
 //     [getVisibilityFilter, getTodos],
@@ -64,7 +61,7 @@ export const getAllTodosWithoutList = (state) => {
 
 export const getShowCompletedTasksStatusByList = (state, listId) => {
     if (listId == undefined) return state
-    return state[getListIndex(state,listId)].showCompletedTasks
+    return state[getListIndex(state, listId)].showCompletedTasks
 }
 
 export const getCompleteTodos = (state) => {
@@ -89,16 +86,20 @@ export const searchTodos = (state, searchText) => {
     })
 }
 
-export const todosByListId = (state) => {
-    return state.reduce((acc, value) => {
-        // Group initialization
-        if (!acc[value.listId]) {
-            acc[value.listId] = [];
+export const getSearchTodos = (state, searchTerm) => {
+    if (searchTerm === '') return state
+    return state.reduce((result, sectionData) => {
+        if (!result || !sectionData) return state
+        const { list, data } = sectionData;
+        const filteredData = data.filter(
+            element => { return element.title.toLowerCase().includes(searchTerm.toLowerCase()) }
+        );
+        if (filteredData.length !== 0) {
+            result.push({
+                list,
+                data: filteredData
+            });
         }
-
-        // Grouping
-        acc[value.listId].push(value);
-
-        return acc;
-    }, {});
+        return result;
+    }, [])
 }
