@@ -1,7 +1,7 @@
 # Apple Reminders clone react native
  react-native-apple-reminders-clone
  
-### Get started with **yarn install** to install all dependencies for the project.
+### Get started with ```yarn install``` to install all dependencies for the project.
 
 Read more from the expo start guide [here](https://docs.expo.io/get-started/create-a-new-app/)
 
