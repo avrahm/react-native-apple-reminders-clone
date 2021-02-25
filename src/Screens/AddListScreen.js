@@ -4,6 +4,7 @@ import { TouchableOpacity, Button, View, Text } from 'react-native'
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { getList } from '../redux/selectors/TodoSelectors';
+import { ADD_LIST, UPDATE_LIST } from '../redux/actions/TodoActions';
 
 export default function AddListScreen({ navigation, route }) {
 
@@ -39,9 +40,9 @@ export default function AddListScreen({ navigation, route }) {
         if (editableList.title != '') {
             switch (action) {
                 case 'add':
-                    dispatch({ type: 'ADD_LIST', payload: payload })
+                    dispatch({ type: ADD_LIST, payload: payload })
                 case 'update':
-                    dispatch({ type: 'UPDATE_LIST', payload: payload })
+                    dispatch({ type: UPDATE_LIST, payload: payload })
             }
             navigation.navigate('HomeScreen');
         }

@@ -8,6 +8,7 @@ import { formatDateWithDay } from '../assets/utils/formatDate';
 import { getList } from '../redux/selectors/TodoSelectors'
 
 import { useIsMount } from '../assets/utils/useIsMount';
+import { ADD_TODO, COMPLETE_TODO, DELETE_TODO, MARK_TODO_PENDING, UPDATE_TODO } from '../redux/actions/TodoActions';
 
 export default function TodoScreen({ route, navigation }) {
     /* 2. Get the param from the route passed through navigation */
@@ -27,19 +28,19 @@ export default function TodoScreen({ route, navigation }) {
         goBack && navigation.goBack();
         switch (action) {
             case 'add':
-                dispatch({ type: 'ADD_TODO', payload: payload });
+                dispatch({ type: ADD_TODO, payload: payload });
                 break;
             case 'delete':
-                dispatch({ type: 'DELETE_TODO', payload: payload });
+                dispatch({ type: DELETE_TODO, payload: payload });
                 break;
             case 'complete':
-                dispatch({ type: 'COMPLETE_TODO', payload: payload });
+                dispatch({ type: COMPLETE_TODO, payload: payload });
                 break;
             case 'pending':
-                dispatch({ type: 'MARK_PENDING_TODO', payload: payload });
+                dispatch({ type: MARK_TODO_PENDING, payload: payload });
                 break;
             case 'update':
-                dispatch({ type: 'UPDATE_TODO', payload: payload });
+                dispatch({ type: UPDATE_TODO, payload: payload });
                 break;
         }
     };

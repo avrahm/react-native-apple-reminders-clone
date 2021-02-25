@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
+import { TOGGLE_SHOW_SEARCH_RESULTS } from '../redux/actions/TodoActions';
 import { getSearchTodos} from '../redux/selectors/TodoSelectors';
 import ToDoList from './TodoList';
 
@@ -13,9 +14,9 @@ export default function SearchBarComponent() {
 
     useEffect(() => {
         if (searchBarText != '') {
-            dispatch({ type: 'TOGGLE_SHOW_SEARCH_RESULTS', payload: true })
+            dispatch({ type: TOGGLE_SHOW_SEARCH_RESULTS, payload: true })
         } else {
-            dispatch({ type: 'TOGGLE_SHOW_SEARCH_RESULTS', payload: false })
+            dispatch({ type: TOGGLE_SHOW_SEARCH_RESULTS, payload: false })
         }
     }, [searchBarText])
 

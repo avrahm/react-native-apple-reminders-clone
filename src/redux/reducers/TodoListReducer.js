@@ -4,6 +4,8 @@ import { getListIndex, getTodosByList } from '../selectors/TodoSelectors';
 //immutability-helper
 //https://reactjs.org/docs/update.html
 
+import { ADD_TODO, UPDATE_TODO, DELETE_TODO, COMPLETE_TODO, MARK_TODO_PENDING, ADD_LIST, UPDATE_LIST, DELETE_LIST, TOGGLE_SHOWALL_TODOS, TOGGLE_SHOW_SEARCH_RESULTS } from '../actions/TodoActions'
+
 let testDueTodayDate = formatDateWithDay(new Date())
 
 //create the initial state of the app
@@ -53,7 +55,7 @@ const todoLists = (state = initialState, action) => {
     let todoData;
 
     switch (action.type) {
-        case 'ADD_TODO':
+        case ADD_TODO:
             listIndex = state.todoLists.map(eaList => eaList.list).findIndex(eaListc => eaListc.id === action.payload.listId)
             let newTodo = {
                 id: action.payload.id || state.todoId++,
@@ -76,7 +78,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'UPDATE_TODO':
+        case UPDATE_TODO:
             listIndex = getListIndex(state.todoLists, action.payload.listId)
             todoData = getTodosByList(state.todoLists, action.payload.listId)
             todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
@@ -95,7 +97,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'DELETE_TODO':
+        case DELETE_TODO:
 
             listIndex = getListIndex(state.todoLists, action.payload.listId)
             todoData = getTodosByList(state.todoLists, action.payload.listId)
@@ -117,7 +119,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'COMPLETE_TODO':
+        case COMPLETE_TODO:
             listIndex = getListIndex(state.todoLists, action.payload.listId)
             todoData = getTodosByList(state.todoLists, action.payload.listId)
             todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
@@ -128,7 +130,7 @@ const todoLists = (state = initialState, action) => {
                         data: {
                             [todoIndex]: {
                                 complete: { $set: true },
-                                dueDate: { $set: '' }
+                                dueDate: { $set: "" }
                             }
                         }
                     }
@@ -138,7 +140,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState,
             }
-        case 'MARK_PENDING_TODO':
+        case MARK_TODO_PENDING:
             listIndex = getListIndex(state.todoLists, action.payload.listId)
             todoData = getTodosByList(state.todoLists, action.payload.listId)
             todoIndex = todoData.findIndex((todo) => todo.id == action.payload.id);
@@ -158,7 +160,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState,
             }
-        case 'ADD_LIST':
+        case ADD_LIST:
             ++state.listId
             let newList = {
                 list: {
@@ -179,7 +181,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'UPDATE_LIST':
+        case UPDATE_LIST:
             listIndex = getListIndex(state.todoLists, action.payload.id)
             newState = update(state, {
                 todoLists: {
@@ -191,7 +193,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'DELETE_LIST':
+        case DELETE_LIST:
             listIndex = getListIndex(state.todoLists, action.payload.id);
             newState = update(state, {
                 todoLists: {
@@ -201,7 +203,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'TOGGLE_SHOWALL_TODOS':
+        case TOGGLE_SHOWALL_TODOS:
             listIndex = getListIndex(state.todoLists, action.payload);
 
             newState = update(state, {
@@ -216,7 +218,7 @@ const todoLists = (state = initialState, action) => {
             return {
                 ...newState
             }
-        case 'TOGGLE_SHOW_SEARCH_RESULTS':
+        case TOGGLE_SHOW_SEARCH_RESULTS:
             newState = update(state, {
                 toggleShowSearchResults: { $set: action.payload }
             })

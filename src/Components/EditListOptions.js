@@ -4,6 +4,7 @@ import { TouchableOpacity, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShowCompletedTasksStatusByList } from '../redux/selectors/TodoSelectors';
 import ButtonComponent from './ButtonComponent';
+import { TOGGLE_SHOWALL_TODOS } from '../redux/actions/TodoActions';
 
 export default function EditListOptions(props) {
 
@@ -11,7 +12,7 @@ export default function EditListOptions(props) {
     const getState = useSelector(state => state.todoLists.todoLists);
     const dispatch = useDispatch()
     const toggleShowAllTodos = () => {
-        dispatch({ type: 'TOGGLE_SHOWALL_TODOS', payload: props.listId });
+        dispatch({ type: TOGGLE_SHOWALL_TODOS, payload: props.listId });
         navigation.goBack();
     }
     let toggleShowAllFlag = getShowCompletedTasksStatusByList(getState, props.listId)
