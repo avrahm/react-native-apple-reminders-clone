@@ -8,9 +8,12 @@ import { formatDateWithDay } from '../assets/utils/formatDate';
 import { getList } from '../redux/selectors/TodoSelectors'
 
 import { useIsMount } from '../assets/utils/useIsMount';
-import { ADD_TODO, COMPLETE_TODO, DELETE_TODO, MARK_TODO_PENDING, UPDATE_TODO } from '../redux/actions/TodoActions';
+import { addTodo, completeTodo, deleteTodo, markTodoPending, updateTodo } from '../redux/actions/TodoActions';
 
 export default function TodoScreen({ route, navigation }) {
+
+    const dispatch = useDispatch();
+
     /* 2. Get the param from the route passed through navigation */
     const { todo } = route.params;
 
@@ -21,43 +24,20 @@ export default function TodoScreen({ route, navigation }) {
 
     const [viewCalendar, toggleViewCalendar] = useState(false);
 
-    const dispatch = useDispatch();
-
-    const dispatchAction = (action, payload, goBack = false) => {
-
-        goBack && navigation.goBack();
-        switch (action) {
-            case 'add':
-                dispatch({ type: ADD_TODO, payload: payload });
-                break;
-            case 'delete':
-                dispatch({ type: DELETE_TODO, payload: payload });
-                break;
-            case 'complete':
-                dispatch({ type: COMPLETE_TODO, payload: payload });
-                break;
-            case 'pending':
-                dispatch({ type: MARK_TODO_PENDING, payload: payload });
-                break;
-            case 'update':
-                dispatch({ type: UPDATE_TODO, payload: payload });
-                break;
-        }
-    };
-
-    const [updateToggle, setUpdateToggle] = useState(false)
+    const [changeListToggle, setChangeListToggle] = useState(false)
 
     const disableSaveButton = (disable = true) => {
         navigation.setOptions({
             headerRight: () =>
                 <Button title='Save' disabled={disable} onPress={() => {
-                    if (updateToggle) {
-                        dispatchAction('delete', todo)
-                        dispatchAction('add', editableTodo, true)
+                    if (changeListToggle) {
+                        dispatch(deleteTodo(todo))
+                        dispatch(addTodo(editableTodo))
                     }
-                    else if (!updateToggle) {
-                        dispatchAction('update', editableTodo, true)
+                    else if (!changeListToggle) {
+                        dispatch(updateTodo(editableTodo))
                     }
+                    navigation.goBack();
                 }} />,
         });
     }
@@ -99,7 +79,7 @@ export default function TodoScreen({ route, navigation }) {
     const handleChangeList = ({ listId }) => {
         if (listId != editableTodo.listId) {
             updateEditableTodo({ ...editableTodo, listId: listId })
-            setUpdateToggle(true)
+            setChangeListToggle(true)
         }
         navigation.navigate('TodoScreen', { todo: todo, name: todo.title })
     }
@@ -112,7 +92,11 @@ export default function TodoScreen({ route, navigation }) {
                     checkedIcon='check-circle'
                     uncheckedIcon={editableTodo.dueDate ? (dueDateGetTime > nowGetTime ? 'circle-o' : 'frown-o') : 'circle-o'}
                     checked={editableTodo.complete}
-                    onPress={() => dispatchAction(editableTodo.complete ? 'pending' : 'complete', editableTodo, true)}
+                    onPress={() => {
+                        editableTodo.complete ? dispatch(pendingTodo(editableTodo)) : dispatch(completeTodo(editableTodo));
+                        navigation.goBack();
+                        // dispatch(editableTodo.complete ? 'pending' : 'complete', editableTodo, true)
+                    }}
                 />
                 <TextInput style={styles.paragraph}
                     value={editableTodo.title}
@@ -187,20 +171,29 @@ export default function TodoScreen({ route, navigation }) {
             <View style={styles.cardView}>
                 <ButtonComponent
                     icon='trash'
-                    onPress={() => dispatchAction('delete', editableTodo, true)}
+                    onPress={() => {
+                        dispatch(deleteTodo(editableTodo));
+                        navigation.goBack();
+                    }}
                     color='red'
                 />
                 {!todo.complete ? (
                     <ButtonComponent
                         icon='checkmark'
                         color='black'
-                        onPress={() => dispatchAction('complete', editableTodo, true)}
+                        onPress={() => {
+                            dispatch(completeTodo(editableTodo));
+                            navigation.goBack();
+                        }}
                     />
                 ) : (
                         <ButtonComponent
                             icon='checkmark'
                             color='green'
-                            onPress={() => dispatchAction('pending', editableTodo, true)}
+                            onPress={() => {
+                                dispatch(markTodoPending(editableTodo));
+                                navigation.goBack();
+                            }}
                         />
                     )}
             </View>

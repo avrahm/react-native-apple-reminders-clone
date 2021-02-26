@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { formatDateWithDay } from "../assets/utils/formatDate";
 import ButtonComponent from "./ButtonComponent";
 
+import { addTodo } from '../redux/actions/TodoActions';
+
 export default function AddTodoForm(props) {
 
   //useState allows to hook into React State  
@@ -37,11 +39,11 @@ export default function AddTodoForm(props) {
   const dispatch = useDispatch();
 
   //to use the dispatch method, simply dispatch the action  type and payload
-  const addTodo = (todo) => {
+  const addTodoProcess = (todo) => {
     if (newTodo.title != '') {
       toggleAddTodoForm(false);
       setNewTodo({ title: '', listId: props.listId || 0 });
-      dispatch({ type: "ADD_TODO", payload: todo });
+      dispatch(addTodo(todo))
       Keyboard.dismiss
     } else {
       Keyboard.dismiss
@@ -76,12 +78,12 @@ export default function AddTodoForm(props) {
             })}
             autoFocus={true}
             defaultValue={newTodo.title}
-            onSubmitEditing={() => addTodo(newTodo)}
+            onSubmitEditing={() => addTodoProcess(newTodo)}
           />
           <ButtonComponent
             text="Add"
             color='white'
-            onPress={() => addTodo(newTodo)}
+            onPress={() => addTodoProcess(newTodo)}
             disable={newTodo.title === '' && true}
           />
         </View>
