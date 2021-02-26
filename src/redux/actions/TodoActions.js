@@ -19,22 +19,22 @@ export const UPDATE_LIST = 'UPDATE_LIST';
 //can't setup dispatch outside of a functional component
 
 //action creators
-export const addTodo = newTodo => dispatch({ type: ADD_TODO, payload: newTodo });
+export const addTodo = newTodo => dispatch => dispatch({ type: ADD_TODO, payload: newTodo });
 
-export const deleteTodo = todo => dispatch({ type: DELETE_TODO, payload: todo });
+export const deleteTodo = todo => dispatch => dispatch({ type: DELETE_TODO, payload: todo });
 
-export const completeTodo = todo => dispatch({ type: COMPLETE_TODO, payload: todo });
+export const completeTodo = todo => dispatch => dispatch({ type: COMPLETE_TODO, payload: todo });
 
-export const markTodoPending = todo => dispatch({ type: MARK_TODO_PENDING, payload: todo });
+export const markTodoPending = todo => dispatch => dispatch({ type: MARK_TODO_PENDING, payload: todo });
 
-export const updateTodo = todo => dispatch({ type: UPDATE_TODO, payload: todo });
+export const updateTodo = todo => dispatch => dispatch({ type: UPDATE_TODO, payload: todo });
 
-export const toggleShowAllTodos = listId => dispatch({ type: TOGGLE_SHOWALL_TODOS, payload: listId });
+export const toggleShowAllTodos = listId => dispatch => dispatch({ type: TOGGLE_SHOWALL_TODOS, payload: listId });
 
-export const toggleShowSearchResults = bool => dispatch({ type: TOGGLE_SHOW_SEARCH_RESULTS, payload: bool });
+export const toggleShowSearchResults = bool => dispatch => dispatch({ type: TOGGLE_SHOW_SEARCH_RESULTS, payload: bool });
 
-export const deleteList = list => dispatch({ type: DELETE_LIST, payload: list });
+export const deleteList = list => dispatch => dispatch({ type: DELETE_LIST, payload: list });
 
-export const addList = list => dispatch({ type: ADD_LIST, payload: list });
+export const addList = list => dispatch => dispatch({ type: ADD_LIST, payload: list });
 
-export const updateList = list => dispatch({ type: UPDATE_LIST, payload: list });
+export const updateList = list => dispatch => dispatch({ type: UPDATE_LIST, payload: list });
