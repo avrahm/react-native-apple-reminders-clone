@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { CheckBox } from 'react-native-elements'
 import { useDispatch } from 'react-redux';
-import { COMPLETE_TODO, MARK_TODO_PENDING } from '../redux/actions/TodoActions';
+import { completeTodo, markTodoPending } from '../redux/actions/TodoActions';
 
 export default function TodoRow({ todo }) {
   const navigation = useNavigation();
@@ -12,10 +12,10 @@ export default function TodoRow({ todo }) {
     switch (action) {
       case 'complete':
         todo.dueDate = '';
-        dispatch({ type: COMPLETE_TODO, payload: todo });
+        dispatch(completeTodo(todo))
         break;
       case 'pending':
-        dispatch({ type: MARK_TODO_PENDING, payload: todo });
+        dispatch(markTodoPending(todo))
         break;
     }
   };

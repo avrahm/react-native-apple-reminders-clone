@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RectButton } from 'react-native-gesture-handler';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { getTodosByList } from '../redux/selectors/TodoSelectors';
-import { ADD_TODO, DELETE_LIST, DELETE_TODO } from '../redux/actions/TodoActions';
+import { addTodo, deleteList, deleteTodo } from '../redux/actions/TodoActions';
 
 export default function SwipeableRow({ children, ...props }) {
 
@@ -25,8 +25,8 @@ export default function SwipeableRow({ children, ...props }) {
         })
     }
 
-    const confirmedDeleteList = (list) => {
-        dispatch({ type: DELETE_LIST, payload: props });
+    const confirmedDeleteList = (list = props) => {
+        dispatch(deleteList(list))
         navigation.navigate('HomeScreen')
     }
 
@@ -37,10 +37,10 @@ export default function SwipeableRow({ children, ...props }) {
         if (todosFromList.length != 0) {
             todosFromList.map(eachTodo => {
                 if (decisionToDeleteTodos) {
-                    dispatch({ type: DELETE_TODO, payload: eachTodo })
+                    dispatch(deleteTodo(eachTodo))
                 } else if (!decisionToDeleteTodos) {
                     eachTodo.listId = 0
-                    dispatch({ type: ADD_TODO, payload: eachTodo });
+                    dispatch(addTodo(eachTodo))
                 }
             })
         }
@@ -57,7 +57,7 @@ export default function SwipeableRow({ children, ...props }) {
             close();
             switch (action) {
                 case 'deleteTodo':
-                    dispatch({ type: DELETE_TODO, payload: todo });
+                    dispatch(deleteTodo(todo))
                     break;
                 case 'deleteList':
                     navigateToConfirmDeleteModal()

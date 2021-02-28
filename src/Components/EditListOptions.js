@@ -4,18 +4,19 @@ import { TouchableOpacity, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { getShowCompletedTasksStatusByList } from '../redux/selectors/TodoSelectors';
 import ButtonComponent from './ButtonComponent';
-import { TOGGLE_SHOWALL_TODOS } from '../redux/actions/TodoActions';
+import { toggleShowAllTodos } from '../redux/actions/TodoActions';
 
 export default function EditListOptions(props) {
-
     const navigation = useNavigation()
-    const getState = useSelector(state => state.todoLists.todoLists);
     const dispatch = useDispatch()
-    const toggleShowAllTodos = () => {
-        dispatch({ type: TOGGLE_SHOWALL_TODOS, payload: props.listId });
+
+    const getState = useSelector(state => state.todoLists.todoLists);
+    const getShowCompleteFlag = getShowCompletedTasksStatusByList(getState, props.listId)
+
+    const handleToggleShowAllTodos = () => {
+        dispatch(toggleShowAllTodos(props.listId))
         navigation.goBack();
     }
-    let toggleShowAllFlag = getShowCompletedTasksStatusByList(getState, props.listId)
     // const navigateToConfirmDeleteModal = () => {
     //     navigation.navigate('ModalListScreen', {
     //         showConfirmDeleteListOptions: true,
@@ -35,10 +36,10 @@ export default function EditListOptions(props) {
                 alignItems: 'center',
                 paddingBottom: 10
             }}>
-                <TouchableOpacity onPress={() => toggleShowAllTodos()}>
-                    <ButtonComponent text={!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'} icon={!toggleShowAllFlag ? 'eye' : 'eye-off'} />
+                <TouchableOpacity onPress={() => handleToggleShowAllTodos()}>
+                    <ButtonComponent text={!getShowCompleteFlag ? 'Show Completed' : 'Hide Completed'} icon={!getShowCompleteFlag ? 'eye' : 'eye-off'} />
                 </TouchableOpacity>
-                <Text>{!toggleShowAllFlag ? 'Show Completed' : 'Hide Completed'}</Text>
+                <Text>{!getShowCompleteFlag ? 'Show Completed' : 'Hide Completed'}</Text>
             </View>
             {props.allowToModifyList && (
                 <View>
@@ -54,7 +55,6 @@ export default function EditListOptions(props) {
                         </TouchableOpacity>
                         <Text>Name & Appearace</Text>
                     </View>
-
                     <View style={{
                         justifyContent: 'center',
                         alignItems: 'center',
@@ -67,7 +67,6 @@ export default function EditListOptions(props) {
                     </View>
                 </View>
             )}
-
         </View>
     )
 }
