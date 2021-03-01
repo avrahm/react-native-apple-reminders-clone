@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import Constants from "expo-constants";
-import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button } from "react-native";
-import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList, inboxTodos } from "../redux/selectors/TodoSelectors";
+import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button, StatusBar } from "react-native";
+import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList } from "../redux/selectors/TodoSelectors";
 
 import ButtonComponent from '../Components/ButtonComponent';
 import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
+
 
 export default function HomeScreen({ navigation }) {
   const getAllTodos = useSelector(state => state.todoLists.todoLists);
@@ -18,6 +19,7 @@ export default function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
+    <StatusBar barStyle = "dark-content" hidden = {false} backgroundColor = "#000000" translucent = {true}/>
       <SearchBarComponent />
       {!toggleShowSearchResults && (
         <ScrollView>
