@@ -11,6 +11,7 @@ import HomeScreen from './Screens/HomeScreen';
 import TodoScreen from './Screens/TodoScreen';
 import AddListScreen from './Screens/AddListScreen';
 import ModalListScreen from './Screens/ModalListScreen';
+import ProfileScreen from './Screens/ProfileScreen';
 
 //Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -30,10 +31,10 @@ export default function ToDoApp() {
                     tabBarIcon: ({ focused, color, size }) => {
                         let iconName;
 
-                        if (route.name === 'PendingTodos') {
+                        if (route.name === 'ProfileStack') {
                             iconName = focused
-                                ? 'ios-information-circle'
-                                : 'ios-information-circle-outline';
+                                ? 'person-circle'
+                                : 'person-circle-outline';
                         } else if (route.name === 'HomeStack') {
                             iconName = focused ? 'ios-list' : 'ios-list';
                         }
@@ -51,12 +52,13 @@ export default function ToDoApp() {
                     options={{ tabBarLabel: "Lists" }}
                     name="HomeStack"
                     component={HomeStack} />
-                {/* <Tab.Screen
+                <Tab.Screen
                     options={{
-                        tabBarLabel: "Pending Todos", tabBarBadge: pendingTodos.length
+                        tabBarLabel: "Profile"
+                        // , tabBarBadge: profile.length
                     }}
-                    name="PendingTodos"
-                    component={PendingStack} /> */}
+                    name="ProfileStack"
+                    component={ProfileStack} />
             </Tab.Navigator>
         </NavigationContainer>
     )
@@ -107,6 +109,18 @@ function HomeStack({ navigation }) {
                 options={({ route }) => ({
                     title: route.params.title,
                     label: 'Back',
+                })} />
+        </Stack.Navigator>
+    )
+}
+
+function ProfileStack() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="ProfileScreen"
+                component={ProfileScreen}
+                options={() => ({
+                    title: 'Login',
                 })} />
         </Stack.Navigator>
     )
