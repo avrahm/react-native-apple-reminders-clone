@@ -12,6 +12,8 @@ import TodoScreen from './Screens/TodoScreen';
 import AddListScreen from './Screens/AddListScreen';
 import ModalListScreen from './Screens/ModalListScreen';
 import ProfileScreen from './Screens/ProfileScreen';
+import LoginScreen from './Screens/LoginScreen';
+import SignUpScreen from './Screens/SignUpScreen';
 
 //Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -120,7 +122,17 @@ function ProfileStack() {
             <Stack.Screen name="ProfileScreen"
                 component={ProfileScreen}
                 options={() => ({
+                    title: 'Profile',
+                })} />
+            <Stack.Screen name="LoginScreen"
+                component={LoginScreen}
+                options={() => ({
                     title: 'Login',
+                })} />
+            <Stack.Screen name="SignUpScreen"
+                component={SignUpScreen}
+                options={() => ({
+                    title: 'Sign Up',
                 })} />
         </Stack.Navigator>
     )
