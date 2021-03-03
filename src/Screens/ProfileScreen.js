@@ -11,9 +11,7 @@ export default function ProfileScreen() {
             justifyContent: 'flex-start',
             alignItems: 'center'
         }}>
-
             <LoginScreen />
         </View>
     )
 }
-
