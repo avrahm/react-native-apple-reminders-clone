@@ -10,7 +10,7 @@ export default function EditListOptions(props) {
     const navigation = useNavigation()
     const dispatch = useDispatch()
 
-    const getState = useSelector(state => state.todoLists.todoLists);
+    const getState = useSelector(state => state.todoState.todoLists);
     const getShowCompleteFlag = getShowCompletedTasksStatusByList(getState, props.listId)
 
     const handleToggleShowAllTodos = () => {

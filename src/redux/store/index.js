@@ -6,7 +6,8 @@ import thunk from 'redux-thunk'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 
-import TodoListReducer from '../reducers/TodoListReducer';
+import userReducer from '../reducers/UserReducer';
+import todoReducer from '../reducers/TodoListReducer';
 
 const persistConfig = {
     key: 'root',
@@ -16,12 +17,15 @@ const persistConfig = {
 
 //combine Reducers 
 const rootReducer = combineReducers({
-    todoLists: persistReducer(persistConfig, TodoListReducer),
+    todoState: todoReducer,
+    userState: userReducer
 })
+
+const pReducer = persistReducer(persistConfig, rootReducer);
 
 //The middleware function thunk allows a redux store to make asynchronous AJAX requests
 //actions muct be plain objects. middleware allows for async actions
 
 //create the store: the applications state
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(pReducer, applyMiddleware(thunk));
 export const persistor = persistStore(store); 

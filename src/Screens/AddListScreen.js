@@ -8,7 +8,7 @@ import { addList, updateList } from '../redux/actions/TodoActions';
 
 export default function AddListScreen({ navigation, route }) {
 
-    let currentListId = useSelector(state => state.todoLists.listId);
+    let currentListId = useSelector(state => state.todoState.listId);
     let listToUpdate = {
         title: '',
         icon: '',
@@ -19,7 +19,7 @@ export default function AddListScreen({ navigation, route }) {
     };
     let listAction = 'add';
     if (route.params) {
-        let getState = useSelector(state => state.todoLists.todoLists)
+        let getState = useSelector(state => state.todoState.todoLists)
         listToUpdate = getList(getState, route.params.listId)
         if (route.params.editList) listAction = 'update';
     }

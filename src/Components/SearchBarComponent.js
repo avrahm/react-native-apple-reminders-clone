@@ -11,8 +11,8 @@ export default function SearchBarComponent() {
     const dispatch = useDispatch();
 
     const [searchBarText, setsearchBarText] = useState('');
-    const getToggleShowSearchResults = useSelector(state => state.todoLists.toggleShowSearchResults)
-    const getAllTodos = useSelector(state => state.todoLists.todoLists);
+    const getToggleShowSearchResults = useSelector(state => state.todoState.toggleShowSearchResults)
+    const getAllTodos = useSelector(state => state.todoState.todoLists);
 
     useEffect(() => {
         dispatch(toggleShowSearchResults(searchBarText != '' ? true : false))

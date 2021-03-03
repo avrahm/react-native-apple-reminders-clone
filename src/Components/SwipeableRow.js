@@ -30,7 +30,7 @@ export default function SwipeableRow({ children, ...props }) {
         navigation.navigate('HomeScreen')
     }
 
-    const getAllTodos = useSelector(state => state.todoLists.todoLists);
+    const getAllTodos = useSelector(state => state.todoState.todoLists);
 
     const deleteTasksAssignedToList = (decisionToDeleteTodos, listId) => {
         const todosFromList = getTodosByList(getAllTodos, listId)

@@ -58,7 +58,7 @@ export default function ToDoScreen({ route, navigation }, props) {
   //useSelector is a hooks method instead of mapStateToProps
   //Allows a functional component to hook into the state
 
-  let getAllTodos = useSelector(state => state.todoLists.todoLists);
+  let getAllTodos = useSelector(state => state.todoState.todoLists);
   let showCompletedTasksStatus;
   let todoData;
 

@@ -17,7 +17,7 @@ LogBox.ignoreLogs([
 export default function ListOfLists(props) {
 
     const navigation = useNavigation();
-    const state = useSelector(state => state.todoLists.todoLists);
+    const state = useSelector(state => state.todoState.todoLists);
     let lists = getAllLists(state);
 
     let showHiddenLists = !props.showHiddenLists ? false : true;

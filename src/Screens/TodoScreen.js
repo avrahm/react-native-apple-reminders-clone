@@ -44,7 +44,7 @@ export default function TodoScreen({ route, navigation }) {
 
     // const getList = useSelector(state => state.lists.lists).filter(list => list.id === editableTodo.listId)[0]
 
-    const getAllTodos = useSelector(state => state.todoLists.todoLists);
+    const getAllTodos = useSelector(state => state.todoState.todoLists);
     const list = getList(getAllTodos, editableTodo.listId)
 
     const isMount = useIsMount();
