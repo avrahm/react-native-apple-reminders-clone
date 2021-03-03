@@ -4,6 +4,7 @@ import { Text, View, TextInput, StyleSheet } from 'react-native';
 
 import ButtonComponent from '../Components/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
+import { login } from '../firebase/functions/login';
 //https://www.freecodecamp.org/news/react-native-firebase-tutorial/
 export default function LoginScreen() {
 
@@ -13,31 +14,7 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('')
 
     const onLoginPress = () => {
-        firebase
-            .auth()
-            .signInWithEmailAndPassword(email, password)
-            .then((response) => {
-                const uid = response.user.uid
-                const usersRef = firebase.firestore().collection('users')
-                usersRef
-                    .doc(uid)
-                    .get()
-                    .then(firestoreDocument => {
-                        if (!firestoreDocument.exists) {
-                            alert("User does not exist anymore.")
-                            return;
-                        }
-                        const user = firestoreDocument.data()
-                        // navigation.navigate('Home', {user})
-                        console.log(user);
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-            })
-            .catch(error => {
-                alert(error)
-            })
+        login(email, password)
     }
 
     return (

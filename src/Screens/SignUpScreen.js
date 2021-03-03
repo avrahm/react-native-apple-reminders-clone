@@ -4,6 +4,7 @@ import { Text, View, TextInput, StyleSheet } from 'react-native';
 
 import ButtonComponent from '../Components/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
+import { signUp } from '../firebase/functions/signup';
 
 export default function SignUpScreen() {
 
@@ -14,37 +15,18 @@ export default function SignUpScreen() {
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
+    const signupDetails = {
+        fullName,
+        email,
+        password
+    }
 
     const onRegisterPress = () => {
         if (password !== confirmPassword) {
             alert("Passwords don't match.")
             return
         }
-        firebase
-            .auth()
-            .createUserWithEmailAndPassword(email, password)
-            .then((response) => {
-                const uid = response.user.uid
-                const data = {
-                    id: uid,
-                    email,
-                    fullName,
-                };
-                const usersRef = firebase.firestore().collection('users')
-                usersRef
-                    .doc(uid)
-                    .set(data)
-                    .then(() => {
-                        // navigation.navigate('Home', { user: data })
-                        console.log(data);
-                    })
-                    .catch((error) => {
-                        alert(error)
-                    });
-            })
-            .catch((error) => {
-                alert(error)
-            });
+        signUp(signupDetails)
     }
     return (
         <View style={{
@@ -75,7 +57,7 @@ export default function SignUpScreen() {
                 secureTextEntry />
 
             <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
-                <ButtonComponent text='Login Screen' onPress={() => navigation.navigate('LoginScreen')} />
+                <ButtonComponent text='Login Screen' onPress={() => navigation.goBack()} />
                 <ButtonComponent text='Sign Up' onPress={() => onRegisterPress()} />
             </View>
         </View>
