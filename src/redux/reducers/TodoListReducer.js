@@ -46,7 +46,7 @@ const initialState = {
 }
 
 //reducer handles the actions sent by dispatchers to modify and return the state
-const todoLists = (state = initialState, action) => {
+const todoReducer = (state = initialState, action) => {
 
     let todoIndex;
     let newState;
@@ -229,4 +229,4 @@ const todoLists = (state = initialState, action) => {
     return state;
 }
 
-export default todoLists;
+export default todoReducer;

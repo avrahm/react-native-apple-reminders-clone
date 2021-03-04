@@ -12,7 +12,7 @@ import todoReducer from '../reducers/TodoListReducer';
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    // whitelist: ['todoLists']
+    whitelist: ['userInfo']
 }
 
 //combine Reducers 

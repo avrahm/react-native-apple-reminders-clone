@@ -1,5 +1,3 @@
-// import { useDispatch } from "react-redux"
-
 //action types
 export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
@@ -15,7 +13,6 @@ export const UPDATE_LIST = 'UPDATE_LIST';
 //useDispatch allows functional components to access the dispatch method 
 //to use the dispatch method, simply dispatch the action  type and payload
 // const dispatch = useDispatch();
-
 //can't setup dispatch outside of a functional component
 
 //action creators
