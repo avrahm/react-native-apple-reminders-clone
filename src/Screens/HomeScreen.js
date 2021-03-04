@@ -1,45 +1,20 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Constants from "expo-constants";
-
-import { firebase } from '../firebase/config';
 import { StyleSheet, Text, ScrollView, TouchableOpacity, View, Button, StatusBar } from "react-native";
 import { getAllTodosWithoutList, getCompleteTodos, getDueTodayTodos, getTodosByList } from "../redux/selectors/TodoSelectors";
 
 import ButtonComponent from '../Components/ButtonComponent';
 import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
-import persistUser from "../firebase/functions/persistUser"
-import { setUser } from "../redux/actions/UserActions";
+import { persistUserFromFirebase } from "../firebase/functions/persistUser";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
   useEffect(() => {
-    //connect to firebase and retrieve the 'users' collection
-    const usersRef = firebase.firestore().collection('users');
-    //use the auth method to link into the app firebase service
-    //onAuthStateChanged returns the currently signed in user
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        usersRef
-          .doc(user.uid)
-          .get()
-          .then((document) => {
-            //handle persisted user data
-            const userData = document.data()
-            // setLoading(false)
-            dispatch(setUser(userData))
-          })
-          .catch((error) => {
-            // handle errors when getting persisted user 
-            // setLoading(false)
-          });
-      } else {
-        //handle no persisted user
-        // setLoading(false)
-      }
-    });
+    dispatch(persistUserFromFirebase())
   }, []);
+
   const getAllTodos = useSelector(state => state.todoState.todoLists);
   const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
   const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;

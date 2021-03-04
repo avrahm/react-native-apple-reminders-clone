@@ -1,11 +1,12 @@
 import { firebase } from '../config';
+import { setUser } from '../../redux/actions/UserActions';
 
-export function persistUser() {
+export const persistUserFromFirebase = () => dispatch => {
     //connect to firebase and retrieve the 'users' collection
     const usersRef = firebase.firestore().collection('users');
     //use the auth method to link into the app firebase service
     //onAuthStateChanged returns the currently signed in user
-    firebase.auth().onAuthStateChanged(user => {
+  firebase.auth().onAuthStateChanged(user => {
         if (user) {
             usersRef
                 .doc(user.uid)
@@ -14,7 +15,7 @@ export function persistUser() {
                     //handle persisted user data
                     const userData = document.data()
                     // setLoading(false)
-                    // setUser(userData)
+                    dispatch(setUser(userData))
                 })
                 .catch((error) => {
                     // handle errors when getting persisted user 
@@ -22,7 +23,7 @@ export function persistUser() {
                 });
         } else {
             //handle no persisted user
-            setLoading(false)
+            // setLoading(false)
         }
     });
 }

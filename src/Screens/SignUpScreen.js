@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
-import { firebase } from '../firebase/config';
+import React, { useEffect, useState } from 'react'
 import { Text, View, TextInput, StyleSheet } from 'react-native';
 
 import ButtonComponent from '../Components/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
-import { signUp } from '../firebase/functions/signup';
+import { signUpFirebase } from '../firebase/functions/signup';
+import { useDispatch, useSelector } from 'react-redux';
 
 export default function SignUpScreen() {
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
+
+    const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
 
     const [fullName, setFullName] = useState('')
     const [email, setEmail] = useState('')
@@ -21,12 +24,17 @@ export default function SignUpScreen() {
         password
     }
 
+    useEffect(() => {
+        //when a user signs up. take them back to the profile screen
+        if (isLoggedIn) navigation.goBack()
+    }, [isLoggedIn])
+
     const onRegisterPress = () => {
         if (password !== confirmPassword) {
             alert("Passwords don't match.")
             return
         }
-        signUp(signupDetails)
+        dispatch(signUpFirebase(signupDetails))
     }
     return (
         <View style={{

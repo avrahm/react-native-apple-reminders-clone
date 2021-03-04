@@ -3,20 +3,13 @@ import { View, Text, Button } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginScreen from './LoginScreen';
 
-import { firebase } from '../firebase/config';
-import { logout } from '../redux/actions/UserActions';
+import { logoutFirebase } from '../firebase/functions/logout';
+
 export default function ProfileScreen() {
     const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
-    // console.log('isLoggedin', isLoggedIn);
-    const dispatch = useDispatch()
-    const signOutUser = async () => {
-        try {
-            await firebase.auth().signOut();
-            // navigate('Auth');
-            dispatch(logout())
-        } catch (e) {
-            console.log(e);
-        }
+    const dispatch = useDispatch();
+    const signOutUser = () => {
+        dispatch(logoutFirebase())
     }
 
     return (

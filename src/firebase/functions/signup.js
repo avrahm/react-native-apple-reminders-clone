@@ -1,6 +1,7 @@
 import { firebase } from '../config';
+import { setUser } from '../../redux/actions/UserActions';
 
-export function signUp(signupDetails) {
+export const signUpFirebase = (signupDetails) => dispatch => {
     const { fullName, email, password } = signupDetails;
     firebase
         .auth()
@@ -20,7 +21,7 @@ export function signUp(signupDetails) {
                 .then(() => {
                     // handle successful retrieving user data
                     // navigation.navigate('Home', { user: data })
-                    console.log(data);
+                    dispatch(setUser(data))
                 })
                 .catch((error) => {
                     //handle errors when retrieving user data
