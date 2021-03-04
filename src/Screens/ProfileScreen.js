@@ -7,6 +7,7 @@ import { logoutFirebase } from '../firebase/functions/logout';
 
 export default function ProfileScreen() {
     const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
+    const userInfo = useSelector(state => state.userState.userInfo);
     const dispatch = useDispatch();
     const signOutUser = () => {
         dispatch(logoutFirebase())
@@ -21,7 +22,7 @@ export default function ProfileScreen() {
         }}>
             {isLoggedIn ? (
                 <View>
-                    <Text>Logged In</Text>
+                    <Text>Logged In as {userInfo.email}</Text>
                     <Button onPress={() => signOutUser()} title='Logout' />
                 </View>
             ) : (
