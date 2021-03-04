@@ -5,16 +5,50 @@ import { Text, View, TextInput, StyleSheet } from 'react-native';
 import ButtonComponent from '../Components/ButtonComponent';
 import { useNavigation } from '@react-navigation/native';
 import { login } from '../firebase/functions/login';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/actions/UserActions';
 //https://www.freecodecamp.org/news/react-native-firebase-tutorial/
 export default function LoginScreen() {
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const onLoginPress = () => {
-        login(email, password)
+        // login(email, password)
+        firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password)
+        .then((response) => {
+            //handle successful login
+            const uid = response.user.uid
+            //connect to firestore collection 'users'
+            const usersRef = firebase.firestore().collection('users')
+            usersRef
+                .doc(uid)
+                .get()
+                .then(firestoreDocument => {
+                    //check firestore for user account data
+                    if (!firestoreDocument.exists) {
+                        alert("User does not exist anymore.")
+                        return;
+                    }
+                    const user = firestoreDocument.data()
+                    // navigation.navigate('Home', {user})
+                    // console.log(user);
+                    dispatch(setUser(user))
+                })
+                .catch(error => {
+                    //handle error retriveing user account
+                    alert(error)
+                });
+        })
+        .catch(error => {
+            //handle errors on login
+            alert(error)
+        })
     }
 
     return (
