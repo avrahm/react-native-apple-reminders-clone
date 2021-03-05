@@ -8,6 +8,7 @@ import { SET_USER, LOGOUT } from '../actions/UserActions'
 //create the initial state of the app
 const initialUserState = {
     isLoggedIn: false,
+    lastSynced: '',
     userInfo: []
 }
 
@@ -19,7 +20,6 @@ const userReducer = (state = initialUserState, action) => {
                 isLoggedIn: { $set: true },
                 $merge: { userInfo: action.payload }
             })
-            console.log('newstate', newState);
             return {
                 ...newState
             };

@@ -9,10 +9,11 @@ import { persistStore, persistReducer } from 'redux-persist';
 import userReducer from '../reducers/UserReducer';
 import todoReducer from '../reducers/TodoListReducer';
 
+//The whitelist takes an array of strings. It is used to define which object key to use from the initial state to save the data. If no whitelist is provided, then redux persists all state. 
 const persistConfig = {
     key: 'root',
     storage: AsyncStorage,
-    whitelist: ['userInfo']
+    // whitelist: ['todoReducer']
 }
 
 //combine Reducers 
