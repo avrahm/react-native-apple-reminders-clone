@@ -8,14 +8,32 @@ import ButtonComponent from '../Components/ButtonComponent';
 import ListOfLists from "../Components/ListOfLists";
 import SearchBarComponent from "../Components/SearchBarComponent";
 import { persistUserFromFirebase } from "../firebase/functions/persistUser";
+import { syncDataToFirebase } from "../firebase/functions/syncData";
+import { getDataFromFirebase } from "../firebase/functions/getData";
 
 export default function HomeScreen({ navigation }) {
   const dispatch = useDispatch();
+
+  const getAllTodos = useSelector(state => state.todoState.todoLists)
+  const userInfo = useSelector(state => state.userState.userInfo);
+
   useEffect(() => {
-    dispatch(persistUserFromFirebase())
+    dispatch(persistUserFromFirebase());
+    if (userInfo.id != '') {
+      dispatch(getDataFromFirebase(userInfo.id))
+    }
   }, []);
 
-  const getAllTodos = useSelector(state => state.todoState.todoLists);
+  if (userInfo.id != '') {
+    useEffect(() => {
+      dispatch(syncDataToFirebase(getAllTodos, userInfo.id))
+    }, [getAllTodos]);
+  }
+
+  // useEffect(() => {
+  //   const getAllTodos = useSelector(state => state.todoState.todoLists);
+  // }, [todoState])
+  
   const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
   const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;
   const inboxTodosTotal = getCompleteTodos(getTodosByList(getAllTodos, 0)).length;
