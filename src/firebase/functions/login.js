@@ -1,5 +1,6 @@
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
+import { getDataFromFirebase } from './getData';
 
 export const loginFirebase = (email, password) => dispatch => {
     firebase
@@ -18,8 +19,8 @@ export const loginFirebase = (email, password) => dispatch => {
                 }
                 const user = firestoreDocument.data()
                 // navigation.navigate('Home', {user})
-                console.log(user);
                 dispatch(setUser(user))
+                dispatch(getDataFromFirebase(uid))
             })
                 .catch(error => {
                     //handle error retriveing user account

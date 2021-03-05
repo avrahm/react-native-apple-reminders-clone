@@ -9,6 +9,7 @@ export const TOGGLE_SHOW_SEARCH_RESULTS = 'TOGGLE_SHOW_SEARCH_RESULTS';
 export const DELETE_LIST = 'DELETE_LIST';
 export const ADD_LIST = 'ADD_LIST';
 export const UPDATE_LIST = 'UPDATE_LIST';
+export const LOAD_DATA = 'LOAD_DATA';
 
 //useDispatch allows functional components to access the dispatch method 
 //to use the dispatch method, simply dispatch the action  type and payload
@@ -35,3 +36,5 @@ export const deleteList = list => dispatch => dispatch({ type: DELETE_LIST, payl
 export const addList = list => dispatch => dispatch({ type: ADD_LIST, payload: list });
 
 export const updateList = list => dispatch => dispatch({ type: UPDATE_LIST, payload: list });
+
+export const loadData = data => dispatch => dispatch({ type: LOAD_DATA, payload: data });
