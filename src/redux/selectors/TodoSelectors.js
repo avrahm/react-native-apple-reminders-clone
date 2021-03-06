@@ -117,3 +117,9 @@ export const getCompletedTodosFromAllTodos = (state) => {
         return result;
     }, [])
 }
+
+export const starterList = {
+    list: { id: 0, title: 'Inbox', icon: 'mail-outline', color: 'gray', listHidden: true },
+    data: [],
+    showCompletedTasks: false
+}

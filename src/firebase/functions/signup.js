@@ -1,6 +1,7 @@
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
 import { syncDataToFirebase } from './syncData';
+import { starterList } from '../../redux/selectors/TodoSelectors';
 
 export const signUpFirebase = (signupDetails) => dispatch => {
     const { fullName, email, password } = signupDetails;
@@ -23,9 +24,7 @@ export const signUpFirebase = (signupDetails) => dispatch => {
                     // handle successful retrieving user data
                     // navigation.navigate('Home', { user: data })
                     dispatch(setUser(data))
-
-                    dispatch(syncDataToFirebase({}, uid))
-
+                    dispatch(syncDataToFirebase(starterList, uid))
                 })
                 .catch((error) => {
                     //handle errors when retrieving user data
