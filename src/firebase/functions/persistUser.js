@@ -6,7 +6,7 @@ export const persistUserFromFirebase = () => dispatch => {
     const usersRef = firebase.firestore().collection('users');
     //use the auth method to link into the app firebase service
     //onAuthStateChanged returns the currently signed in user
-  firebase.auth().onAuthStateChanged(user => {
+    firebase.auth().onAuthStateChanged(user => {
         if (user) {
             usersRef
                 .doc(user.uid)
@@ -20,10 +20,13 @@ export const persistUserFromFirebase = () => dispatch => {
                 .catch((error) => {
                     // handle errors when getting persisted user 
                     // setLoading(false)
+
+                alert(error);
                 });
         } else {
             //handle no persisted user
             // setLoading(false)
+            alert('no user')
         }
     });
 }
