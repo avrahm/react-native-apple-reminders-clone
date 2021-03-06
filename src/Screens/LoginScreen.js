@@ -1,50 +1,53 @@
-import React, { useState } from 'react'
-import { firebase } from '../firebase/config';
-import { Text, View, TextInput, StyleSheet } from 'react-native';
-
-import ButtonComponent from '../Components/ButtonComponent';
-import { useNavigation } from '@react-navigation/native';
-import { loginFirebase } from '../firebase/functions/login';
+import React, { useState } from 'react';
+import {
+    Text, View, TextInput, StyleSheet, Button,
+} from 'react-native';
 import { useDispatch } from 'react-redux';
+import { useNavigation } from '@react-navigation/native';
 
-//https://www.freecodecamp.org/news/react-native-firebase-tutorial/
+import { loginFirebase } from '../firebase/functions/login';
+import ButtonComponent from '../Components/ButtonComponent';
+
+// https://www.freecodecamp.org/news/react-native-firebase-tutorial/
 export default function LoginScreen() {
 
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const onLoginPress = () => {
-        dispatch(loginFirebase(email, password))
-    }
+
+        dispatch(loginFirebase(email, password));
+
+    };
 
     return (
-        <View style={{
-            flex: 1,
-            flexDirection: 'column',
-            justifyContent: 'flex-start',
-            alignItems: 'center'
-        }}>
-            <TextInput style={styles.TextInput}
-                placeholder='name@example.com'
-                keyboardType='email-address'
-                onChangeText={(email => { setEmail(email) })}
+        <View style={styles.container}>
+            <TextInput
+                style={styles.TextInput}
+                placeholder="name@example.com"
+                keyboardType="email-address"
+                onChangeText={(emailOnChange => setEmail(emailOnChange))}
             />
 
-            <TextInput style={styles.TextInput}
-                placeholder='password'
-                keyboardType='visible-password'
-                onChangeText={(password => { setPassword(password) })}
-                secureTextEntry />
+            <TextInput
+                style={styles.TextInput}
+                placeholder="password"
+                keyboardType="visible-password"
+                onChangeText={(passwordOnChange => setPassword(passwordOnChange))}
+                secureTextEntry
+            />
 
-            <View style={{ flexDirection: 'row', justifyContent: 'center' }} >
-                <ButtonComponent text='Login' onPress={() => onLoginPress()} />
-                <ButtonComponent text='Sign Up Screen' onPress={() => navigation.navigate('SignUpScreen')} />
+            <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                <ButtonComponent text="Login" onPress={() => onLoginPress()} />
+                <Text>Need an Account?</Text>
+                <Text><Button title="Sign Up" onPress={() => navigation.navigate('SignUpScreen')} /></Text>
             </View>
         </View>
-    )
+    );
+
 }
 
 const styles = StyleSheet.create({
@@ -54,5 +57,11 @@ const styles = StyleSheet.create({
         padding: 10,
         width: 300,
         margin: 10,
-    }
-})
+    },
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+});
