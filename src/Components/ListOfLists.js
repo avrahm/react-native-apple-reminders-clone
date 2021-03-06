@@ -1,14 +1,15 @@
-import React from 'react'
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
-import { View, Text, StyleSheet, LogBox } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import {
+    View, Text, StyleSheet, LogBox,
+} from 'react-native';
 
 import SwipeableRow from './SwipeableRow';
 import { getAllLists } from '../redux/selectors/TodoSelectors';
 
-//in react navigation 5 passing a function through params results in the yellow box warning of non-serializable values. this is due to warning to prevent issues with deep linking or state persistence
+// in react navigation 5 passing a function through params results in the yellow box warning of non-serializable values. this is due to warning to prevent issues with deep linking or state persistence
 
 LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state',
@@ -16,31 +17,33 @@ LogBox.ignoreLogs([
 
 export default function ListOfLists(props) {
 
-    const navigation = useNavigation();
-    const state = useSelector(state => state.todoState.todoLists);
-    let lists = getAllLists(state);
+    const getTodoState = useSelector(state => state.todoState.todoLists);
+    let lists = getAllLists(getTodoState);
 
-    let showHiddenLists = !props.showHiddenLists ? false : true;
+    const showHiddenLists = !!props.showHiddenLists;
     if (!showHiddenLists) lists = lists.filter(list => !list.listHidden);
 
     return (
         <View style={{ width: '100%' }}>
             {
                 lists.map((item, i) => (
-                    <SwipeableRow key={i}
-                        action='deleteList'
-                        id={item.id}>
-                        <ListItem key={i} bottomDivider
+                    <SwipeableRow
+                        key={i}
+                        action="deleteList"
+                        id={item.id}
+                    >
+                        <ListItem
+                            key={i}
+                            bottomDivider
                             onPress={() => props.handleOnPress({
                                 listId: item.id,
-                                title: item.title
+                                title: item.title,
                             })}
                         >
                             <View style={[styles.listIcon, { backgroundColor: item.color }]}>
                                 <Text>
-                                    {item.icon &&
-                                        <Ionicons name={item.icon} size={20} color={'white'} />
-                                    }
+                                    {item.icon
+                                        && <Ionicons name={item.icon} size={20} color="white" />}
                                 </Text>
                             </View>
                             <ListItem.Content>
@@ -54,7 +57,8 @@ export default function ListOfLists(props) {
                 ))
             }
         </View>
-    )
+    );
+
 }
 
 const styles = StyleSheet.create({
@@ -63,6 +67,6 @@ const styles = StyleSheet.create({
         width: 30,
         borderRadius: 50,
         justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
+        alignItems: 'center',
+    },
+});

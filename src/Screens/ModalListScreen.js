@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Button, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import ListOfLists from '../Components/ListOfLists';
@@ -12,7 +12,7 @@ export default function ModalListScreen({ route }) {
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
             {route.params.showLists && (
                 <ListOfLists
-                    showHiddenLists={true}
+                    showHiddenLists
                     handleOnPress={route.params.handleOnPress}
                 />
             )}
@@ -30,5 +30,6 @@ export default function ModalListScreen({ route }) {
             )}
             <Button onPress={() => navigation.goBack()} title="Dismiss" />
         </View>
-    )
+    );
+
 }

@@ -1,20 +1,20 @@
-import React from "react";
-import { StyleSheet, View, FlatList, Text, SectionList } from "react-native";
-import TodoRow from "./TodoRow";
-import SwipeableRow from "./SwipeableRow";
+import React from 'react';
+import {
+    StyleSheet, View, FlatList, Text, SectionList,
+} from 'react-native';
+import TodoRow from './TodoRow';
+import SwipeableRow from './SwipeableRow';
 
 export default function ToDoList(props) {
 
-    const renderItem = ({ item }) => {
-        return (
-            <SwipeableRow action='deleteTodo' id={item.id}>
-                <TodoRow todo={item} />
-            </SwipeableRow>
-        )
-    };
+    const renderItem = ({ item }) => (
+        <SwipeableRow action="deleteTodo" id={item.id}>
+            <TodoRow todo={item} />
+        </SwipeableRow>
+    );
     return (
         <View>
-            {(props.listType === "all" || props.listType == "searchResults") ? (
+            {(props.listType === 'all' || props.listType == 'searchResults') ? (
                 <SectionList
                     sections={props.todoData.filter(list => list.data.length > 0)}
                     renderItem={renderItem}
@@ -25,15 +25,16 @@ export default function ToDoList(props) {
                     )}
                 />
             ) : (
-                    <FlatList
-                        data={props.todoData}
-                        renderItem={renderItem}
-                        ItemSeparatorComponent={() => <View style={styles.separator} />}
-                        keyExtractor={item => item.id.toString()}
-                    />
+                <FlatList
+                    data={props.todoData}
+                    renderItem={renderItem}
+                    ItemSeparatorComponent={() => <View style={styles.separator} />}
+                    keyExtractor={item => item.id.toString()}
+                />
                 )}
         </View>
     );
+
 }
 
 const styles = StyleSheet.create({
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
     },
     item: {
         padding: 20,
-        marginVertical: 8
+        marginVertical: 8,
     },
     header: {
         fontSize: 24,
-        backgroundColor: "#fff"
+        backgroundColor: '#fff',
     },
     title: {
-        fontSize: 22
-    }
+        fontSize: 22,
+    },
 });

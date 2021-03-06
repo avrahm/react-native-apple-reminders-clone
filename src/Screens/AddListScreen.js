@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { TouchableOpacity, Button, View, Text } from 'react-native'
+import {
+    TouchableOpacity, Button, View, Text,
+} from 'react-native';
 import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { getList } from '../redux/selectors/TodoSelectors';
@@ -19,12 +21,14 @@ export default function AddListScreen({ navigation, route }) {
     };
     let listAction = 'add';
     if (route.params) {
-        let getState = useSelector(state => state.todoState.todoLists)
-        listToUpdate = getList(getState, route.params.listId)
+
+        const getState = useSelector(state => state.todoState.todoLists);
+        listToUpdate = getList(getState, route.params.listId);
         if (route.params.editList) listAction = 'update';
+
     }
 
-    //use state to edit the todo object received from params
+    // use state to edit the todo object received from params
     const [editableList, updateEditableList] = useState({
         title: listToUpdate.title ?? '',
         icon: listToUpdate.icon ?? '',
@@ -37,45 +41,59 @@ export default function AddListScreen({ navigation, route }) {
     const dispatch = useDispatch();
 
     const dispatchAction = (action, payload) => {
+
         if (editableList.title != '') {
+
             switch (action) {
-                case 'add':
-                    dispatch(addList(payload))
-                case 'update':
-                    dispatch(updateList(payload))
+            case 'add':
+                dispatch(addList(payload));
+            case 'update':
+                dispatch(updateList(payload));
             }
             navigation.navigate('HomeScreen');
+
         }
-    }
+
+    };
 
     useEffect(() => {
+
         navigation.setOptions({
-            headerRight: () =>
+            headerRight: () => (
                 <Button
-                    title='Done'
+                    title="Done"
                     disabled={editableList.title == '' && true}
-                    onPress={() => dispatchAction(listAction, editableList)} />,
+                    onPress={() => dispatchAction(listAction, editableList)}
+                />
+            ),
         });
-    }, [editableList])
+
+    }, [editableList]);
 
     const colorOptions = ['red', 'green', 'blue', 'orange', 'gray'];
 
-    const iconOptions = ['barbell', 'baseball-outline', 'airplane', 'basket-outline']
+    const iconOptions = ['barbell', 'baseball-outline', 'airplane', 'basket-outline'];
 
     return (
-        <View style={{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25 }}>
-            <View style={{ height: 110, width: 110, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center' }}>
+        <View style={{
+ flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25,
+}}
+        >
+            <View style={{
+ height: 110, width: 110, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center',
+}}
+            >
                 <Text style={{ marginLeft: 5 }}>
-                    {editableList.icon && <Ionicons name={editableList.icon} size={60} color='white' />}
+                    {editableList.icon && <Ionicons name={editableList.icon} size={60} color="white" />}
                 </Text>
             </View>
             <View style={{ padding: 20, width: '80%' }}>
                 <Input
-                    placeholder='Title'
+                    placeholder="Title"
                     defaultValue={editableList.title}
-                    onChangeText={(e) => updateEditableList({ ...editableList, title: e })}
+                    onChangeText={e => updateEditableList({ ...editableList, title: e })}
                     style={{ textAlign: 'center', padding: 10 }}
-                    autoFocus={true}
+                    autoFocus
                     onSubmitEditing={() => dispatchAction(listAction, editableList)}
                 />
             </View>
@@ -84,21 +102,24 @@ export default function AddListScreen({ navigation, route }) {
                     <TouchableOpacity
                         onPress={() => updateEditableList({ ...editableList, color: eachColor })}
                         key={index}
-                        style={{ width: 40, height: 40, backgroundColor: eachColor, borderRadius: 50, margin: 5 }}
-                    >
-
-                    </TouchableOpacity>
+                        style={{
+ width: 40, height: 40, backgroundColor: eachColor, borderRadius: 50, margin: 5,
+}}
+                    />
                 ))}
                 {iconOptions.map((eachIcon, index) => (
                     <TouchableOpacity
                         onPress={() => updateEditableList({ ...editableList, icon: eachIcon })}
                         key={index}
-                        style={{ width: 40, height: 40, backgroundColor: 'gray', borderRadius: 50, margin: 5, justifyContent: 'center', alignItems: 'center' }}
+                        style={{
+ width: 40, height: 40, backgroundColor: 'gray', borderRadius: 50, margin: 5, justifyContent: 'center', alignItems: 'center',
+}}
                     >
-                        <Ionicons name={eachIcon} size={24} color='white' style={{ marginLeft: 2 }} />
+                        <Ionicons name={eachIcon} size={24} color="white" style={{ marginLeft: 2 }} />
                     </TouchableOpacity>
                 ))}
             </View>
         </View>
-    )
+    );
+
 }

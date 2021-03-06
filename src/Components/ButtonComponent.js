@@ -4,19 +4,23 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 
 const ButtonComponent = ({
-    text, onPress, icon, color, disable
+    text, onPress, icon, color, disable,
 }) => (
     <TouchableOpacity
         style={styles.button}
         onPress={onPress}
         disabled={disable}
-    >
-        {icon ?
-            (
+        >
+        {icon
+            ? (
                 <Ionicons name={icon} size={18} color={color} />
             ) : (
                 <View>
-                    <Text> {text} </Text>
+                    <Text>
+                        {' '}
+                        {text}
+                        {' '}
+                    </Text>
                 </View>
             )}
     </TouchableOpacity>
@@ -35,6 +39,5 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         margin: 5,
-    }
-})
-
+    },
+});

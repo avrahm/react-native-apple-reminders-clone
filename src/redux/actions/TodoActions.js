@@ -1,4 +1,4 @@
-//action types
+// action types
 export const ADD_TODO = 'ADD_TODO';
 export const DELETE_TODO = 'DELETE_TODO';
 export const COMPLETE_TODO = 'COMPLETE_TODO';
@@ -12,12 +12,12 @@ export const UPDATE_LIST = 'UPDATE_LIST';
 export const LOAD_DATA = 'LOAD_DATA';
 export const CLEAR_DATA = 'CLEAR_DATA';
 
-//useDispatch allows functional components to access the dispatch method 
-//to use the dispatch method, simply dispatch the action  type and payload
+// useDispatch allows functional components to access the dispatch method
+// to use the dispatch method, simply dispatch the action  type and payload
 // const dispatch = useDispatch();
-//can't setup dispatch outside of a functional component
+// can't setup dispatch outside of a functional component
 
-//action creators
+// action creators
 export const addTodo = newTodo => dispatch => dispatch({ type: ADD_TODO, payload: newTodo });
 
 export const deleteTodo = todo => dispatch => dispatch({ type: DELETE_TODO, payload: todo });
@@ -40,4 +40,4 @@ export const updateList = list => dispatch => dispatch({ type: UPDATE_LIST, payl
 
 export const loadData = data => dispatch => dispatch({ type: LOAD_DATA, payload: data });
 
-export const clearData = data => dispatch => dispatch({ type: CLEAR_DATA });
+export const clearData = () => dispatch => dispatch({ type: CLEAR_DATA });
