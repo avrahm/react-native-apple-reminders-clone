@@ -10,7 +10,6 @@ import ButtonComponent from '../Components/ButtonComponent';
 
 // https://www.freecodecamp.org/news/react-native-firebase-tutorial/
 export default function LoginScreen() {
-
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -18,9 +17,8 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
 
     const onLoginPress = () => {
-
-        dispatch(loginFirebase(email, password));
-
+        const login = dispatch(loginFirebase(email, password));
+        // if (!login) //do something
     };
 
     return (
@@ -47,7 +45,6 @@ export default function LoginScreen() {
             </View>
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({
