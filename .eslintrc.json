@@ -21,12 +21,13 @@
         "extensions": [".jsx", ".js"]
       }
     ],
+    "no-plusplus": "off",
     "quotes": ["warn", "single", { "avoidEscape": true }],
     "linebreak-style": ["warn", "unix"],
     "semi": ["warn", "always"],
     "max-len": "off", // will set to only comments later
-    "padded-blocks": ["warn", { "blocks": "always" }],
-    "indent": ["warn", 4, { "ignoredNodes": ["JSXElement *"] }],
+    "padded-blocks": ["warn", { "blocks": "never" }],
+    "indent": "off",
     "react/jsx-indent": ["warn", 4],
     "react/jsx-closing-bracket-location": "off",
     "react/jsx-indent-props": ["warn", 4],
