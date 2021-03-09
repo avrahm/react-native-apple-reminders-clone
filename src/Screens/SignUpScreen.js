@@ -9,7 +9,6 @@ import { signUpFirebase } from '../firebase/functions/signup';
 import ButtonComponent from '../Components/ButtonComponent';
 
 export default function SignUpScreen() {
-
     const navigation = useNavigation();
     const dispatch = useDispatch();
 
@@ -27,22 +26,23 @@ export default function SignUpScreen() {
     };
 
     useEffect(() => {
-
         // when a user signs up. take them back to the profile screen
         if (isLoggedIn) navigation.goBack();
-
     }, [isLoggedIn]);
 
     const onRegisterPress = () => {
-
         if (password !== confirmPassword) {
-
             alert("Passwords don't match.");
             return;
-
         }
-        dispatch(signUpFirebase(signupDetails));
-
+        const dispatchSignUp = dispatch(signUpFirebase(signupDetails));
+        if (dispatchSignUp) {
+            // handle successful signup
+            console.log('SIGNED UP');
+        } else {
+            // handle failed signup
+            console.log('FAILED');
+        }
     };
     return (
         <View style={styles.container}>
@@ -80,7 +80,6 @@ export default function SignUpScreen() {
             </View>
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({
