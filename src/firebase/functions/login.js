@@ -1,8 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
+import { getDataFromFirebase } from './getData';
 
-export const loginFirebase = (email, password) => dispatch => {
+export const loginFirebase = (email, password) => async dispatch => {
     firebase
         .auth()
         .signInWithEmailAndPassword(email, password)
@@ -12,7 +13,7 @@ export const loginFirebase = (email, password) => dispatch => {
 
             // connect to firestore collection 'users' to get users details
             const usersRef = firebase.firestore().collection('users');
-            usersRef.doc(uid).get().then(firestoreDocument => {
+            usersRef.doc(uid).get().then(async firestoreDocument => {
                 try {
                     // check firestore for user account data
                     if (!firestoreDocument.exists) {
@@ -21,6 +22,7 @@ export const loginFirebase = (email, password) => dispatch => {
                     }
                     const user = firestoreDocument.data();
                     dispatch(setUser(user));
+                    dispatch(getDataFromFirebase(uid));
                 } catch (error) {
                     // handle error retriveing user account
                     alert(error);

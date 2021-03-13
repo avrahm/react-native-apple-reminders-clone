@@ -17,8 +17,7 @@ export default function LoginScreen() {
     const [password, setPassword] = useState('');
 
     const onLoginPress = () => {
-        const login = dispatch(loginFirebase(email, password));
-        // if (!login) //do something
+        dispatch(loginFirebase(email, password));
     };
 
     return (
@@ -33,7 +32,6 @@ export default function LoginScreen() {
             <TextInput
                 style={styles.TextInput}
                 placeholder="password"
-                keyboardType="visible-password"
                 onChangeText={(passwordOnChange => setPassword(passwordOnChange))}
                 secureTextEntry
             />
