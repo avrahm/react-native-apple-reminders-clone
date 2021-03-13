@@ -6,14 +6,10 @@ import { getListIndex, getTodosByList, starterList } from '../selectors/TodoSele
 // https://reactjs.org/docs/update.html
 
 import * as t from '../actions/TodoActions';
-
-const testDueTodayDate = formatDateWithDay(new Date());
-const now = formatDateWithTime(new Date());
+import generateID from '../../assets/id';
 
 // create the initial state of the app
 const initialState = {
-    todoId: 15,
-    listId: 3,
     lastUpdatedAt: '',
     toggleShowAllTodos: false,
     toggleShowSearchResults: false,
@@ -64,7 +60,7 @@ const todoReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case t.ADD_TODO:
-            newTodoId = ++state.todoId;
+            newTodoId = generateID();
             listIndex = state.todoLists.map(eaList => eaList.list).findIndex(eaListc => eaListc.id === action.payload.listId);
             newTodo = {
                 id: action.payload.id || newTodoId,
@@ -173,10 +169,10 @@ const todoReducer = (state = initialState, action) => {
                 ...newState,
             };
         case t.ADD_LIST:
-            ++state.listId;
+            newListId = generateID();
             newList = {
                 list: {
-                    id: action.payload.id || state.listId,
+                    id: action.payload.id || newListId,
                     title: action.payload.title,
                     icon: action.payload.icon,
                     color: action.payload.color,

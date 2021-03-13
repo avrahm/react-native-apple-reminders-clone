@@ -7,15 +7,16 @@ import { Input } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import { getList } from '../redux/selectors/TodoSelectors';
 import { addList, updateList } from '../redux/actions/TodoActions';
+import generateID from '../assets/id';
 
 export default function AddListScreen({ navigation, route }) {
 
-    let currentListId = useSelector(state => state.todoState.listId);
+    let newListId = generateID();
     let listToUpdate = {
         title: '',
         icon: '',
         color: 'gray',
-        id: ++currentListId,
+        id: newListId,
         listHidden: false,
         showAllTodos: false,
     };
@@ -33,7 +34,7 @@ export default function AddListScreen({ navigation, route }) {
         title: listToUpdate.title ?? '',
         icon: listToUpdate.icon ?? '',
         color: listToUpdate.color ?? 'gray',
-        id: listToUpdate.id ?? ++currentListId,
+        id: listToUpdate.id ?? newListId,
         listHidden: listToUpdate.listHidden ?? false,
         showAllTodos: listToUpdate.showAllTodos ?? false,
     });
