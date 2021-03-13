@@ -78,7 +78,7 @@ export default function AddListScreen({ navigation, route }) {
         <View style={{
  flexDirection: 'column', justifyContent: 'center', alignItems: 'center', paddingTop: 25,
 }}
-        >
+            >
             <View style={{
  height: 110, width: 110, backgroundColor: editableList.color, borderRadius: 50, justifyContent: 'center', alignItems: 'center',
 }}

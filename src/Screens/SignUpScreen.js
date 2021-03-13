@@ -25,11 +25,6 @@ export default function SignUpScreen() {
         password,
     };
 
-    useEffect(() => {
-        // when a user signs up. take them back to the profile screen
-        if (isLoggedIn) navigation.goBack();
-    }, [isLoggedIn]);
-
     const onRegisterPress = () => {
         if (password !== confirmPassword) {
             alert("Passwords don't match.");
@@ -61,14 +56,14 @@ export default function SignUpScreen() {
             <TextInput
                 style={styles.TextInput}
                 placeholder="password"
-                keyboardType="visible-password"
+                // keyboardType="visible-password"
                 onChangeText={(passwordOnChange => setPassword(passwordOnChange))}
                 secureTextEntry
             />
             <TextInput
                 style={styles.TextInput}
                 placeholder="confirm password"
-                keyboardType="visible-password"
+                // keyboardType="visible-password"
                 onChangeText={(confirmPasswordOnChange => setConfirmPassword(confirmPasswordOnChange))}
                 secureTextEntry
             />

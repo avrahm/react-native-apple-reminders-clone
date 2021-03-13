@@ -16,7 +16,6 @@ LogBox.ignoreLogs([
 ]);
 
 export default function ListOfLists(props) {
-
     const getTodoState = useSelector(state => state.todoState.todoLists);
     let lists = getAllLists(getTodoState);
 
@@ -58,7 +57,6 @@ export default function ListOfLists(props) {
             }
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({
