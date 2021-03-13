@@ -5,20 +5,14 @@ import { logout } from '../../redux/actions/UserActions';
 import { clearData } from '../../redux/actions/TodoActions';
 
 export const logoutFirebase = () => async dispatch => {
-
     try {
-
         await firebase.auth().signOut();
         // handle sucessful logout
-        dispatch(logout());
-        dispatch(clearData());
         AsyncStorage.clear();
-
+        dispatch(clearData());
+        dispatch(logout());
     } catch (error) {
-
         // handle logout errors
         alert(error);
-
     }
-
 };
