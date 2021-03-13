@@ -3,8 +3,7 @@ import { firebase } from '../config';
 import { starterList } from '../../redux/selectors/TodoSelectors';
 import { setLastSync } from '../../redux/actions/UserActions';
 
-export const syncDataToFirebase = (data, userID) => dispatch => {
-    const entityRef = firebase.firestore().collection('tasks');
+export const syncDataToFirebase = (data, userID) => async dispatch => {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
     const dataNode = {
@@ -12,21 +11,15 @@ export const syncDataToFirebase = (data, userID) => dispatch => {
         authorID: userID,
         lastSyncedAt: timestamp,
     };
-
-    entityRef
+    const entityRef = firebase.firestore().collection('tasks');
+    await entityRef
         .doc(userID)
         .set(dataNode)
-        .then(() => {
-            // setEntityText('')
-            // Keyboard.dismiss()
+        .then(async () => {
             // handle sync complete
             dispatch(setLastSync(new Date()));
-            console.log('sync complete');
-            return true;
-        })
-        .catch(error => {
+        }).catch(error => {
             // handle error new task list
             alert(error);
-            return false;
         });
 };
