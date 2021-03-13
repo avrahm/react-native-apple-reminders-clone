@@ -5,45 +5,38 @@
 // https://github.com/reduxjs/reselect#accessing-react-props-in-selectors
 // https://github.com/toomuchdesign/re-reselect
 // https://www.youtube.com/watch?v=frT3to2ACCw&feature=share
+// https://www.npmjs.com/package/reselect
 // understanding reselect
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { formatDateWithDay } from '../../assets/utils/formatDate';
-
 // import { createSelector } from 'reselect';
 
-// const getVisibilityFilter = state => state.visibilityFilter
+export const starterList = {
+    list: {
+        id: 0, title: 'Inbox', icon: 'mail-outline', color: 'gray', listHidden: true,
+    },
+    data: [],
+    showCompletedTasks: false,
+};
 
-// export const getVisibleTodos = createSelector(
-//     [getVisibilityFilter, getTodos],
-//     (visibilityFilter, todos) => {
-//         switch (visibilityFilter) {
-//             case 'SHOW_ALL':
-//                 return todos
-//             case 'SHOW_COMPLETED':
-//                 return todos.filter(t => t.complete)
-//             case 'SHOW_ACTIVE':
-//                 return todos.filter(t => !t.complete)
-//         }
-//     }
-// )
+export const getAllLists = (state = starterList) => state.map(eaList => eaList.list);
 
-export const getAllLists = state => state.map(eaList => eaList.list);
-
-export const getList = (state, listId) => {
+export const getList = (state = starterList, listId) => {
 
     if (listId === undefined) return state;
     return state.map(eaList => eaList.list).filter(eaList => eaList.id === listId)[0];
 
 };
 
-export const getListIndex = (state, listId) => {
+export const getListIndex = (state = starterList, listId) => {
 
     if (listId === undefined) return state;
     return state.map(eaList => eaList.list).findIndex(eaListId => eaListId.id === listId);
 
 };
 
-export const getTodosByList = (state, listId) => {
+export const getTodosByList = (state = starterList, listId) => {
 
     if (listId === undefined) return state;
     const listIndex = getListIndex(state, listId);
@@ -51,45 +44,46 @@ export const getTodosByList = (state, listId) => {
 
 };
 
-export const getAllTodosWithoutList = state => {
+export const getAllTodosWithoutList = (state = starterList) => {
 
-    const allData = [];
-    state.forEach(eaList => {
+    const data = [];
+    state.map(eaList => {
 
-        if (eaList.data) {
+        if (eaList.data.length > 0) {
 
-            eaList.data.forEach(eaTodo => {
+            eaList.data.map(eaTodo => {
 
-                allData.push(eaTodo);
+                data.push(eaTodo);
 
             });
 
         }
 
     });
-    return allData;
+    return data;
+    // return state;
 
 };
 
-export const getShowCompletedTasksStatusByList = (state, listId) => {
+export const getShowCompletedTasksStatusByList = (state = starterList, listId) => {
 
     if (listId === undefined) return state;
     return state[getListIndex(state, listId)].showCompletedTasks;
 
 };
 
-export const getCompleteTodos = state => state.filter(todo => !todo.complete);
+export const getCompleteTodos = (state = starterList) => state.filter(todo => !todo.complete);
 
-export const getDueTodayTodos = state => {
+export const getDueTodayTodos = (state = starterList) => {
 
     const data = getAllTodosWithoutList(state);
     return data.filter(eaTodo => eaTodo.dueDate === formatDateWithDay(new Date()));
 
 };
 
-export const inboxTodos = state => state.filter(todo => todo.listId === 0);
+export const inboxTodos = (state = starterList) => state.filter(todo => todo.listId === 0);
 
-export const searchTodos = (state, searchText) => {
+export const searchTodos = (state = starterList, searchText) => {
 
     if (searchText === undefined) return state;
     return state.filter(eachTodo => (
@@ -98,7 +92,7 @@ export const searchTodos = (state, searchText) => {
 
 };
 
-export const getSearchTodos = (state, searchTerm) => {
+export const getSearchTodos = (state = starterList, searchTerm) => {
 
     if (searchTerm === '') return state;
     return state.reduce((result, sectionData) => {
@@ -120,7 +114,7 @@ export const getSearchTodos = (state, searchTerm) => {
 
 };
 
-export const getCompletedTodosFromAllTodos = state => state.reduce((result, sectionData) => {
+export const getCompletedTodosFromAllTodos = (state = starterList) => state.reduce((result, sectionData) => {
 
     if (!result || !sectionData) return state;
     const { list, data } = sectionData;
@@ -136,11 +130,3 @@ export const getCompletedTodosFromAllTodos = state => state.reduce((result, sect
     return result;
 
 }, []);
-
-export const starterList = {
-    list: {
-        id: 0, title: 'Inbox', icon: 'mail-outline', color: 'gray', listHidden: true,
-    },
-    data: [],
-    showCompletedTasks: false,
-};

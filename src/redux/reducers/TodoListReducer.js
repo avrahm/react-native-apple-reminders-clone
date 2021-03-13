@@ -1,5 +1,6 @@
+/* eslint-disable default-case */
 import update from 'immutability-helper';
-import { formatDateWithDay } from '../../assets/utils/formatDate';
+import { formatDateWithDay, formatDateWithTime } from '../../assets/utils/formatDate';
 import { getListIndex, getTodosByList, starterList } from '../selectors/TodoSelectors';
 // immutability-helper
 // https://reactjs.org/docs/update.html
@@ -7,11 +8,13 @@ import { getListIndex, getTodosByList, starterList } from '../selectors/TodoSele
 import * as t from '../actions/TodoActions';
 
 const testDueTodayDate = formatDateWithDay(new Date());
+const now = formatDateWithTime(new Date());
 
 // create the initial state of the app
 const initialState = {
     todoId: 15,
     listId: 3,
+    lastUpdatedAt: '',
     toggleShowAllTodos: false,
     toggleShowSearchResults: false,
     todoLists: [
@@ -50,201 +53,217 @@ const initialState = {
 
 // reducer handles the actions sent by dispatchers to modify and return the state
 const todoReducer = (state = initialState, action) => {
-
     let todoIndex;
     let newState;
     let listIndex;
-    let list;
+    let newList;
+    let newTodo;
     let todoData;
+    let newListId;
+    let newTodoId;
 
     switch (action.type) {
-    case t.ADD_TODO:
-        listIndex = state.todoLists.map(eaList => eaList.list).findIndex(eaListc => eaListc.id === action.payload.listId);
-        const newTodo = {
-            id: action.payload.id || state.todoId++,
-            title: action.payload.title,
-            description: action.payload.description || '',
-            dueDate: action.payload.dueDate || '',
-            listId: action.payload.listId || 0,
-            complete: action.payload.complete || false,
-        };
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    data: {
-                        $push: [newTodo],
-                    },
-                },
-            },
-        });
-
-        return {
-            ...newState,
-        };
-    case t.UPDATE_TODO:
-        listIndex = getListIndex(state.todoLists, action.payload.listId);
-        todoData = getTodosByList(state.todoLists, action.payload.listId);
-        todoIndex = todoData.findIndex(todo => todo.id == action.payload.id);
-
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    data: {
-                        [todoIndex]: {
-                            $set: action.payload,
-                        },
-                    },
-                },
-            },
-        });
-        return {
-            ...newState,
-        };
-    case t.DELETE_TODO:
-
-        listIndex = getListIndex(state.todoLists, action.payload.listId);
-        todoData = getTodosByList(state.todoLists, action.payload.listId);
-        todoIndex = todoData.findIndex(todo => todo.id == action.payload.id);
-
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    data: {
-                        $splice:
-                                [[todoIndex, 1]],
-                    },
-                },
-            },
-        });
-
-        return {
-            ...newState,
-        };
-    case t.COMPLETE_TODO:
-        listIndex = getListIndex(state.todoLists, action.payload.listId);
-        todoData = getTodosByList(state.todoLists, action.payload.listId);
-        todoIndex = todoData.findIndex(todo => todo.id == action.payload.id);
-
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    data: {
-                        [todoIndex]: {
-                            complete: { $set: true },
-                            dueDate: { $set: '' },
-                        },
-                    },
-                },
-            },
-        });
-
-        return {
-            ...newState,
-        };
-    case t.MARK_TODO_PENDING:
-        listIndex = getListIndex(state.todoLists, action.payload.listId);
-        todoData = getTodosByList(state.todoLists, action.payload.listId);
-        todoIndex = todoData.findIndex(todo => todo.id == action.payload.id);
-
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    data: {
-                        [todoIndex]: {
-                            complete: { $set: false },
-                        },
-                    },
-                },
-            },
-        });
-
-        return {
-            ...newState,
-        };
-    case t.ADD_LIST:
-        ++state.listId;
-        const newList = {
-            list: {
-                id: action.payload.id || state.listId,
+        case t.ADD_TODO:
+            newTodoId = ++state.todoId;
+            listIndex = state.todoLists.map(eaList => eaList.list).findIndex(eaListc => eaListc.id === action.payload.listId);
+            newTodo = {
+                id: action.payload.id || newTodoId,
                 title: action.payload.title,
-                icon: action.payload.icon,
-                color: action.payload.color,
-                listHidden: false,
-                showCompletedTasks: false,
-            },
-            data: [],
-        };
-        newState = update(state, {
-            todoLists: {
-                $push: [newList],
-            },
-        });
-        return {
-            ...newState,
-        };
-    case t.UPDATE_LIST:
-        listIndex = getListIndex(state.todoLists, action.payload.id);
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    list: { $set: action.payload },
-                },
-            },
-        });
-        return {
-            ...newState,
-        };
-    case t.DELETE_LIST:
-        listIndex = getListIndex(state.todoLists, action.payload.id);
-        newState = update(state, {
-            todoLists: {
-                $splice: [[listIndex, 1]],
-            },
-        });
-        return {
-            ...newState,
-        };
-    case t.TOGGLE_SHOWALL_TODOS:
-        listIndex = getListIndex(state.todoLists, action.payload);
-
-        newState = update(state, {
-            todoLists: {
-                [listIndex]: {
-                    showCompletedTasks: {
-                        $set: !state.todoLists[listIndex].showCompletedTasks,
+                description: action.payload.description || '',
+                dueDate: action.payload.dueDate || '',
+                listId: action.payload.listId || 0,
+                complete: action.payload.complete || false,
+            };
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            $push: [newTodo],
+                        },
                     },
                 },
-            },
-        });
-        return {
-            ...newState,
-        };
-    case t.TOGGLE_SHOW_SEARCH_RESULTS:
-        newState = update(state, {
-            toggleShowSearchResults: { $set: action.payload },
-        });
-        return {
-            ...newState,
-        };
-    case t.LOAD_DATA:
-        newState = update(state, {
-            $merge: { todoLists: action.payload.tasks },
-        });
-        return {
-            ...newState,
-        };
-    case t.CLEAR_DATA:
-        newState = update(state, {
-            $merge: {
-                todoLists: [starterList],
-            },
-        });
-        return {
-            ...newState,
-        };
+            });
+
+            return {
+                ...newState,
+            };
+        case t.UPDATE_TODO:
+            listIndex = getListIndex(state.todoLists, action.payload.listId);
+            todoData = getTodosByList(state.todoLists, action.payload.listId);
+            todoIndex = todoData.findIndex(todo => todo.id === action.payload.id);
+
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            [todoIndex]: {
+                                $set: action.payload,
+                            },
+                        },
+                    },
+                },
+            });
+            return {
+                ...newState,
+            };
+        case t.DELETE_TODO:
+
+            listIndex = getListIndex(state.todoLists, action.payload.listId);
+            todoData = getTodosByList(state.todoLists, action.payload.listId);
+            todoIndex = todoData.findIndex(todo => todo.id === action.payload.id);
+
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            $splice:
+                                [[todoIndex, 1]],
+                        },
+                    },
+                },
+            });
+
+            return {
+                ...newState,
+            };
+        case t.COMPLETE_TODO:
+            listIndex = getListIndex(state.todoLists, action.payload.listId);
+            todoData = getTodosByList(state.todoLists, action.payload.listId);
+            todoIndex = todoData.findIndex(todo => todo.id === action.payload.id);
+
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            [todoIndex]: {
+                                complete: { $set: true },
+                                dueDate: { $set: '' },
+                            },
+                        },
+                    },
+                },
+            });
+
+            return {
+                ...newState,
+            };
+        case t.MARK_TODO_PENDING:
+            listIndex = getListIndex(state.todoLists, action.payload.listId);
+            todoData = getTodosByList(state.todoLists, action.payload.listId);
+            todoIndex = todoData.findIndex(todo => todo.id === action.payload.id);
+
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        data: {
+                            [todoIndex]: {
+                                complete: { $set: false },
+                            },
+                        },
+                    },
+                },
+            });
+
+            return {
+                ...newState,
+            };
+        case t.ADD_LIST:
+            ++state.listId;
+            newList = {
+                list: {
+                    id: action.payload.id || state.listId,
+                    title: action.payload.title,
+                    icon: action.payload.icon,
+                    color: action.payload.color,
+                    listHidden: false,
+                    showCompletedTasks: false,
+                },
+                data: [],
+            };
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    $push: [newList],
+                },
+            });
+            return {
+                ...newState,
+            };
+        case t.UPDATE_LIST:
+            listIndex = getListIndex(state.todoLists, action.payload.id);
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    [listIndex]: {
+                        list: { $set: action.payload },
+                    },
+                },
+            });
+            return {
+                ...newState,
+            };
+        case t.DELETE_LIST:
+            listIndex = getListIndex(state.todoLists, action.payload.id);
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                todoLists: {
+                    $splice: [[listIndex, 1]],
+                },
+            });
+            return {
+                ...newState,
+            };
+        case t.TOGGLE_SHOWALL_TODOS:
+            listIndex = getListIndex(state.todoLists, action.payload);
+
+            newState = update(state, {
+                todoLists: {
+                    [listIndex]: {
+                        showCompletedTasks: {
+                            $set: !state.todoLists[listIndex].showCompletedTasks,
+                        },
+                    },
+                },
+            });
+            return {
+                ...newState,
+            };
+        case t.TOGGLE_SHOW_SEARCH_RESULTS:
+            newState = update(state, {
+                toggleShowSearchResults: { $set: action.payload },
+            });
+            return {
+                ...newState,
+            };
+        case t.GET_DATA:
+            // console.log(...state.todoLists);
+            return [...state.todoLists];
+            // break;
+        case t.LOAD_DATA:
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                $merge: { todoLists: action.payload.tasks },
+            });
+            return {
+                ...newState,
+            };
+        case t.CLEAR_DATA:
+            newState = update(state, {
+                lastUpdatedAt: { $set: new Date() },
+                $merge: {
+                    todoLists: [starterList],
+                },
+            });
+            return {
+                ...newState,
+            };
     }
     return state;
-
 };
 
 export default todoReducer;
