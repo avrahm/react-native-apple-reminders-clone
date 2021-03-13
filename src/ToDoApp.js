@@ -20,8 +20,6 @@ import LoginScreen from './Screens/LoginScreen';
 import SignUpScreen from './Screens/SignUpScreen';
 
 import { persistUserFromFirebase } from './firebase/functions/persistUser';
-import { getDataFromFirebase } from './firebase/functions/getData';
-import { logout } from './redux/actions/UserActions';
 
 // Create Bottom Tab Navigator
 const Tab = createBottomTabNavigator();
@@ -30,22 +28,11 @@ const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
 export default function ToDoApp() {
-
     const dispatch = useDispatch();
-
     const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
-    const userInfo = useSelector(state => state.userState.userInfo);
 
-    // dispatch(logout())
     useEffect(() => {
-
         dispatch(persistUserFromFirebase());
-        if (isLoggedIn && userInfo.id !== undefined) {
-
-            dispatch(getDataFromFirebase(userInfo.id));
-
-        }
-
     }, []);
 
     return (
@@ -53,43 +40,36 @@ export default function ToDoApp() {
             {isLoggedIn ? (<MainTabNavigation />) : (<LoginStackNavigation />)}
         </NavigationContainer>
     );
-
 }
 
 function MainTabNavigation() {
-
     return (
         <Tab.Navigator
+            initialRouteName="HomeStack"
             // screenOptions allow to customize the appearance of the tab navigator
             // deconstuct the screenOptions routes to change the tabBarIcon dynamically by the route.name
             screenOptions={({ route }) => ({
                 // tabBarIcon
                 tabBarIcon: ({ focused, color, size }) => {
-
                     let iconName;
 
                     if (route.name === 'ProfileStack') {
-
                         iconName = focused
                             ? 'person-circle'
                             : 'person-circle-outline';
-
                     } else if (route.name === 'HomeStack') {
-
                         iconName = focused ? 'ios-list' : 'ios-list';
-
                     }
 
                     // You can return any component that you like here!
                     return <Ionicons name={iconName} size={size} color={color} />;
-
                 },
             })}
             tabBarOptions={{
                 activeTintColor: 'tomato',
                 inactiveTintColor: 'gray',
             }}
-            >
+        >
             <Tab.Screen
                 options={{ tabBarLabel: 'Lists' }}
                 name="HomeStack"
@@ -105,11 +85,9 @@ function MainTabNavigation() {
             />
         </Tab.Navigator>
     );
-
 }
 
 function HomeStack() {
-
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -154,11 +132,9 @@ function HomeStack() {
             />
         </Stack.Navigator>
     );
-
 }
 
 function ProfileStack() {
-
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -170,17 +146,15 @@ function ProfileStack() {
             />
         </Stack.Navigator>
     );
-
 }
 
 function LoginStackNavigation() {
-
     return (
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
             }}
-            >
+        >
             <Stack.Screen
                 name="LoginScreen"
                 component={LoginScreen}
@@ -191,5 +165,4 @@ function LoginStackNavigation() {
             />
         </Stack.Navigator>
     );
-
 }

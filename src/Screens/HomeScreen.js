@@ -11,30 +11,27 @@ import {
 import ButtonComponent from '../Components/ButtonComponent';
 import ListOfLists from '../Components/ListOfLists';
 import SearchBarComponent from '../Components/SearchBarComponent';
-import { persistUserFromFirebase } from '../firebase/functions/persistUser';
-import { syncDataToFirebase } from '../firebase/functions/syncData';
-import { getDataFromFirebase } from '../firebase/functions/getData';
+import { handleSyncData } from '../firebase/functions/handleSyncData';
 
 export default function HomeScreen({ navigation }) {
-
     const dispatch = useDispatch();
 
     const getAllTodos = useSelector(state => state.todoState.todoLists);
+    const userInfo = useSelector(state => state.userState.userInfo);
+    const lastUpdatedTime = useSelector(state => state.todoState.lastUpdatedAt);
+    const lastSyncedTime = useSelector(state => state.userState.lastSyncedAt);
+    const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
 
-    // if (userInfo.id != undefined) {
-    //   useEffect(() => {
-    //     dispatch(syncDataToFirebase(getAllTodos, userInfo.id))
-    //   }, [getAllTodos]);
-    // }
-
-    // useEffect(() => {
-    //   const getAllTodos = useSelector(state => state.todoState.todoLists);
-    // }, [todoState])
+    const syncSettings = {
+        lastUpdatedTime, lastSyncedTime, userInfo, isLoggedIn, getAllTodos,
+    };
+    useEffect(() => {
+        dispatch(handleSyncData(syncSettings));
+    }, [getAllTodos]);
 
     const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
     const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;
     const inboxTodosTotal = getCompleteTodos(getTodosByList(getAllTodos, 0)).length;
-
     const toggleShowSearchResults = useSelector(state => state.todoState.toggleShowSearchResults);
 
     return (
@@ -42,61 +39,61 @@ export default function HomeScreen({ navigation }) {
             <StatusBar barStyle="dark-content" hidden={false} backgroundColor="#000000" translucent />
             <SearchBarComponent />
             {!toggleShowSearchResults && (
-            <ScrollView>
-                <View style={{ flexDirection: 'column' }}>
-                    <View style={{ flexDirection: 'row' }}>
+                <ScrollView>
+                    <View style={{ flexDirection: 'column' }}>
+                        <View style={{ flexDirection: 'row' }}>
+                            <TouchableOpacity
+                                style={styles.cardView}
+                                onPress={() => navigation.navigate('TodoListScreen', { listId: 0, title: 'Inbox' })}
+                            >
+                                <View style={{ alignItems: 'center' }}>
+                                    <ButtonComponent icon="mail-outline" />
+                                    <Text>Inbox</Text>
+                                </View>
+                                <Text style={{ fontSize: 34 }}>{inboxTodosTotal}</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.cardView}
+                                onPress={() => navigation.navigate('TodoListScreen', { listType: 'today', title: 'Due Today' })}
+                            >
+                                <View style={{ alignItems: 'center' }}>
+                                    <ButtonComponent icon="calendar" />
+                                    <Text>Today</Text>
+                                </View>
+                                <Text style={{ fontSize: 34 }}>{dueTodayTodosTotal}</Text>
+                            </TouchableOpacity>
+                        </View>
                         <TouchableOpacity
                             style={styles.cardView}
-                            onPress={() => navigation.navigate('TodoListScreen', { listId: 0, title: 'Inbox' })}
+                            onPress={() => navigation.navigate('TodoListScreen', { listType: 'all', title: 'All' })}
                         >
                             <View style={{ alignItems: 'center' }}>
-                                <ButtonComponent icon="mail-outline" />
-                                <Text>Inbox</Text>
+                                <ButtonComponent icon="archive-outline" />
+                                <Text>All</Text>
                             </View>
-                            <Text style={{ fontSize: 34 }}>{inboxTodosTotal}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            style={styles.cardView}
-                            onPress={() => navigation.navigate('TodoListScreen', { listType: 'today', title: 'Due Today' })}
-                        >
-                            <View style={{ alignItems: 'center' }}>
-                                <ButtonComponent icon="calendar" />
-                                <Text>Today</Text>
-                            </View>
-                            <Text style={{ fontSize: 34 }}>{dueTodayTodosTotal}</Text>
+                            <Text style={{ fontSize: 34 }}>{todos.length}</Text>
                         </TouchableOpacity>
                     </View>
-                    <TouchableOpacity
-                        style={styles.cardView}
-                        onPress={() => navigation.navigate('TodoListScreen', { listType: 'all', title: 'All' })}
+                    <View style={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                    }}
                     >
-                        <View style={{ alignItems: 'center' }}>
-                            <ButtonComponent icon="archive-outline" />
-                            <Text>All</Text>
-                        </View>
-                        <Text style={{ fontSize: 34 }}>{todos.length}</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-          }}
-                >
-                    <Text style={{ fontSize: 24, padding: 8 }}>
-                        My Lists
+                        <Text style={{ fontSize: 24, padding: 8 }}>
+                            My Lists
                     </Text>
 
-                    <Button title="Add new list" onPress={() => navigation.navigate('AddListScreen')} />
-                </View>
-                <View>
-                    <ListOfLists
-                        showHiddenLists={false}
-                        handleOnPress={list => navigation.navigate('TodoListScreen', list)}
-                    />
-                </View>
-            </ScrollView>
-      )}
+                        <Button title="Add new list" onPress={() => navigation.navigate('AddListScreen')} />
+                    </View>
+                    <View>
+                        <ListOfLists
+                            showHiddenLists={false}
+                            handleOnPress={list => navigation.navigate('TodoListScreen', list)}
+                        />
+                    </View>
+                </ScrollView>
+            )}
         </View>
     );
 

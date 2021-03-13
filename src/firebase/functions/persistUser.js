@@ -2,44 +2,37 @@
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
 
-export const persistUserFromFirebase = () => dispatch => {
-
+export const persistUserFromFirebase = () => async dispatch => {
     // connect to firebase and retrieve the 'users' collection
     const usersRef = firebase.firestore().collection('users');
     // use the auth method to link into the app firebase service
     // onAuthStateChanged returns the currently signed in user
-    firebase.auth().onAuthStateChanged(user => {
-
+    const firebaseAuth = firebase.auth();
+    return firebaseAuth.onAuthStateChanged(async user => {
         if (user) {
-
-            usersRef
-                .doc(user.uid)
-                .get()
-                .then(document => {
-
-                    // handle persisted user data
-                    const userData = document.data();
-                    // setLoading(false)
-                    dispatch(setUser(userData));
-
-                })
-                .catch(error => {
-
-                    // handle errors when getting persisted user
-                    // setLoading(false)
-
-                    alert(error);
-
-                });
-
-        } else {
-
-            // handle no persisted user
-            // setLoading(false)
-            alert('no user');
-
+            try {
+                await usersRef
+                    .doc(user.uid)
+                    .get()
+                    .then(document => {
+                        // setLoading(false)
+                        // handle persisted user data
+                        const userData = document.data();
+                        dispatch(setUser(userData));
+                        return true;
+                    })
+                    .catch(error => {
+                        // setLoading(false)
+                        // handle errors when getting persisted user
+                        alert(error);
+                        return false;
+                    });
+            } catch (error) {
+                // handle no persisted user
+                // setLoading(false)
+                alert('no user');
+                return false;
+            }
         }
-
     });
-
 };
