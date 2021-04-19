@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Constants from 'expo-constants';
 import {
     StyleSheet, Text, ScrollView, TouchableOpacity, View, Button, StatusBar,
@@ -11,24 +11,9 @@ import {
 import ButtonComponent from '../Components/ButtonComponent';
 import ListOfLists from '../Components/ListOfLists';
 import SearchBarComponent from '../Components/SearchBarComponent';
-import { handleSyncData } from '../firebase/functions/handleSyncData';
 
 export default function HomeScreen({ navigation }) {
-    const dispatch = useDispatch();
-
     const getAllTodos = useSelector(state => state.todoState.todoLists);
-    const userInfo = useSelector(state => state.userState.userInfo);
-    const lastUpdatedTime = useSelector(state => state.todoState.lastUpdatedAt);
-    const lastSyncedTime = useSelector(state => state.userState.lastSyncedAt);
-    const isLoggedIn = useSelector(state => state.userState.isLoggedIn);
-
-    const syncSettings = {
-        lastUpdatedTime, lastSyncedTime, userInfo, isLoggedIn, getAllTodos,
-    };
-    useEffect(() => {
-        dispatch(handleSyncData(syncSettings));
-    }, [getAllTodos]);
-
     const todos = getCompleteTodos(getAllTodosWithoutList(getAllTodos));
     const dueTodayTodosTotal = getDueTodayTodos(getAllTodos).length;
     const inboxTodosTotal = getCompleteTodos(getTodosByList(getAllTodos, 0)).length;
@@ -96,7 +81,6 @@ export default function HomeScreen({ navigation }) {
             )}
         </View>
     );
-
 }
 
 const styles = StyleSheet.create({

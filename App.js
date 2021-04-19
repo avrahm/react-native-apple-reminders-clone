@@ -6,7 +6,6 @@ import { store, persistor } from './src/redux/store/index';
 import ToDoApp from './src/ToDoApp';
 
 export default function App() {
-
     return (
         // PersistGate component delays the rendering of the app's UI until the persisted state is retrieved and saved to redux.
         // Provider allows the state known as a store to pass through all components
@@ -16,5 +15,4 @@ export default function App() {
             </PersistGate>
         </Provider>
     );
-
 }
