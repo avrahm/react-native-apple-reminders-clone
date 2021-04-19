@@ -10,10 +10,14 @@ const ButtonComponent = ({
         style={styles.button}
         onPress={onPress}
         disabled={disable}
-        >
+    >
         {icon
             ? (
-                <Ionicons name={icon} size={18} color={color} />
+                <View>
+                    <Text>
+                        <Ionicons name={icon} size={18} color={color} /> {text}
+                    </Text>
+                </View>
             ) : (
                 <View>
                     <Text>
