@@ -34,7 +34,7 @@ const userReducer = (state = initialUserState, action) => {
         case LOGOUT:
             newState = update(state, {
                 isLoggedIn: { $set: false },
-                $merge: { userInfo: '' },
+                $merge: { userInfo: [] },
             });
             return {
                 ...newState,

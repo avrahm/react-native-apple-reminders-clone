@@ -10,6 +10,7 @@ export const DELETE_LIST = 'DELETE_LIST';
 export const ADD_LIST = 'ADD_LIST';
 export const UPDATE_LIST = 'UPDATE_LIST';
 export const LOAD_DATA = 'LOAD_DATA';
+export const LOAD_TEMP_DATA = 'LOAD_TEMP_DATA';
 export const CLEAR_DATA = 'CLEAR_DATA';
 export const GET_DATA = 'GET_DATA';
 
@@ -41,6 +42,8 @@ export const updateList = list => dispatch => dispatch({ type: UPDATE_LIST, payl
 
 export const loadData = data => dispatch => dispatch({ type: LOAD_DATA, payload: data });
 
+export const loadTempData = data => dispatch => dispatch({ type: LOAD_TEMP_DATA, payload: data });
+
 export const clearData = () => dispatch => dispatch({ type: CLEAR_DATA });
 
-export const getData = () => dispatch => dispatch({ type: CLEAR_DATA });
+export const getData = () => dispatch => dispatch({ type: GET_DATA });

@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
-import { syncDataToFirebase } from './syncData';
+import { setDataToFirebase } from './setDataToFirebase';
 import { starterList } from '../../redux/selectors/TodoSelectors';
 
 export const signUpFirebase = signupDetails => async dispatch => {
@@ -25,7 +25,7 @@ export const signUpFirebase = signupDetails => async dispatch => {
                 .then(() => {
                     // handle successful retrieving user data
                     // navigation.navigate('Home', { user: data })
-                    dispatch(syncDataToFirebase({ 0: starterList }, uid));
+                    dispatch(setDataToFirebase({ 0: starterList }, uid));
                     dispatch(setUser(data));
                     return true;
                 }).catch(error => {

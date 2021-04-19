@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
-import { getDataFromFirebase } from './getData';
+import { getDataFromFirebase } from './getDataFromFirebase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const loginFirebase = (email, password) => async dispatch => {
     firebase
@@ -21,8 +22,8 @@ export const loginFirebase = (email, password) => async dispatch => {
                         return;
                     }
                     const user = firestoreDocument.data();
-                    dispatch(setUser(user));
                     dispatch(getDataFromFirebase(uid));
+                    dispatch(setUser(user));
                 } catch (error) {
                     // handle error retriveing user account
                     alert(error);
