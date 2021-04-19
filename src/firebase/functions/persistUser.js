@@ -1,6 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { firebase } from '../config';
 import { setUser } from '../../redux/actions/UserActions';
+import { getDataFromFirebase } from './getDataFromFirebase';
 
 export const persistUserFromFirebase = () => async dispatch => {
     // connect to firebase and retrieve the 'users' collection
@@ -19,6 +20,7 @@ export const persistUserFromFirebase = () => async dispatch => {
                         // handle persisted user data
                         const userData = document.data();
                         dispatch(setUser(userData));
+                        dispatch(getDataFromFirebase(user.uid));
                         return true;
                     })
                     .catch(error => {

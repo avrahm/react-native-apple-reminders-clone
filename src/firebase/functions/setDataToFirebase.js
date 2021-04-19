@@ -3,7 +3,7 @@ import { firebase } from '../config';
 import { starterList } from '../../redux/selectors/TodoSelectors';
 import { setLastSync } from '../../redux/actions/UserActions';
 
-export const syncDataToFirebase = (data, userID) => async dispatch => {
+export const setDataToFirebase = (data, userID) => async dispatch => {
     const timestamp = firebase.firestore.FieldValue.serverTimestamp();
 
     const dataNode = {
@@ -18,8 +18,10 @@ export const syncDataToFirebase = (data, userID) => async dispatch => {
         .then(async () => {
             // handle sync complete
             dispatch(setLastSync(new Date()));
+            return true;
         }).catch(error => {
             // handle error new task list
             alert(error);
+            return false;
         });
 };

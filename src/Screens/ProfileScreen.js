@@ -1,30 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
     View, Text, Button, StyleSheet,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import Constants from 'expo-constants';
 import { logoutFirebase } from '../firebase/functions/logout';
-import { handleSyncData } from '../firebase/functions/handleSyncData';
+import { formatDateWithTime } from '../assets/utils/formatDate';
+import ButtonComponent from '../Components/ButtonComponent';
+import { setDataToFirebase } from '../firebase/functions/setDataToFirebase';
 
 export default function ProfileScreen() {
     const dispatch = useDispatch();
 
+    const lastSyncedAtStatus = useSelector(state => state.userState.lastSyncedAt);
     const userInfo = useSelector(state => state.userState.userInfo);
     const getAllTodos = useSelector(state => state.todoState.todoLists);
-    const logoutSync = true;
-    let syncSettings;
-    useEffect(() => {
-        syncSettings = {
-            userInfo, logoutSync, getAllTodos,
-        };
-    }, [getAllTodos]);
-    const signOutUser = () => {
-        const syncData = dispatch(handleSyncData(syncSettings));
-        if (syncData) {
-            dispatch(logoutFirebase());
-        }
-    };
 
     return (
         <View style={styles.container}>
@@ -32,7 +22,13 @@ export default function ProfileScreen() {
                 <Text>
                     Logged In as {userInfo.email}
                 </Text>
-                <Button onPress={() => signOutUser()} title="Logout" />
+                <Text>
+                    Last Synced at: {formatDateWithTime(lastSyncedAtStatus)}
+                </Text>
+
+                <ButtonComponent icon="sync" text="Sync Data" onPress={() => dispatch(setDataToFirebase(getAllTodos, userInfo.id))} />
+
+                <Button onPress={() => dispatch(logoutFirebase())} title="Logout" />
             </View>
         </View>
     );

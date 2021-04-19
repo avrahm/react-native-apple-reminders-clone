@@ -1,9 +1,8 @@
 /* eslint-disable default-case */
-import update from 'immutability-helper';
-import { formatDateWithDay, formatDateWithTime } from '../../assets/utils/formatDate';
-import { getListIndex, getTodosByList, starterList } from '../selectors/TodoSelectors';
 // immutability-helper
 // https://reactjs.org/docs/update.html
+import update from 'immutability-helper';
+import { getListIndex, getTodosByList, starterList } from '../selectors/TodoSelectors';
 
 import * as t from '../actions/TodoActions';
 import generateID from '../../assets/id';
@@ -45,6 +44,7 @@ const initialState = {
         //     showCompletedTasks: false
         // }
     ],
+    tempTodoLists: [],
 };
 
 // reducer handles the actions sent by dispatchers to modify and return the state
@@ -230,20 +230,18 @@ const todoReducer = (state = initialState, action) => {
                 ...newState,
             };
         case t.TOGGLE_SHOW_SEARCH_RESULTS:
+        case t.LOAD_DATA: {
             newState = update(state, {
-                toggleShowSearchResults: { $set: action.payload },
+                lastUpdatedAt: { $set: new Date() },
+                $merge: { todoLists: action.payload.tasks },
             });
             return {
                 ...newState,
             };
-        case t.GET_DATA:
-            // console.log(...state.todoLists);
-            return [...state.todoLists];
-            // break;
-        case t.LOAD_DATA:
+        }
+        case t.LOAD_TEMP_DATA:
             newState = update(state, {
-                lastUpdatedAt: { $set: new Date() },
-                $merge: { todoLists: action.payload.tasks },
+                tempTodoLists: { $set: action.payload.tasks },
             });
             return {
                 ...newState,
