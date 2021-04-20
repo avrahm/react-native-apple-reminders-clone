@@ -15,7 +15,7 @@ export default function ProfileScreen() {
     const lastSyncedAtStatus = useSelector(state => state.userState.lastSyncedAt);
     const userInfo = useSelector(state => state.userState.userInfo);
     const getAllTodos = useSelector(state => state.todoState.todoLists);
-
+    const state = useSelector(state => state.todoState);
     return (
         <View style={styles.container}>
             <View>

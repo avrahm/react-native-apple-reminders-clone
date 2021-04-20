@@ -230,6 +230,12 @@ const todoReducer = (state = initialState, action) => {
                 ...newState,
             };
         case t.TOGGLE_SHOW_SEARCH_RESULTS:
+            newState = update(state, {
+                toggleShowSearchResults: { $set: action.payload },
+            });
+            return {
+                ...newState,
+            };
         case t.LOAD_DATA: {
             newState = update(state, {
                 lastUpdatedAt: { $set: new Date() },
